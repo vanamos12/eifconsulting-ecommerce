@@ -8,6 +8,9 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 // Import our User schema
 const User = require('./models/User.js');
+const FrontEndUser = require('./models/FrontEndUser.js')
+const BackEndUser = require('./models/BackEndUser.js')
+const Plan = require('./models/Plan.js')
 const withAuth = require('./middleware');
 
 app.use(bodyParser.json());
