@@ -33,7 +33,27 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
-
+    app.post('/api/signup', function(req, res){
+      const {email, password} = req.body
+      let signUpUser = new User({
+        email:email,
+        password:password
+      })
+      signUpUser.save(function (err){
+        if (err) {
+          console.log(err)
+          res.status(500)
+            .json({
+              error: 'Internal error please try again'
+            })
+        }else{
+          console.log("user created")
+          res.status(200).json({
+            message:'User created'
+          })
+        }
+      })
+    })
     app.post('/api/authenticate', function(req, res) {
       const { email, password } = req.body;
       User.findOne({ email }, function(err, user) {
