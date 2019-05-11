@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import Header from './components/Header'
-import Home from './Home';
+import MenuMobile from './components/MenuMobile'
+import Home from './components/Home';
 import Secret from './Secret';
 import Login from './Login';
 import SignUp from './SignUp';
@@ -13,12 +14,7 @@ export default class App extends Component {
     return (
       <div className="super_container">
         <Header/>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/secret">Secret</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/signup">Sign up</Link></li>
-        </ul>
+        <MenuMobile/>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/secret" component={withAuth(Secret)} />
