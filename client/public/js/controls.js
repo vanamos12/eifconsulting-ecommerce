@@ -1,9 +1,17 @@
 /* When the user clicks on the button, 
-	toggle between hiding and showing the dropdown content */
+	toggle between hiding and showing the dropdown content 
 	function myFunction() {
 		document.getElementById("myDropdown").classList.toggle("show");
-	}
-
+	}*/
+	/* When the user clicks on the button, 
+		toggle between hiding and showing the dropdown content */
+console.log(typeof JQuery)
+$(window).on('load', function() {
+	
+	document.getElementById("buttonDropDown").onmouseover = function(){
+		console.log("on mouse over");
+		document.getElementById("myDropdown").classList.toggle("show");
+	};
 	// Close the dropdown menu if the user clicks outside of it
 	window.onclick = function(event) {
 		if (!event.target.matches('.dropbtn')) {
@@ -39,3 +47,6 @@
 		evt.currentTarget.className += " active";
 	}
 	document.getElementById("buttonLondon").click();
+
+// code here
+});

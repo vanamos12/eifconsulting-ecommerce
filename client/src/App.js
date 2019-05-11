@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
+import Header from './components/Header'
 import Home from './Home';
 import Secret from './Secret';
 import Login from './Login';
@@ -11,6 +12,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="super_container">
+        <Header/>
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/secret">Secret</Link></li>
