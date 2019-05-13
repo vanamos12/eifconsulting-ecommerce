@@ -22,3 +22,5 @@ const PlanSchema = new mongoose.Schema({
   isCoupCoeur:{type:Boolean, required:true},
   isPopular: {type:Boolean, required:true}
 });
+
+module.exports = mongoose.model('Plan', PlanSchema);
