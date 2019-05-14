@@ -23,6 +23,19 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.get('/api/home', function(req, res){
+      Plan.find({isCoupCoeur:true})
+        .exec(function(err, plansCoupCoeur){
+            if (err){
+              console.log(err)
+              throw err
+            }else{
+              res.status(200).json({
+                plansCoupCoeur: plansCoupCoeur
+              })
+            }
+        })
+    })
     // POST route to register a user
     app.post('/api/register', function(req, res) {
       const { email, password } = req.body;
@@ -100,9 +113,9 @@ mongoose.connect(mongo_uri, function(err) {
   }
 });
 
-app.get('/api/home', function(req, res) {
+/*app.get('/api/home', function(req, res) {
   res.send('Welcome!');
-});
+});*/
 app.get('/api/secret', withAuth, function(req, res) {
   res.send('The password is potato');
 });
