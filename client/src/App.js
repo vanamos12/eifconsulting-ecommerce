@@ -4,6 +4,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import Header from './components/Header'
 import MenuMobile from './components/MenuMobile'
 import Home from './components/Home';
+import {ApplicationConsumer} from './context'
 import Secret from './Secret';
 import Login from './Login';
 import SignUp from './SignUp';
@@ -13,7 +14,12 @@ export default class App extends Component {
   render() {
     return (
       <div className="super_container">
-        <Header/>
+        <ApplicationConsumer>
+          {value=>(
+            <Header value={value}/>
+          )}
+          
+        </ApplicationConsumer>
         <MenuMobile/>
         <Switch>
           <Route path="/" exact component={Home} />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 
 const ApplicationContext = React.createContext()
 
@@ -28,6 +29,11 @@ class ApplicationProvider extends Component{
           })
             .then(res => res.json())
             .then(data => {
+                data.plansCoupCoeur.forEach(item=>{
+                    item.inCart = false
+                    item.count = 0
+                    item.total = 0
+                })
                 this.setState({plansCoupCoeur:data.plansCoupCoeur})
             })
             .catch(err => {
@@ -44,8 +50,8 @@ class ApplicationProvider extends Component{
         })*/
     }
     getItem = (id) =>{
-        const product = this.state.products.find(item => item.id === id)
-        return product
+        const plan = this.state.plansCoupCoeur.find(item => item._id === id)
+        return plan
     }
     handleDetail = (id) =>{
         const product = this.getItem(id) 
@@ -54,17 +60,21 @@ class ApplicationProvider extends Component{
         })
     }
     addToCart = id => {
-        let tempProducts = [...this.state.products]
-        const index = tempProducts.indexOf(this.getItem(id))
-        const product = tempProducts[index]
-        product.inCart = true
-        product.count = 1
-        const price = product.price
-        product.total = price
+        let numberPlans = this.state.cartTotalNumberPlans + 1
+        let tempPlans = [...this.state.plansCoupCoeur]
+        const index = tempPlans.indexOf(this.getItem(id))
+        console.log(index)
+        console.log(id)
+        const plan = tempPlans[index]
+        plan.inCart = true
+        plan.count = 1
+        const price = plan.price
+        plan.total = price
         this.setState(()=>{
             return {
-                products:tempProducts, 
-                cart:[...this.state.cart, product]}
+                cartTotalNumberPlans:numberPlans,
+                plansCoupCoeur:tempPlans, 
+                cart:[...this.state.cart, plan]}
         }, ()=>{
             this.addTotals()
         })
@@ -150,7 +160,7 @@ class ApplicationProvider extends Component{
     addTotals = () => {
         let subTotal = 0
         this.state.cart.map(item => (subTotal += item.total))
-        const tempTax = subTotal * 0.1
+        const tempTax = subTotal // No tax
         const tax = parseFloat(tempTax.toFixed(2))
         const total = subTotal + tax
         this.setState(()=>{
