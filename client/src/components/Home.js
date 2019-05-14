@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Slider from './Slider'
 import Titre from './Titre'
 import PlanList from './PlansList'
+import Search from './Search'
 
 export default class Home extends Component {
     render() {
@@ -11,6 +12,7 @@ export default class Home extends Component {
           <Titre titre="Nos coups de coeur"/>
           <PlanList/>
           <Titre titre="Recherche"/>
+          <Search/>
         </React.Fragment>
       );
     }
