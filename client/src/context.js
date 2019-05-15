@@ -49,6 +49,19 @@ class ApplicationProvider extends Component{
             return {products:tempProducts}
         })*/
     }
+    setPlans = () =>{
+        let tempPlans = []
+        this.state.plansCoupCoeur.forEach(item =>{
+            const singleItem = {...item}
+            singleItem.inCart = false
+            singleItem.count = 0
+            singleItem.total = 0
+            tempPlans = [...tempPlans, singleItem]
+        })
+        this.setState(()=>{
+            return {plansCoupCoeur:tempPlans}
+        })
+    }
     getItem = (id) =>{
         const plan = this.state.plansCoupCoeur.find(item => item._id === id)
         return plan
@@ -63,8 +76,6 @@ class ApplicationProvider extends Component{
         let numberPlans = this.state.cartTotalNumberPlans + 1
         let tempPlans = [...this.state.plansCoupCoeur]
         const index = tempPlans.indexOf(this.getItem(id))
-        console.log(index)
-        console.log(id)
         const plan = tempPlans[index]
         plan.inCart = true
         plan.count = 1
@@ -93,17 +104,17 @@ class ApplicationProvider extends Component{
 
     decrement = (id) =>{
         let tempCart = [...this.state.cart]
-        const selectedProduct = tempCart.find(item=>item.id === id)
+        const selectedPlan = tempCart.find(item=>item._id === id)
 
-        const index = tempCart.indexOf(selectedProduct)
-        const product = tempCart[index];
+        const index = tempCart.indexOf(selectedPlan)
+        const plan = tempCart[index];
 
-        product.count = product.count - 1
-        if (product.count === 0){
+        plan.count = plan.count - 1
+        if (plan.count === 0){
             this.removeItem(id)
         }else{
 
-            product.total = product.count * product.price
+            plan.total = plan.count * plan.price
 
             this.setState(()=>{
                 return {cart:[...tempCart]}
@@ -115,13 +126,13 @@ class ApplicationProvider extends Component{
 
     increment = (id) =>{
         let tempCart = [...this.state.cart]
-        const selectedProduct = tempCart.find(item=>item.id === id)
+        const selectedPlan = tempCart.find(item=>item._id === id)
 
-        const index = tempCart.indexOf(selectedProduct)
-        const product = tempCart[index];
+        const index = tempCart.indexOf(selectedPlan)
+        const plan = tempCart[index];
 
-        product.count = product.count + 1
-        product.total = product.count * product.price
+        plan.count = plan.count + 1
+        plan.total = plan.count * plan.price
 
         this.setState(()=>{
             return {cart:[...tempCart]}
@@ -130,20 +141,23 @@ class ApplicationProvider extends Component{
         })
     }
     removeItem = (id)=>{
-        let tempProducts = [...this.state.products];
+        let tempPlans = [...this.state.plansCoupCoeur];
         let tempCart = [...this.state.cart]
-        tempCart = tempCart.filter(item => item.id !== id);
+        tempCart = tempCart.filter(item => item._id !== id);
 
-        const index = tempProducts.indexOf(this.getItem(id))
-        let removedProduct = tempProducts[index]
-        removedProduct.inCart = false
-        removedProduct.total = 0
-        removedProduct.count = 0
+        const index = tempPlans.indexOf(this.getItem(id))
+        let removedPlan = tempPlans[index]
+        removedPlan.inCart = false
+        removedPlan.total = 0
+        removedPlan.count = 0
+
+        let numberPlans = this.state.cartTotalNumberPlans - 1
 
         this.setState(()=>{
             return {
                 cart: [...tempCart],
-                products:[...tempProducts]
+                products:[...tempPlans],
+                cartTotalNumberPlans: numberPlans
             }
         }, ()=>{
             this.addTotals()
@@ -151,16 +165,19 @@ class ApplicationProvider extends Component{
     }
     clearCart = () => {
         this.setState(()=>{
-            return { cart:[]}
+            return { 
+                    cart:[],
+                    cartTotalNumberPlans: 0
+                }
         }, ()=>{
-            this.setProducts();
+            this.setPlans();
             this.addTotals();
         })
     }
     addTotals = () => {
         let subTotal = 0
         this.state.cart.map(item => (subTotal += item.total))
-        const tempTax = subTotal // No tax
+        const tempTax = 0 // No tax
         const tax = parseFloat(tempTax.toFixed(2))
         const total = subTotal + tax
         this.setState(()=>{

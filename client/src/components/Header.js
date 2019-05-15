@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import {Link} from 'react-router-dom'
 
 class Header extends Component{
     render(){
@@ -107,8 +108,11 @@ class Header extends Component{
                                     
                                     <div className="header_extra ml-auto">
                                         <div className="hamburger mr-2"><i className="fa fa-bars" aria-hidden="true"></i></div>
+                    
+                                        
                                         <div className="shopping_cart">
-                                            <a href="cart.html">
+                                            
+                                            <Link to="/cart">
                                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                         viewBox="0 0 489 489" style={{enableBackground:'new 0 0 489 489',}} xmlSpace="preserve">
                                                     <g>
@@ -119,8 +123,9 @@ class Header extends Component{
                                                             c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5v-41h45.2l26.9,302.3C412.8,445.2,392.1,462,366.8,462z"/>
                                                     </g>
                                                 </svg>
-                                                <div>Cart <span>({cartTotalNumberPlans})</span></div>
-                                            </a>
+                                                <div>Panier <span>({cartTotalNumberPlans})</span></div>
+                                            
+                                            </Link>
                                         </div>
                                         
                                     </div>
