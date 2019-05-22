@@ -5,6 +5,7 @@ import Header from './components/Header'
 import MenuMobile from './components/MenuMobile'
 import Home from './components/Home';
 import Cart from './components/cart/Cart'
+import Detail from './components/Detail'
 import {ApplicationConsumer} from './context'
 import Secret from './Secret';
 import Login from './Login';
@@ -25,6 +26,7 @@ export default class App extends Component {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/cart" component={Cart} />
+          <Route path="/detail" component={Detail} />
           <Route path="/secret" component={withAuth(Secret)} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />

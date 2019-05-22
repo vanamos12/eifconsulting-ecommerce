@@ -9,7 +9,7 @@ class EmptyCart extends Component{
                     <div className="row">
                         <div className="col-10 mx-auto text-center">
                             <h2 className="text-uppercase">Votre panier est vide.</h2>
-                            <h3><Link to="/">Continuer les achats</Link></h3>
+                            <h3><a href="/">Continuer les achats</a></h3>
                         </div>
                     </div>
 

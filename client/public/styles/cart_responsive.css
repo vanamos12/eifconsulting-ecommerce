@@ -27,7 +27,7 @@
 
 @media only screen and (max-width: 1600px)
 {
-	.header_social
+	#cart .header_social
 	{
 		display: none;
 	}
@@ -66,24 +66,24 @@
 
 @media only screen and (max-width: 1199px)
 {
-	.header_container
+	#cart .header_container
 	{
 		padding-left: 45px;
 		padding-right: 45px;
 	}
-	.header_container .container
+	#cart .header_container .container
 	{
 		max-width: 100%;
 	}
-	.main_nav
+	#cart .main_nav
 	{
 		margin-left: 50px;
 	}
-	.search
+	#cart .search
 	{
 		margin-left: 25px;
 	}
-	.main_nav > ul > li:not(:last-child)
+	#cart .main_nav > ul > li:not(:last-child)
 	{
 		margin-right: 40px;
 	}
@@ -113,95 +113,95 @@
 
 @media only screen and (max-width: 991px)
 {
-	.header_container
+	#cart .header_container
 	{
 		padding-left: 15px;
 		padding-right: 15px;
 	}
-	.main_nav,
-	.header_social
+	#cart .main_nav,
+	#cart .header_social
 	{
 		display: none;
 	}
-	.search
+	#cart .search
 	{
 		display: none;
 	}
-	.hamburger
+	#cart .hamburger
 	{
 		display: inline-block;
 	}
-	.home
+	#cart .home
 	{
 		padding-left: 30px;
 		padding-right: 30px;
 	}
-	.home_title
+	#cart .home_title
 	{
 		font-size: 48px;
 	}
-	.cart_info_columns
+	#cart .cart_info_columns
 	{
 		display: none;
 	}
-	.cart_items_row
+	#cart .cart_items_row
 	{
 		margin-top: 0;
 	}
-	.cart_item:first-child
+	#cart .cart_item:first-child
 	{
 		padding-top: 0;
 	}
-	.cart_item:not(:last-child)
+	#cart .cart_item:not(:last-child)
 	{
 		border-bottom: solid 2px #e3e3e3;
 	}
-	.cart_item_product,
-	.cart_item_price,
-	.cart_item_quantity,
-	.cart_item_total
+	#cart .cart_item_product,
+	#cart .cart_item_price,
+	#cart .cart_item_quantity,
+	#cart .cart_item_total
 	{
 		width: 100%;
 		text-align: left;
 	}
-	.cart_item_price,
-	.cart_item_quantity,
-	.cart_item_total
+	#cart .cart_item_price,
+	#cart .cart_item_quantity,
+	#cart .cart_item_total
 	{
 		margin-top: 25px;
 	}
-	.cart_buttons_right
+	#cart .cart_buttons_right
 	{
 		margin-top: 15px;
 	}
-	.cart_total
+	#cart .cart_total
 	{
 		margin-top: 100px;
 	}
-	.checkout_button
+	#cart .checkout_button
 	{
 		margin-top: 15px;
 	}
-	.footer_overlay
+	#cart .footer_overlay
 	{
 		height: 200px;
 	}
-	.footer_content
+	#cart .footer_content
 	{
 		height: 200px;
 	}
-	.footer_logo,
-	.copyright,
-	.footer_social
+	#cart .footer_logo,
+	#cart .copyright,
+	#cart .footer_social
 	{
 		text-align: center;
 		width: 100%;
 	}
-	.copyright
+	#cart .copyright
 	{
 		margin-top: 15px;
 	}
-	.footer_social
+	#cart .footer_social
 	{
 		margin-top: 21px;
 	}
@@ -240,11 +240,11 @@
 
 @media only screen and (max-width: 767px)
 {
-	.home_content
+	#cart .home_content
 	{
 		width: 100%;
 	}
-	.home_title
+	#cart .home_title
 	{
 		font-size: 36px;
 	}
@@ -256,75 +256,75 @@
 
 @media only screen and (max-width: 575px)
 {
-	p{font-size: 13px;}
-	.menu
+	#cart p{font-size: 13px;}
+	#cart .menu
 	{
 		width: 100vw;
 		right: -100vw;
 	}
-	.menu_container
+	#cart .menu_container
 	{
 		padding-top: 80px;
 	}
-	.page_menu_item > a,
-	.page_menu_selection li a
+	#cart .page_menu_item > a,
+	#cart .page_menu_selection li a
 	{
 		font-size: 13px;
 		height: 40px;
 		line-height: 40px;
 	}
-	.header_container
+	#cart .header_container
 	{
 		padding-left: 0px;
 		padding-right: 0px;
 	}
-	.header_content
+	#cart .header_content
 	{
 		height: 70px;
 	}
-	.logo a,
-	.header.scrolled .logo a
+	#cart .logo a,
+	#cart .header.scrolled .logo a
 	{
 		font-size: 18px;
 	}
-	.home
+	#cart .home
 	{
 		height: 180px;
 		padding-top: 80px;
 		padding-left: 0;
 		padding-right: 0;
 	}
-	.breadcrumbs ul li a
+	#cart .breadcrumbs ul li a
 	{
 		font-size: 13px;
 	}
-	.button
+	#cart .button
 	{
 		width: 148px;
 		height: 41px;
 	}
-	.button a
+	#cart .button a
 	{
 		font-size: 13px;
 		line-height: 37px;
 	}
-	.home_button
+	#cart .home_button
 	{
 		margin-top: 32px;
 	}
-	.coupon_input
+	#cart .coupon_input
 	{
 		height: 41px;
 	}
-	.checkout_button
+	#cart .checkout_button
 	{
 		width: 100%;
 	}
-	.copyright
+	#cart .copyright
 	{
 		font-size: 13px;
 	}
-	.footer_logo a
+	#cart .footer_logo a
 	{
 		font-size: 24px;
 	}

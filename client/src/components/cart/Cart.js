@@ -8,6 +8,7 @@ import {ApplicationConsumer} from '../../context'
 class Cart extends Component{
     render(){
         return (
+            <div id="cart">
             <ApplicationConsumer>
                 {value=>{
                     const {cart} = value
@@ -42,6 +43,7 @@ class Cart extends Component{
                     }
                 }}
             </ApplicationConsumer>
+            </div>
         )
     }
 }

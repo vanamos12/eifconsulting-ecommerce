@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
+import {sliderImages} from './data'
 
 const ApplicationContext = React.createContext()
 
@@ -7,8 +7,9 @@ class ApplicationProvider extends Component{
     state={
         plansPopular:[],
         plansCoupCoeur:[],
-        //detailProduct: detailProduct,
+        detailPlan: {},
         cart:[],
+        sliderImages:{},
         modalOpen:false,
         //modalProduct:detailProduct,
         cartSubTotal:0,
@@ -34,7 +35,10 @@ class ApplicationProvider extends Component{
                     item.count = 0
                     item.total = 0
                 })
-                this.setState({plansCoupCoeur:data.plansCoupCoeur})
+                this.setState({
+                    plansCoupCoeur:data.plansCoupCoeur,
+                    sliderImages:sliderImages
+                })
             })
             .catch(err => {
                 console.error(err);
@@ -48,6 +52,13 @@ class ApplicationProvider extends Component{
         this.setState(()=>{
             return {products:tempProducts}
         })*/
+    }
+    setDetailPlan = (id)=>{
+        const plan = this.getItem(id);
+        const copyPlan = {...plan}
+        this.setState({
+            detailPlan:copyPlan
+        })
     }
     setPlans = () =>{
         let tempPlans = []
@@ -192,6 +203,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setDetailPlan: this.setDetailPlan,
                 handleDetail:this.handleDetail,
                 addToCart:this.addToCart,
                 openModal:this.openModal,

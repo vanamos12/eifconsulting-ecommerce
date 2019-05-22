@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {ApplicationConsumer} from '../context'
+import {Link} from 'react-router-dom'
 
 
 class Plan extends Component{
@@ -23,8 +24,9 @@ class Plan extends Component{
                                     <button 
                                         onClick={()=>{
                                             console.log("details")
+                                            value.setDetailPlan(_id)
                                         }}
-                                        className="btn btn-primary">D&eacute;tails</button>
+                                        className="btn btn-primary"><Link to='/detail' style={{color:"white"}}>D&eacute;tails</Link></button>
                                 </div>
                             </div>
                         </div>

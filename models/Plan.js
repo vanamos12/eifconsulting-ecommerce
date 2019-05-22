@@ -10,6 +10,7 @@ const PlanSchema = new mongoose.Schema({
   name: {type:String, required:true},
   price: {type:Number, required:true},
   image: {type:String, required:true},
+  description:{type:String, required:true},
   isStyleModerne: {type: Boolean, required:true},
   isStyleContemporain: {type: Boolean, required:true},
   isStyleTraditionnel: {type: Boolean, required:true},

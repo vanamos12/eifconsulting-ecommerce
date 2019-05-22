@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 class CartTotals extends Component{
     render(){
@@ -8,13 +9,13 @@ class CartTotals extends Component{
                 <div className="row row_cart_buttons">
                     <div className="col">
                         <div className="cart_buttons d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                            <div className="button continue_shopping_button"><a href="/">Continuer les achats</a></div>
+                            <div className="button continue_shopping_button"><a href="/">Retourner aux achats</a></div>
                             <div className="cart_buttons_right ml-lg-auto">
                                 <div 
                                     className="button clear_cart_button"
                                     onClick={()=>{
                                         clearCart();
-                                    }}><a href="/cart">Clear cart</a></div>
+                                    }}><a href="/">Clear cart</a></div>
                             </div>
                         </div>
                     </div>
