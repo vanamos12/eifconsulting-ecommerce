@@ -9,7 +9,7 @@ class CartList extends Component{
             <React.Fragment>
                 <div className="row cart_items_row">
                     {cart.map(item=>{
-                        return <CartItem key={item.id} item={item} value={value}/>
+                        return <CartItem key={item._id} item={item} value={value}/>
                     })}
                 </div>
                 

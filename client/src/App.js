@@ -8,8 +8,8 @@ import Cart from './components/cart/Cart'
 import Detail from './components/Detail'
 import {ApplicationConsumer} from './context'
 import Secret from './Secret';
-import Login from './Login';
-import SignUp from './SignUp';
+import LoginFrontEnd from './components/LoginFrontEnd';
+import SignUpFrontEnd from './components/SignUpFrontEnd';
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -28,8 +28,9 @@ export default class App extends Component {
           <Route path="/cart" component={Cart} />
           <Route path="/detail" component={Detail} />
           <Route path="/secret" component={withAuth(Secret)} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={SignUp} />
+          <Route path="/loginfrontend" component={LoginFrontEnd} />
+          <Route path="/signupfrontend" component={SignUpFrontEnd} />
+          {/* Insert the default route */}
         </Switch>
       </div>
     );

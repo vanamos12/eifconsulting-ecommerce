@@ -12,6 +12,14 @@ class ApplicationProvider extends Component{
         sliderImages:{},
         modalOpen:false,
         //modalProduct:detailProduct,
+        frontEndUser:{
+            connected:false,
+            email:''
+        },
+        backEndUser:{
+            connected:false,
+            email:''
+        },
         cartSubTotal:0,
         cartTotalNumberPlans:0,
         cartTax:0,
@@ -59,6 +67,37 @@ class ApplicationProvider extends Component{
         this.setState({
             detailPlan:copyPlan
         })
+    }
+    processPayment(history, totalPrice){
+        let that = this
+        fetch('/checkToken', {
+            headers : { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+             }
+      
+          })
+          .then(res => {
+              if (res.status === 401){
+                  history.push('/loginfrontend')
+              }else if(res.status === 200){
+                  return res.json();
+              }
+              else{
+                  console.log(res.status)
+                  console.log("Unknow error")
+              }
+            })
+          .then(data =>{
+            this.setState(()=>{
+                return {frontEndUser:{connected:true, email: data.email}}
+              }, ()=>{
+                history.push('/cart')
+              })
+          })
+          .catch(err=>{
+              console.error(err)
+          })
     }
     setPlans = () =>{
         let tempPlans = []
@@ -205,6 +244,7 @@ class ApplicationProvider extends Component{
                 ...this.state,
                 setDetailPlan: this.setDetailPlan,
                 handleDetail:this.handleDetail,
+                processPayment:this.processPayment,
                 addToCart:this.addToCart,
                 openModal:this.openModal,
                 closeModal:this.closeModal,

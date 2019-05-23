@@ -109,7 +109,13 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
-    
+    app.get('/checkToken', withAuth, function(req, res) {
+      res.status(200).json({
+        email: req.email,
+        message: 'Utilisateur authentifie'
+      });
+    })
+
   }
 });
 
@@ -119,9 +125,7 @@ mongoose.connect(mongo_uri, function(err) {
 app.get('/api/secret', withAuth, function(req, res) {
   res.send('The password is potato');
 });
-app.get('/checkToken', withAuth, function(req, res) {
-  res.sendStatus(200);
-})
+
 app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });

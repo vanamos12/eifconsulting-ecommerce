@@ -22,7 +22,7 @@ class CartItem extends Component{
                         
                         <div className="cart_item_price">{ price } FCFA </div>
                         
-                        <div className="cart_item_quantity">
+                        {/*<div className="cart_item_quantity">
                             <div className="product_quantity_container">
                                 <div className="product_quantity clearfix">
                                     <span>Qty</span>
@@ -43,9 +43,9 @@ class CartItem extends Component{
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                                        </div>
                         
-                        <div className="cart_item_total">{total} FCFA</div>
+                        <div className="cart_item_total">{total} FCFA</div>*/}
                     </div>
 
                     </div>

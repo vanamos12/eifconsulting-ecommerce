@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class CartTotals extends Component{
     render(){
-        const {cartSubTotal, cartTax, cartTotal, clearCart} = this.props.value
+        const {cartSubTotal, cartTax, cartTotal, clearCart, processPayment} = this.props.value
         return (
             <React.Fragment>
                 <div className="row row_cart_buttons">
@@ -34,7 +34,13 @@ class CartTotals extends Component{
                                     </li>
                                 </ul>
                             </div>
-                            <div className="button checkout_button"><a href="#">Payer</a></div>
+                            <div 
+                                className="button checkout_button"
+                                onClick={()=>{
+                                    processPayment(this.props.history, cartTotal)
+                                }}>
+                                    <a href="#">Payer</a>
+                            </div>
                         </div>
                     </div>
                 </div>
