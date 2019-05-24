@@ -1,12 +1,12 @@
 // middleware.js
 const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
-const withAuth = function(req, res, next) {
+const withAuthFrontEnd = function(req, res, next) {
   const token =
-    req.body.token ||
-    req.query.token ||
+    req.body.tokenFrontEnd ||
+    req.query.tokenFrontEnd ||
     req.headers['x-access-token'] ||
-    req.cookies.token;
+    req.cookies.tokenFrontEnd;
   if (!token) {
     res.status(401).json({
       message:'Unauthorized: No token provided'
@@ -24,4 +24,4 @@ const withAuth = function(req, res, next) {
     });
   }
 }
-module.exports = withAuth;
+module.exports = {withAuthFrontEnd};

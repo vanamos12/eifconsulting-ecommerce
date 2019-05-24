@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import PaypalButton from '../PaypalButton'
 
 class CartTotals extends Component{
     render(){
         const {cartSubTotal, cartTax, cartTotal, clearCart, processPayment} = this.props.value
+        const isConnectedFrontEndUser = this.value.frontEndUser.connected
         return (
             <React.Fragment>
                 <div className="row row_cart_buttons">
@@ -34,13 +36,18 @@ class CartTotals extends Component{
                                     </li>
                                 </ul>
                             </div>
-                            <div 
-                                className="button checkout_button"
-                                onClick={()=>{
-                                    processPayment(this.props.history, cartTotal)
-                                }}>
-                                    <a href="#">Payer</a>
-                            </div>
+                            {
+                                isConnectedFrontEndUser ?
+                                 <PaypalButton clearCart={clearCart} history={history}/> :
+                                <div 
+                                    className="button checkout_button"
+                                    onClick={()=>{
+                                        processPayment(this.props.history, cartTotal)
+                                    }}>
+                                        <a href="#">Payer</a>
+                                </div> 
+                            }
+                            
                         </div>
                     </div>
                 </div>

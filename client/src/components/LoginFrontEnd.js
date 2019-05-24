@@ -19,7 +19,8 @@ export default class LoginFrontEnd extends Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('/api/authenticate', {
+    let action='notconnected'
+    fetch('/api/authenticateFrontEnd', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -28,15 +29,27 @@ export default class LoginFrontEnd extends Component {
     })
     .then(res => {
       if (res.status === 200) {
-        this.props.history.push('/');
+        action='connected'
+        
       } else {
         const error = new Error(res.error);
-        throw error;
+        //throw error;
+      }
+      return res.json()
+    })
+    .then(data => {
+      if (action !== 'connected'){
+        this.setState({
+          message:data.error
+        })
+      }else{
+        this.props.value.setActiveFrontEndUser(this.state.email)
+        this.props.history.push('/cart');
       }
     })
     .catch(err => {
       console.error(err);
-      alert('Error logging in please try again');
+      //alert('Error logging in please try again');
     });
   }
   render() {

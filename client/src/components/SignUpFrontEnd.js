@@ -20,7 +20,8 @@ export default class SignUpFrontEnd extends Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('/api/signup', {
+    let action = 'notsignedup'
+    fetch('/api/signupFrontEnd', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -29,21 +30,24 @@ export default class SignUpFrontEnd extends Component {
     })
     .then(res => {
       if (res.status === 200) {
-        //this.props.history.push('/');
-        console.log(res);
+        action = 'signedup'
+        this.props.history.push('/loginfrontend');
         return res.json()
         
       } else {
         const error = new Error(res.error);
-        throw error;
+        //throw error;
+        return res.json()
       }
     })
     .then(data =>{
-      this.setState({message:data.message})
+      if (action !== 'signedup'){
+        this.setState({message:data.message})
+      }
     })
     .catch(err => {
       console.error(err);
-      alert('Error Sign up in please try again');
+      //alert('Error Sign up in please try again');
     });
   }
   render() {

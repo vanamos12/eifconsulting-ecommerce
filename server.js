@@ -11,7 +11,7 @@ const User = require('./models/User.js');
 const FrontEndUser = require('./models/FrontEndUser.js')
 const BackEndUser = require('./models/BackEndUser.js')
 const Plan = require('./models/Plan.js')
-const withAuth = require('./middleware');
+const {withAuthFrontEnd} = require('./middleware');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,52 +49,63 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
-    app.post('/api/signup', function(req, res){
-      const {email, password} = req.body
-      let signUpUser = new User({
+    app.post('/api/signupFrontEnd', function(req, res){
+      const {email, password, name, surname, telephone} = req.body
+      let signUpUser = new FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
         email:email,
-        password:password
+        password:password,
+        name:name,
+        surname:surname,
+        telephone:telephone,
+        tabPlansBuyed:[]
       })
       signUpUser.save(function (err){
         if (err) {
-          console.log(err)
+          if (err.code === 11000){
           res.status(500)
             .json({
-              error: 'Internal error please try again'
+              message: 'Cet email est déjà dans la base, choisissez un autre.'
             })
+          }else{
+            res.status(500)
+            .json({
+              message: 'Erreur interne, essayez encore!'
+            })
+          }
         }else{
-          console.log("user created")
+          //console.log("user created")
           res.status(200).json({
-            message:'User created'
+            message:'Utilisateur crée avec succès'
           })
         }
       })
     })
-    app.post('/api/authenticate', function(req, res) {
+    app.post('/api/authenticateFrontEnd', function(req, res) {
       const { email, password } = req.body;
-      User.findOne({ email }, function(err, user) {
+      FrontEndUser.findOne({ email }, function(err, user) {
         if (err) {
           console.error(err);
           res.status(500)
             .json({
-            error: 'Internal error please try again'
+            error: 'Erreur interne, essayez encore'
           });
         } else if (!user) {
           res.status(401)
             .json({
-              error: 'Incorrect email or password'
+              error: 'Email ou mot de passe incorrect'
             });
         } else {
           user.isCorrectPassword(password, function(err, same) {
             if (err) {
               res.status(500)
                 .json({
-                  error: 'Internal error please try again'
+                  error: 'Erreur interne, essayez encore'
               });
             } else if (!same) {
               res.status(401)
                 .json({
-                  error: 'Incorrect email or password'
+                  error: 'Email ou mot de passe incorrect'
               });
             } else {
               // Issue token
@@ -102,14 +113,14 @@ mongoose.connect(mongo_uri, function(err) {
               const token = jwt.sign(payload, secret, {
                 expiresIn: '1h'
               });
-              res.cookie('token', token, { httpOnly: true })
+              res.cookie('tokenFrontEnd', token, { httpOnly: true })
                 .sendStatus(200);
             }
           });
         }
       });
     });
-    app.get('/checkToken', withAuth, function(req, res) {
+    app.get('/checkTokenFrontEnd', withAuthFrontEnd, function(req, res) {
       res.status(200).json({
         email: req.email,
         message: 'Utilisateur authentifie'
@@ -122,7 +133,7 @@ mongoose.connect(mongo_uri, function(err) {
 /*app.get('/api/home', function(req, res) {
   res.send('Welcome!');
 });*/
-app.get('/api/secret', withAuth, function(req, res) {
+app.get('/api/secret', withAuthFrontEnd, function(req, res) {
   res.send('The password is potato');
 });
 

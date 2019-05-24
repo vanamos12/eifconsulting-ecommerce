@@ -6,6 +6,7 @@ import MenuMobile from './components/MenuMobile'
 import Home from './components/Home';
 import Cart from './components/cart/Cart'
 import Detail from './components/Detail'
+import Default from './components/Default'
 import {ApplicationConsumer} from './context'
 import Secret from './Secret';
 import LoginFrontEnd from './components/LoginFrontEnd';
@@ -18,20 +19,27 @@ export default class App extends Component {
       <div className="super_container">
         <ApplicationConsumer>
           {value=>(
-            <Header value={value}/>
+            <React.Fragment>
+              <Header value={value}/>
+            
+              <MenuMobile/>
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/cart" component={Cart} />
+                <Route path="/detail" component={Detail} />
+                <Route path="/secret" component={withAuth(Secret)} />
+                <Route 
+                  path="/loginfrontend" 
+                  render={(props) => <LoginFrontEnd {...props} value={value}/>} 
+                />
+                <Route path="/signupfrontend" component={SignUpFrontEnd} />
+                {/* Insert the default route */}
+                <Route  component={Default} />
+              </Switch>
+            </React.Fragment>
           )}
           
         </ApplicationConsumer>
-        <MenuMobile/>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/detail" component={Detail} />
-          <Route path="/secret" component={withAuth(Secret)} />
-          <Route path="/loginfrontend" component={LoginFrontEnd} />
-          <Route path="/signupfrontend" component={SignUpFrontEnd} />
-          {/* Insert the default route */}
-        </Switch>
       </div>
     );
   }

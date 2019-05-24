@@ -68,9 +68,17 @@ class ApplicationProvider extends Component{
             detailPlan:copyPlan
         })
     }
-    processPayment(history, totalPrice){
-        let that = this
-        fetch('/checkToken', {
+    setActiveFrontEndUser = (email) =>{
+        this.setState({
+            frontEndUser:{
+                connected:true,
+                email:email
+            }
+        });
+    }
+    processPayment = (history, totalPrice)=>{
+        let action = ''
+        fetch('/checkTokenFrontEnd', {
             headers : { 
               'Content-Type': 'application/json',
               'Accept': 'application/json'
@@ -80,8 +88,11 @@ class ApplicationProvider extends Component{
           .then(res => {
               if (res.status === 401){
                   history.push('/loginfrontend')
+                  action='notConnected'
               }else if(res.status === 200){
+                  action  = 'connected'
                   return res.json();
+                  
               }
               else{
                   console.log(res.status)
@@ -89,11 +100,13 @@ class ApplicationProvider extends Component{
               }
             })
           .then(data =>{
-            this.setState(()=>{
-                return {frontEndUser:{connected:true, email: data.email}}
-              }, ()=>{
-                history.push('/cart')
-              })
+            if (action === 'connected'){
+                this.setState(()=>{
+                    return {frontEndUser:{connected:true, email: data.email}}
+                }, ()=>{
+                    history.push('/cart')
+                })
+            }
           })
           .catch(err=>{
               console.error(err)
@@ -206,7 +219,7 @@ class ApplicationProvider extends Component{
         this.setState(()=>{
             return {
                 cart: [...tempCart],
-                products:[...tempPlans],
+                plansCoupCoeur:[...tempPlans],
                 cartTotalNumberPlans: numberPlans
             }
         }, ()=>{
@@ -242,6 +255,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setActiveFrontEndUser: this.setActiveFrontEndUser,
                 setDetailPlan: this.setDetailPlan,
                 handleDetail:this.handleDetail,
                 processPayment:this.processPayment,
