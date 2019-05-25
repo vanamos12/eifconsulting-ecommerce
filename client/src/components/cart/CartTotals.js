@@ -5,7 +5,8 @@ import PaypalButton from '../PaypalButton'
 class CartTotals extends Component{
     render(){
         const {cartSubTotal, cartTax, cartTotal, clearCart, processPayment} = this.props.value
-        const isConnectedFrontEndUser = this.value.frontEndUser.connected
+        const isConnectedFrontEndUser = this.props.value.frontEndUser.connected
+        const history = this.props.history
         return (
             <React.Fragment>
                 <div className="row row_cart_buttons">
@@ -42,7 +43,7 @@ class CartTotals extends Component{
                                 <div 
                                     className="button checkout_button"
                                     onClick={()=>{
-                                        processPayment(this.props.history, cartTotal)
+                                        processPayment(history, cartTotal)
                                     }}>
                                         <a href="#">Payer</a>
                                 </div> 

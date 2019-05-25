@@ -19,7 +19,7 @@ export default class LoginFrontEnd extends Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    let action='notconnected'
+    let action=''
     fetch('/api/authenticateFrontEnd', {
       method: 'POST',
       body: JSON.stringify(this.state),
@@ -34,6 +34,7 @@ export default class LoginFrontEnd extends Component {
       } else {
         const error = new Error(res.error);
         //throw error;
+        action='notconnected'
       }
       return res.json()
     })

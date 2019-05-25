@@ -28,6 +28,29 @@ class ApplicationProvider extends Component{
     componentDidMount(){
         this.setApplicationPlans()
     }
+    savePayments = ()=>{
+        let tabIdPlans = this.state.cart.map(item => item._id)
+        let email = this.state.frontEndUser.email
+        fetch('/api/savePaymentsFrontEnd', {
+            method: 'POST',
+            body: JSON.stringify({email:email, tabIdPlans:tabIdPlans}),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(res => {
+              if (res.status === 200){
+                  // payments are saved
+                  console.log('payments are saved')
+              }else {
+                // payments are not saved
+                console.log('Payments are not saved')
+              }
+          })
+          .catch(err =>{
+              console.log(err)
+          })
+    }
     setApplicationPlans = () =>{
         fetch('/api/home', {
             headers : { 
@@ -43,15 +66,50 @@ class ApplicationProvider extends Component{
                     item.count = 0
                     item.total = 0
                 })
-                this.setState({
-                    plansCoupCoeur:data.plansCoupCoeur,
-                    sliderImages:sliderImages
+                
+                this.setState(()=>{
+                    return {
+                        plansCoupCoeur:data.plansCoupCoeur,
+                        sliderImages:sliderImages
+                    }
                 })
             })
             .catch(err => {
                 console.error(err);
                 alert('Error getting the plans in please try again');
             });
+            let action = ''
+            fetch('/checkTokenFrontEnd', {
+                headers : { 
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                 }
+          
+              })
+              .then(res => {
+                  if (res.status === 401){
+                      
+                      action='notConnected'
+                  }else if(res.status === 200){
+                      action  = 'connected'
+                      return res.json();
+                      
+                  }
+                  else{
+                      console.log(res.status)
+                      console.log("Erreur inconnue")
+                  }
+                })
+              .then(data =>{
+                if (action === 'connected'){
+                    this.setState(()=>{
+                        return {frontEndUser:{connected:true, email: data.email}}
+                    })
+                }
+              })
+              .catch(err=>{
+                  console.error(err)
+              })
         /*let tempProducts = []
         storeProducts.forEach(item =>{
             const singleItem = {...item}

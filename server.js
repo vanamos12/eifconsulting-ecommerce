@@ -81,6 +81,43 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })
+    app.post('/api/savePaymentsFrontEnd', function(req, res){
+      const {email, tabIdPlans} = req.body
+      //TODO save the email user tabIdPlans
+      FrontEndUser.findOne({email}, function(err, user){
+        if (err){
+          console.log(err)
+          res.status(500).json({
+            error:'Erreur interne, essayez encore'
+          })
+        }else if(!user){
+          res.status(401).json({
+            error:'Vous n\'êtes pas authorisé'
+          })
+        }else{
+          let tabId = [...user.tabPlansBuyed]
+          let addTabPlansBuyed = tabIdPlans.map(item=>{
+            if (tabId.indexOf(item) < 0){
+              return item
+            }
+          })
+          user.tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
+          user.save(function(err){
+            if (err){
+              console.log(err)
+              res.status(500).json({
+                error:'Erreur interne, essayez encore'
+              })
+            }else{
+              console.log('PaymentsSucessfully saved')
+              res.status(200).json({
+                error:'PaymentsSucessfully saved'
+              })
+            }
+          })
+        }
+      })
+    })
     app.post('/api/authenticateFrontEnd', function(req, res) {
       const { email, password } = req.body;
       FrontEndUser.findOne({ email }, function(err, user) {
@@ -114,7 +151,9 @@ mongoose.connect(mongo_uri, function(err) {
                 expiresIn: '1h'
               });
               res.cookie('tokenFrontEnd', token, { httpOnly: true })
-                .sendStatus(200);
+                .status(200).json({
+                  error:'Connexion correcte'
+                });
             }
           });
         }
