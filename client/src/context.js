@@ -158,7 +158,7 @@ class ApplicationProvider extends Component{
                         frontEndUser:{
                             connected:true,
                             email:email,
-                            tabdIdPlans:data.tabIdPlans
+                            tabIdPlans:data.tabIdPlans
                         }
                     }
             }, ()=>{

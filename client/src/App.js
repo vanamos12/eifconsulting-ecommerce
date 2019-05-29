@@ -12,6 +12,7 @@ import Secret from './Secret';
 import LoginFrontEnd from './components/LoginFrontEnd';
 import SignUpFrontEnd from './components/SignUpFrontEnd';
 import AdministrationFrontEnd from './components/frontend/AdministrationFrontEnd'
+import DetailsFrontEnd from './components/frontend/DetailsFrontEnd'
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -38,6 +39,7 @@ export default class App extends Component {
                   render={(props) => <AdministrationFrontEnd {...props} value={value}/>} 
                 />
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
+                <Route path="/detailsfrontend" component={DetailsFrontEnd} />
                 {/* Insert the default route */}
                 <Route  component={Default} />
               </Switch>
