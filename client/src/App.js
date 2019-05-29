@@ -11,6 +11,7 @@ import {ApplicationConsumer} from './context'
 import Secret from './Secret';
 import LoginFrontEnd from './components/LoginFrontEnd';
 import SignUpFrontEnd from './components/SignUpFrontEnd';
+import AdministrationFrontEnd from './components/frontend/AdministrationFrontEnd'
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -29,8 +30,12 @@ export default class App extends Component {
                 <Route path="/detail" component={Detail} />
                 <Route path="/secret" component={withAuth(Secret)} />
                 <Route 
-                  path="/loginfrontend" 
+                  path="/loginfrontend/:destination" 
                   render={(props) => <LoginFrontEnd {...props} value={value}/>} 
+                />
+                <Route 
+                  path="/administrationfrontend/" 
+                  render={(props) => <AdministrationFrontEnd {...props} value={value}/>} 
                 />
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 {/* Insert the default route */}

@@ -103,6 +103,7 @@ class Header extends Component{
                                             <li><a href="#">Constructions</a></li>
                                             <li><a href="#">&Agrave; propos de nous</a></li>
                                             <li><a href="contact.html">Contact</a></li>
+                                            <li><Link to="/loginfrontend/home">Connexion</Link></li>
                                         </ul>
                                     </nav>
                                     

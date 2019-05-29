@@ -14,7 +14,8 @@ class ApplicationProvider extends Component{
         //modalProduct:detailProduct,
         frontEndUser:{
             connected:false,
-            email:''
+            email:'',
+            tabIdPlans:[]
         },
         backEndUser:{
             connected:false,
@@ -29,7 +30,7 @@ class ApplicationProvider extends Component{
         this.setApplicationPlans()
     }
     savePayments = ()=>{
-        let tabIdPlans = this.state.cart.map(item => item._id)
+        let tabIdPlans = this.state.cart
         let email = this.state.frontEndUser.email
         fetch('/api/savePaymentsFrontEnd', {
             method: 'POST',
@@ -103,7 +104,13 @@ class ApplicationProvider extends Component{
               .then(data =>{
                 if (action === 'connected'){
                     this.setState(()=>{
-                        return {frontEndUser:{connected:true, email: data.email}}
+                        return {
+                            frontEndUser:{
+                                connected:true, 
+                                email: data.email,
+                                tabIdPlans:data.tabIdPlans
+                            }
+                        }
                     })
                 }
               })
@@ -126,13 +133,48 @@ class ApplicationProvider extends Component{
             detailPlan:copyPlan
         })
     }
-    setActiveFrontEndUser = (email) =>{
-        this.setState({
-            frontEndUser:{
-                connected:true,
-                email:email
+    setActiveFrontEndUser = (email, history, destination) =>{
+        let action='failure'
+        fetch('/api/getFrontEndUserTabIdPlans', {
+            method : 'POST',
+            body: JSON.stringify({email:email}),
+            headers:{
+                'Content-Type' : 'application/json'
             }
-        });
+        })
+        .then(res =>{
+            if (res.status === 200){
+                action = 'succes'
+            }else{
+                action = 'failure'
+            }
+            return res.json()
+        })
+        .then(data => {
+            if (action === 'succes'){
+                console.log(data.tabIdPlans)
+                this.setState(()=>{
+                    return {
+                        frontEndUser:{
+                            connected:true,
+                            email:email,
+                            tabdIdPlans:data.tabIdPlans
+                        }
+                    }
+            }, ()=>{
+                if (destination === 'home'){
+                    history.push('/administrationfrontend');
+                  }else if (destination === 'signup'){
+                    history.push('/cart');
+                  }
+            });
+            }
+            
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+        
     }
     processPayment = (history, totalPrice)=>{
         let action = ''
@@ -160,7 +202,13 @@ class ApplicationProvider extends Component{
           .then(data =>{
             if (action === 'connected'){
                 this.setState(()=>{
-                    return {frontEndUser:{connected:true, email: data.email}}
+                    return {
+                        frontEndUser:{
+                            connected:true,
+                            email: data.email,
+                            tabIdPlans:data.tabIdPlans
+                        }
+                    }
                 }, ()=>{
                     history.push('/cart')
                 })

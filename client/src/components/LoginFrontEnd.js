@@ -8,8 +8,13 @@ export default class LoginFrontEnd extends Component {
     this.state = {
       email : '',
       password: '',
-      message: ''
+      message: '',
+      params:{}
     };
+  }
+  componentDidMount(){
+    const {match:{params}} = this.props 
+    this.setState({params:params})
   }
   handleInputChange = (event) => {
     const { value, name } = event.target;
@@ -30,7 +35,9 @@ export default class LoginFrontEnd extends Component {
     .then(res => {
       if (res.status === 200) {
         action='connected'
-        
+        let history = this.props.history
+        let destination = this.state.params.destination
+        this.props.value.setActiveFrontEndUser(this.state.email, history, destination)
       } else {
         const error = new Error(res.error);
         //throw error;
@@ -44,8 +51,8 @@ export default class LoginFrontEnd extends Component {
           message:data.error
         })
       }else{
-        this.props.value.setActiveFrontEndUser(this.state.email)
-        this.props.history.push('/cart');
+        
+        
       }
     })
     .catch(err => {

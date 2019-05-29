@@ -81,6 +81,25 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })
+    app.post('/api/getFrontEndUserTabIdPlans', function(req, res){
+      const {email} = req.body
+      FrontEndUser.findOne({email}, function(err, user){
+        if (err){
+          console.log(err)
+          res.status(500).json({
+            error:'Erreur interne, essayez encore'
+          })
+        }else if(!user){
+          res.status(401).json({
+            error:'Vous n\'êtes pas authorisé'
+          })
+        }else{
+          res.status(200).json({
+            tabIdPlans:user.tabPlansBuyed
+          })
+        }
+      })
+    })
     app.post('/api/savePaymentsFrontEnd', function(req, res){
       const {email, tabIdPlans} = req.body
       //TODO save the email user tabIdPlans
@@ -160,10 +179,18 @@ mongoose.connect(mongo_uri, function(err) {
       });
     });
     app.get('/checkTokenFrontEnd', withAuthFrontEnd, function(req, res) {
-      res.status(200).json({
-        email: req.email,
-        message: 'Utilisateur authentifie'
-      });
+      FrontEndUser.findOne({email:req.email}, function(err, user){
+        if (err || !user){
+          console.log('Erreur de recherche d\'elements, l\'email n\'est pas enregistré')
+        }else{
+          res.status(200).json({
+            email: req.email,
+            message: 'Utilisateur authentifie',
+            tabIdPlans:user.tabPlansBuyed
+          });
+        }
+      })
+      
     })
 
   }

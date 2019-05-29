@@ -31,7 +31,7 @@ export default class SignUpFrontEnd extends Component {
     .then(res => {
       if (res.status === 200) {
         action = 'signedup'
-        this.props.history.push('/loginfrontend');
+        this.props.history.push('/loginfrontend/signup');
         return res.json()
         
       } else {
