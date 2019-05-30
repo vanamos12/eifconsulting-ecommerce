@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class Header extends Component{
     render(){
-        const {cartTotalNumberPlans} = this.props.value
+        const {cartTotalNumberPlans, frontEndUser, deconnexion} = this.props.value
         return (
             <header className="header">
                 <div className="header_container">
@@ -25,6 +25,22 @@ class Header extends Component{
                                                     <div><i className="fa fa-envelope"></i>eifconsultingandservices@gmail.com</div>
                                             </a>
                                         </div>
+                                        {frontEndUser.connected ? 
+                                            <React.Fragment>
+                                                <br/>
+                                                <div className="shopping_cart">
+                                                    <a href="cart.html">
+                                                        
+                                                        <div>Bonjour, {frontEndUser.email}</div>
+                                                    </a>
+                                                </div>
+                                            </React.Fragment>
+                                            : 
+                                            <React.Fragment>
+                                                {/* Nothing to show */}
+                                            </React.Fragment>
+                                        }
+                                        
                                         
                                     </div>
                                 </div>
@@ -103,7 +119,15 @@ class Header extends Component{
                                             <li><a href="#">Constructions</a></li>
                                             <li><a href="#">&Agrave; propos de nous</a></li>
                                             <li><a href="contact.html">Contact</a></li>
-                                            <li><Link to="/loginfrontend/home">Connexion</Link></li>
+                                            <li>{frontEndUser.connected ? 
+                                                <Link 
+                                                    to="/"
+                                                    onClick={()=>{
+                                                        deconnexion()
+                                                    }}>
+                                                        D&eacute;connexion</Link>:
+                                                <Link to="/loginfrontend/home">Connexion</Link> 
+                                                }</li>
                                         </ul>
                                     </nav>
                                     

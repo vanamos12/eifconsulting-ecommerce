@@ -1,6 +1,30 @@
 // middleware.js
 const jwt = require('jsonwebtoken');
 const secret = 'mysecretsshhh';
+const withAuthBackEnd = function(req, res, next) {
+  const token =
+    req.body.tokenBackEnd ||
+    req.query.tokenBackEnd ||
+    req.headers['x-access-token'] ||
+    req.cookies.tokenBackEnd;
+  if (!token) {
+    res.status(401).json({
+      message:'Unauthorized: No token provided'
+    });
+  } else {
+    jwt.verify(token, secret, function(err, decoded) {
+      if (err) {
+        res.status(401).json({
+          message:'Unauthorized: Invalid token'
+        });
+      } else {
+        req.email = decoded.email;
+        next();
+      }
+    });
+  }
+}
+
 const withAuthFrontEnd = function(req, res, next) {
   const token =
     req.body.tokenFrontEnd ||
@@ -24,4 +48,4 @@ const withAuthFrontEnd = function(req, res, next) {
     });
   }
 }
-module.exports = {withAuthFrontEnd};
+module.exports = {withAuthFrontEnd, withAuthBackEnd};

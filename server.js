@@ -11,7 +11,7 @@ const User = require('./models/User.js');
 const FrontEndUser = require('./models/FrontEndUser.js')
 const BackEndUser = require('./models/BackEndUser.js')
 const Plan = require('./models/Plan.js')
-const {withAuthFrontEnd} = require('./middleware');
+const {withAuthFrontEnd, withAuthBackEnd} = require('./middleware');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -192,6 +192,22 @@ mongoose.connect(mongo_uri, function(err) {
       })
       
     })
+
+    app.get('/checkTokenBackEnd', withAuthBackEnd, function(req, res) {
+      Plan.find({}, function(err, plans){
+        if (err || !user){
+          console.log('Erreur de recherche d\'elements, l\'email n\'est pas enregistré')
+        }else{
+          res.status(200).json({
+            email: req.email,
+            message: 'Utilisateur authentifie',
+            allPlans:plans
+          });
+        }
+      })
+      
+    })
+
 
   }
 });

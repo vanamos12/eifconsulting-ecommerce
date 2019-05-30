@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {sliderImages} from './data'
+import {withCookies, Cookies} from 'react-cookie'
 
 const ApplicationContext = React.createContext()
 
@@ -19,7 +20,8 @@ class ApplicationProvider extends Component{
         },
         backEndUser:{
             connected:false,
-            email:''
+            email:'',
+            allPlans:[]
         },
         cartSubTotal:0,
         cartTotalNumberPlans:0,
@@ -28,6 +30,18 @@ class ApplicationProvider extends Component{
     }
     componentDidMount(){
         this.setApplicationPlans()
+    }
+    deconnexion = ()=>{
+        let frontEndUser = {...this.state.frontEndUser}
+        frontEndUser.connected = false
+        frontEndUser.email = ''
+        frontEndUser.tabIdPlans = []
+        Cookies.remove('tokenFrontEnd')
+        this.setState(()=>{
+            return {
+                frontEndUser:frontEndUser
+            }
+        })
     }
     savePayments = ()=>{
         let tabIdPlans = this.state.cart
@@ -117,6 +131,33 @@ class ApplicationProvider extends Component{
               .catch(err=>{
                   console.error(err)
               })
+        let actionTwo = ''
+        fetch('/api/checkTokenBackEnd')
+        .then(res=>{
+            if (res.status === 200){
+                actionTwo = "succes"
+            }else{
+                actionTwo = "failure"
+            }
+            return res.json()
+        })
+        .then(data=>{
+            if (actionTwo === 'succes'){
+                let backEndUser = {...this.state.backEndUser}
+                backEndUser.connected = true
+                backEndUser.email = data.email
+                backEndUser.allPlans = data.allPlans
+
+                this.setState(()=>{
+                    return {
+                        backEndUser:backEndUser
+                    }
+                })
+            }
+        })
+        .catch(err=>{
+            console.log(err)
+        })
         /*let tempProducts = []
         storeProducts.forEach(item =>{
             const singleItem = {...item}
@@ -187,7 +228,7 @@ class ApplicationProvider extends Component{
           })
           .then(res => {
               if (res.status === 401){
-                  history.push('/loginfrontend')
+                  history.push('/loginfrontend/signup')
                   action='notConnected'
               }else if(res.status === 200){
                   action  = 'connected'
@@ -361,6 +402,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                deconnexion:this.deconnexion,
                 setActiveFrontEndUser: this.setActiveFrontEndUser,
                 setDetailPlan: this.setDetailPlan,
                 handleDetail:this.handleDetail,
