@@ -116,7 +116,9 @@ mongoose.connect(mongo_uri, function(err) {
         }else{
           let tabId = [...user.tabPlansBuyed]
           let addTabPlansBuyed = tabIdPlans.map(item=>{
-            if (tabId.indexOf(item) < 0){
+            if (tabId.findIndex(function(itemBuy){
+                itemBuy._id === item._id
+            }) < 0){
               return item
             }
           })

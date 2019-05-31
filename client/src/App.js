@@ -13,6 +13,10 @@ import LoginFrontEnd from './components/LoginFrontEnd';
 import SignUpFrontEnd from './components/SignUpFrontEnd';
 import AdministrationFrontEnd from './components/frontend/AdministrationFrontEnd'
 import DetailsFrontEnd from './components/frontend/DetailsFrontEnd'
+
+import AddPlan from './components/backend/AddPlan'
+import ModifyPlan from './components/backend/ModifyPlan'
+import AdministrationBackEnd from './components/backend/AdministrationBackEnd'
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -40,6 +44,12 @@ export default class App extends Component {
                 />
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />
+                <Route path="/addplan" component={AddPlan} />
+                <Route path="/modifyplan" component={ModifyPlan} />
+                <Route 
+                  path="/administrationbackend/" 
+                  component={AdministrationBackEnd} />} 
+                />
                 {/* Insert the default route */}
                 <Route  component={Default} />
               </Switch>

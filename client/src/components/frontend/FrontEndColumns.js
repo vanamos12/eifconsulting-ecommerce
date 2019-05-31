@@ -8,7 +8,7 @@ class FrontEndColumns extends Component{
                     <div className="col">
                          {/*Column Titles*/} 
                         <div className="cart_info_columns clearfix">
-                            <div className="cart_info_col cart_info_col_product">Product</div>
+                            <div className="cart_info_col cart_info_col_product">Plan</div>
                             <div className="cart_info_col cart_info_col_price">Price</div>
                             <div className="cart_info_col cart_info_col_quantity">Actions</div>
                             {/*<div className="cart_info_col cart_info_col_total">Total</div>*/}
