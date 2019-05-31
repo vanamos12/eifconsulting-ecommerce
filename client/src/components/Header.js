@@ -29,10 +29,8 @@ class Header extends Component{
                                             <React.Fragment>
                                                 <br/>
                                                 <div className="shopping_cart">
-                                                    <a href="cart.html">
-                                                        
                                                         <div>Bonjour, {frontEndUser.email}</div>
-                                                    </a>
+                                                        <Link to='/administrationfrontend'>Administration</Link>
                                                 </div>
                                             </React.Fragment>
                                             : 
@@ -120,12 +118,12 @@ class Header extends Component{
                                             <li><a href="#">&Agrave; propos de nous</a></li>
                                             <li><a href="contact.html">Contact</a></li>
                                             <li>{frontEndUser.connected ? 
-                                                <Link 
-                                                    to="/"
+                                                <span 
+                                                    
                                                     onClick={()=>{
                                                         deconnexion()
                                                     }}>
-                                                        D&eacute;connexion</Link>:
+                                                        D&eacute;connexion</span>:
                                                 <Link to="/loginfrontend/home">Connexion</Link> 
                                                 }</li>
                                         </ul>

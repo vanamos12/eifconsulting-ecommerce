@@ -208,6 +208,13 @@ mongoose.connect(mongo_uri, function(err) {
       
     })
 
+    app.get('/api/clearCookie', function(req,  res){
+      res.clearCookie('tokenFrontEnd', {httpOnly:true})
+      res.status(200).json({
+        message:'cookie effacé'
+      })
+    })
+
 
   }
 });

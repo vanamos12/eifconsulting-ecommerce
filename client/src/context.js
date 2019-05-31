@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {sliderImages} from './data'
-import {withCookies, Cookies} from 'react-cookie'
+import Cookies from 'universal-cookie'
 
 const ApplicationContext = React.createContext()
 
 class ApplicationProvider extends Component{
+
     state={
         plansPopular:[],
         plansCoupCoeur:[],
@@ -36,12 +37,27 @@ class ApplicationProvider extends Component{
         frontEndUser.connected = false
         frontEndUser.email = ''
         frontEndUser.tabIdPlans = []
-        Cookies.remove('tokenFrontEnd')
-        this.setState(()=>{
-            return {
-                frontEndUser:frontEndUser
+        let cookies = new Cookies()
+        //cookies.set('tokenFrontEnd', 'expired', {maxAge: Date.now(), path:'/', domain:'localhost'})
+        //cookies.remove('tokenFrontEnd', {httpOnly: true, path:'/', domain:'localhost'})
+        //console.log(cookies.getAll())
+        fetch('api/clearCookie')
+        .then(res=>{
+            if (res.status === 200){
+                console.log('cookie cleared')
+                this.setState(()=>{
+                    return {
+                        frontEndUser:frontEndUser
+                    }
+                })
+            }else{
+                console.log('cookie not cleared')
             }
         })
+        .catch(err =>{
+            console.log(err)
+        })
+       
     }
     savePayments = ()=>{
         let tabIdPlans = this.state.cart
@@ -132,7 +148,7 @@ class ApplicationProvider extends Component{
                   console.error(err)
               })
         let actionTwo = ''
-        fetch('/api/checkTokenBackEnd')
+        fetch('/checkTokenBackEnd')
         .then(res=>{
             if (res.status === 200){
                 actionTwo = "succes"
@@ -403,6 +419,7 @@ class ApplicationProvider extends Component{
             <ApplicationContext.Provider value={{
                 ...this.state,
                 deconnexion:this.deconnexion,
+                savePayments:this.savePayments,
                 setActiveFrontEndUser: this.setActiveFrontEndUser,
                 setDetailPlan: this.setDetailPlan,
                 handleDetail:this.handleDetail,
