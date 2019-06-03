@@ -233,6 +233,47 @@ class ApplicationProvider extends Component{
         })
         
     }
+    setActiveBackEndUser = (email, history, destination) =>{
+        let action='failure'
+        fetch('/api/getBackEndUserAllPlans', {
+            method : 'POST',
+            body: JSON.stringify({email:email}),
+            headers:{
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(res =>{
+            if (res.status === 200){
+                action = 'succes'
+            }else{
+                action = 'failure'
+            }
+            return res.json()
+        })
+        .then(data => {
+            if (action === 'succes'){
+                console.log(data.tabIdPlans)
+                let backEndUser = {...this.state.backEndUser}
+                backEndUser.connected = true
+                backEndUser.email = email
+                backEndUser.allPlans = data.allPlans
+                this.setState(()=>{
+                    return {
+                        backEndUser:backEndUser
+                    }
+            }, ()=>{
+                
+                history.push('/administrationbackend');
+                  
+            });
+            }
+            
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+        
+    }
     processPayment = (history, totalPrice)=>{
         let action = ''
         fetch('/checkTokenFrontEnd', {
@@ -421,6 +462,7 @@ class ApplicationProvider extends Component{
                 deconnexion:this.deconnexion,
                 savePayments:this.savePayments,
                 setActiveFrontEndUser: this.setActiveFrontEndUser,
+                setActiveBackEndUser:this.setActiveBackEndUser,
                 setDetailPlan: this.setDetailPlan,
                 handleDetail:this.handleDetail,
                 processPayment:this.processPayment,

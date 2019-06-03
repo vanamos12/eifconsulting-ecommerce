@@ -3,6 +3,7 @@ import EmptyBackEnd from './EmptyBackEnd'
 import BackEndList from './BackEndList'
 import BackEndColumns from './BackEndColumns'
 import {ApplicationConsumer} from '../../context'
+import {Link} from 'react-router-dom'
 
 class AdministrationBackEnd extends Component{
     render(){
@@ -32,6 +33,7 @@ class AdministrationBackEnd extends Component{
                                     
                                     <div className="cart_info">
                                         <div className="container">
+                                            <Link to='addplan'>Ajouter un plan</Link>
                                             <BackEndColumns/>
                                             <BackEndList value={value}/>
                                             

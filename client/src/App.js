@@ -17,6 +17,8 @@ import DetailsFrontEnd from './components/frontend/DetailsFrontEnd'
 import AddPlan from './components/backend/AddPlan'
 import ModifyPlan from './components/backend/ModifyPlan'
 import AdministrationBackEnd from './components/backend/AdministrationBackEnd'
+import SignUpBackEnd from './components/SignUpBackEnd'
+import LoginBackEnd from './components/LoginBackEnd'
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -49,6 +51,11 @@ export default class App extends Component {
                 <Route 
                   path="/administrationbackend/" 
                   component={AdministrationBackEnd} />} 
+                />
+                <Route path="/signupbackend" component={SignUpBackEnd} />
+                <Route 
+                  path="/loginbackend/:destination" 
+                  render={(props) => <LoginBackEnd {...props} value={value}/>} 
                 />
                 {/* Insert the default route */}
                 <Route  component={Default} />

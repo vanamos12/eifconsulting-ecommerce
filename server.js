@@ -49,6 +49,37 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
+    app.post('/api/signupBackEnd', function(req, res){
+      const {email, password, name, surname, telephone} = req.body
+      let signUpUser = new BackEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email:email,
+        password:password,
+        name:name,
+        surname:surname,
+        telephone:telephone
+      })
+      signUpUser.save(function (err){
+        if (err) {
+          if (err.code === 11000){
+          res.status(500)
+            .json({
+              message: 'Cet email est déjà dans la base, choisissez un autre.'
+            })
+          }else{
+            res.status(500)
+            .json({
+              message: 'Erreur interne, essayez encore!'
+            })
+          }
+        }else{
+          //console.log("user created")
+          res.status(200).json({
+            message:'Utilisateur crée avec succès'
+          })
+        }
+      })
+    })
     app.post('/api/signupFrontEnd', function(req, res){
       const {email, password, name, surname, telephone} = req.body
       let signUpUser = new FrontEndUser({
@@ -77,6 +108,21 @@ mongoose.connect(mongo_uri, function(err) {
           //console.log("user created")
           res.status(200).json({
             message:'Utilisateur crée avec succès'
+          })
+        }
+      })
+    })
+    app.post('/api/getBackEndUserAllPlans', withAuthBackEnd, function(req, res){
+      
+      Plan.find({}, function(err, plans){
+        if (err){
+          console.log(err)
+          res.status(500).json({
+            error:'Erreur interne, essayez encore'
+          })
+        }else{
+          res.status(200).json({
+            allPlans:plans
           })
         }
       })
@@ -139,6 +185,47 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })
+    app.post('/api/authenticateBackEnd', function(req, res) {
+      const { email, password } = req.body;
+      BackEndUser.findOne({ email }, function(err, user) {
+        if (err) {
+          console.error(err);
+          res.status(500)
+            .json({
+            error: 'Erreur interne, essayez encore'
+          });
+        } else if (!user) {
+          res.status(401)
+            .json({
+              error: 'Email ou mot de passe incorrect'
+            });
+        } else {
+          user.isCorrectPassword(password, function(err, same) {
+            if (err) {
+              res.status(500)
+                .json({
+                  error: 'Erreur interne, essayez encore'
+              });
+            } else if (!same) {
+              res.status(401)
+                .json({
+                  error: 'Email ou mot de passe incorrect'
+              });
+            } else {
+              // Issue token
+              const payload = { email };
+              const token = jwt.sign(payload, secret, {
+                expiresIn: '1h'
+              });
+              res.cookie('tokenBackEnd', token, { httpOnly: true })
+                .status(200).json({
+                  error:'Connexion correcte'
+                });
+            }
+          });
+        }
+      });
+    });
     app.post('/api/authenticateFrontEnd', function(req, res) {
       const { email, password } = req.body;
       FrontEndUser.findOne({ email }, function(err, user) {
@@ -197,8 +284,12 @@ mongoose.connect(mongo_uri, function(err) {
 
     app.get('/checkTokenBackEnd', withAuthBackEnd, function(req, res) {
       Plan.find({}, function(err, plans){
-        if (err || !user){
-          console.log('Erreur de recherche d\'elements, l\'email n\'est pas enregistré')
+        if (err){
+          res.status(500).json({
+            email: '',
+            message: 'Erreur de recherche dans la base de données',
+            allPlans:[]
+          })
         }else{
           res.status(200).json({
             email: req.email,
