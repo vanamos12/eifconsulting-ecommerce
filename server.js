@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const secret = 'mysecretsshhh';
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
+const fileUpload = require('express-fileupload')
+const shortId = require('shortid')
 // Import our User schema
 const User = require('./models/User.js');
 const FrontEndUser = require('./models/FrontEndUser.js')
@@ -16,6 +19,13 @@ const {withAuthFrontEnd, withAuthBackEnd} = require('./middleware');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors())
+app.use(fileUpload({
+  useTempFiles: true,
+  safeFileNames: true,
+  preserveExtension: true,
+  tempFileDir: `${__dirname}/client/public/files/temp` 
+}))
 
 const mongo_uri = 'mongodb://localhost/react-auth';
 mongoose.connect(mongo_uri, function(err) {
@@ -23,6 +33,63 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.post('/api/addplan', function(req, res){
+      let uploadedFile = req.files.file
+      const id = shortId.generate(); 
+      const newName = `${id}_${uploadedFile.name}`
+      //console.log(`${id}_${uploadedFile.name}`)
+      //console.log(req.body.data)
+      let donnees = JSON.parse(req.body.data)
+      const {categorie, name, price, description} = donnees
+      const {isStyleModerne, isStyleContemporain, isStyleTraditionnel} = donnees
+      const {isNiveauPlainPied, isNiveauAEtages, isNiveauSousSol} = donnees
+      const {isChambreTwo, isChambreThree, isChambreFourMore} = donnees
+      const {isCoupCoeur, isPopular} = donnees
+      uploadedFile.mv(`${__dirname}/client/public/images/coupcoeurs/${newName}`, function(err){
+        if (err){
+          res.status(500).json({
+            message:'Erreur interne, veuillez reéssayer.'
+          })
+          console.log(err)
+        }
+        else{
+          
+          const plan = new Plan({
+            _id: new mongoose.Types.ObjectId(),
+            categorie:categorie,
+            name: name,
+            price: price,
+            image: `images/coupcoeurs/${newName}`,
+            description:description,
+            isStyleModerne: isStyleModerne,
+            isStyleContemporain: isStyleContemporain,
+            isStyleTraditionnel: isStyleTraditionnel,
+            isNiveauPlainPied: isNiveauPlainPied,
+            isNiveauAEtages: isNiveauAEtages,
+            isNiveauSousSol: isNiveauSousSol,
+            isChambreTwo: isChambreTwo,
+            isChambreThree: isChambreThree,
+            isChambreFourMore:isChambreFourMore,
+            isCoupCoeur:isCoupCoeur,
+            isPopular: isPopular
+          })
+          plan.save(function(err){
+            if (err){
+              res.status(500).json({
+                message:'Erreur de sauvegarde du plan.'
+              })
+              console.log(err)
+            }else{
+              res.status(200).json({
+                message:'Tout s\'est bien passé.'
+              })
+            }
+          })
+          
+        }
+      })
+      
+    })
     app.get('/api/home', function(req, res){
       Plan.find({isCoupCoeur:true})
         .exec(function(err, plansCoupCoeur){

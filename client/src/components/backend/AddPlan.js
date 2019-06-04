@@ -1,12 +1,15 @@
 import React, {Component} from 'react'
 import { truncateSync } from 'fs';
+import axios from 'axios'
 
 class AddPlan extends Component{
+    selectedFile = React.createRef()
     state={
         categorie:'',
         name:'',
         price:'',
-        image:React.createRef(),
+        uploading:false,
+        message:'',
         description:'',
         isStyleModerne: false,
         isStyleContemporain: false,
@@ -34,7 +37,28 @@ class AddPlan extends Component{
     }
     handleSubmit = (event)=>{
         event.preventDefault()
-        alert(this.state.image.current.files[0].name)
+        if (this.state.uploading) return
+        this.setState({ uploading: true });
+        const data = new FormData()
+        data.append("file", this.selectedFile.current.files[0], this.selectedFile.current.files[0].name)
+        data.append("data", JSON.stringify(this.state))
+        axios
+            .post("/api/addplan", data, {onUploadProgress: ProgressEvent =>{}})
+            .then(res=>{
+                if (res.status === 200) {
+                    this.setState({
+                        message:"Plan crée avec succes"
+                    })
+                }else{
+                    this.setState({
+                        message:"Erreur dans la création du plan"
+                    })
+                }
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        //alert(this.selectedFile.current.files[0].name)
     }
     render(){
         return (
@@ -43,7 +67,7 @@ class AddPlan extends Component{
                 <div className="container-fluid">
                     <h1>Formulaire d'ajout d'un plan</h1>
                     <form action="#" onSubmit={this.handleSubmit}>
-                        <label for="name">Cat&eacute;gorie :
+                        <label for="categorie">Cat&eacute;gorie :
                             <select name="categorie" value={this.state.categorie} onChange={this.handleChange} required>
                                 <option disabled></option>
                                 <option>Traditionnelle</option>
@@ -58,7 +82,7 @@ class AddPlan extends Component{
                             <input type="number" id="price" name="price" value={this.state.price} onChange={this.handleChange} required/>
                         </label><br/>
                         <label for="image">Image :&nbsp; 
-                            <input type="file" id="image" ref={this.state.image} required/>
+                            <input type="file" id="image" ref={this.selectedFile} required/>
                         </label><br/>
                         <label for="description">Description :&nbsp; 
                             <textarea  id="descrption" name="description" value={this.state.description} onChange={this.handleChange} required/>
@@ -130,24 +154,7 @@ class AddPlan extends Component{
                             </div>
                         </div>
                     </form>
-
-                    
-                    <span>categorie: {this.state.categorie}</span><br/>
-                    <span>name: {this.state.name}</span><br/>
-                    <span>price: {this.state.price}</span><br/>
-                    <span>description: {this.state.description}</span><br/>
-                    <span>isStyleModerne : {this.state.isStyleModerne ? "true" : "false"}</span><br/>
-                    <span>isStyleContemporain: {this.state.isStyleContemporain ? "true" : "false"}</span><br/>
-                    <span>isStyleTraditionnel: {this.state.isStyleTraditionnel ? "true" : "false"}</span><br/>
-                    <span>isNiveauPlainPied: {this.state.isNiveauPlainPied ? "true" : "false"}</span><br/>
-                    <span>isNiveauAEtages: {this.state.isNiveauAEtages ? "true" : "false"}</span><br/>
-                    <span>isNiveauSousSol: {this.state.isNiveauSousSol ? "true" : "false"}</span><br/>
-                    <span>isChambreTwo: {this.state.isChambreTwo ? "true" : "false"}</span><br/>
-                    <span>isChambreThree: {this.state.isChambreThree ? "true" : "false"}</span><br/>
-                    <span>isChambreFourMore: {this.state.isChambreFourMore ? "true" : "false"}</span><br/>
-                    <span>isCoupCoeur: {this.state.isCoupCoeur ? "true" : "false"}</span><br/>
-                    <span>isPopular: {this.state.isPopular ? "true" : "false"}</span><br/>
-                    
+                    <div className="text-danger">{this.state.message}</div>
                 </div>
             </React.Fragment>
         )

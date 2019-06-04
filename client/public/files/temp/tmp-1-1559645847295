@@ -1,0 +1,66 @@
+<div class="container">
+            <div class="carousel slide" data-ride="carousel" role="listbox">
+                <div class="carousel-inner" data-visible="5">
+
+
+
+
+
+                    <div class="carousel-item ">
+                        <div class="media-container-row">
+                            <div class="col-md-12">
+                                <div class="wrap-img ">
+                                    <img src="assets/images/afrikatech-167x46.png" class="img-responsive clients-img" alt="" title="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ">
+                        <div class="media-container-row">
+                            <div class="col-md-12">
+                                <div class="wrap-img ">
+                                    <img src="assets/images/afriquejeuneentrepreneur-221x100.png" class="img-responsive clients-img" alt="" title="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ">
+                        <div class="media-container-row">
+                            <div class="col-md-12">
+                                <div class="wrap-img ">
+                                    <img src="assets/images/rfi-100x100.png" class="img-responsive clients-img" alt="" title="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ">
+                        <div class="media-container-row">
+                            <div class="col-md-12">
+                                <div class="wrap-img ">
+                                    <img src="assets/images/latribuneafrique-164x64.jpg" class="img-responsive clients-img" alt="" title="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ">
+                        <div class="media-container-row">
+                            <div class="col-md-12">
+                                <div class="wrap-img ">
+                                    <img src="assets/images/afrikmag-200x135.png" class="img-responsive clients-img" alt="" title="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <a data-app-prevent-settings="" class="carousel-control carousel-control-prev" role="button" data-slide="prev">
+                        <span aria-hidden="true" class="mbri-left mbr-iconfont"></span>
+                        <span class="sr-only">Précédent</span>
+                    </a>
+                    <a data-app-prevent-settings="" class="carousel-control carousel-control-next" role="button" data-slide="next">
+                        <span aria-hidden="true" class="mbri-right mbr-iconfont"></span>
+                        <span class="sr-only">Suivant</span>
+                    </a>
+                </div>
+            </div>
+        </div>
