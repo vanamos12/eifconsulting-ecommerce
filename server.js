@@ -33,6 +33,74 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.post('/api/search', function(req, res){
+      const {categorie} = req.body
+      const {isAll, isStyleModerne, isStyleContemporain, isStyleTraditionnel} = req.body
+      const {isNiveauPlainPied, isNiveauAEtages, isNiveauSousSol} = req.body
+      const {isChambreTwo, isChambreThree, isChambreFourMore} = req.body
+      if (isAll){
+        Plan.find({}, function(err, plans){
+          if (err){
+            console.log(err)
+            res.status(500).json({
+              results:[]
+            })
+          }else{
+            res.status(200).json({
+              results:plans
+            })
+          }
+        })
+      }else if(categorie === ''){
+        Plan.find({
+          isStyleModerne:isStyleModerne, 
+          isStyleContemporain:isStyleContemporain, 
+          isStyleTraditionnel:isStyleTraditionnel,
+          isNiveauPlainPied:isNiveauPlainPied, 
+          isNiveauAEtages:isNiveauAEtages, 
+          isNiveauSousSol:isNiveauSousSol,
+          isChambreTwo:isChambreTwo, 
+          isChambreThree:isChambreThree, 
+          isChambreFourMore:isChambreFourMore
+        }, function(err, plans){
+          if (err){
+            console.log(err)
+            res.status(500).json({
+              results:[]
+            })
+          }else{
+            res.status(200).json({
+              results:plans
+            })
+          }
+        })
+      }else{
+        Plan.find({
+          categorie:categorie,
+          isStyleModerne:isStyleModerne, 
+          isStyleContemporain:isStyleContemporain, 
+          isStyleTraditionnel:isStyleTraditionnel,
+          isNiveauPlainPied:isNiveauPlainPied, 
+          isNiveauAEtages:isNiveauAEtages, 
+          isNiveauSousSol:isNiveauSousSol,
+          isChambreTwo:isChambreTwo, 
+          isChambreThree:isChambreThree, 
+          isChambreFourMore:isChambreFourMore
+        }, function(err, plans){
+          if (err){
+            console.log(err)
+            res.status(500).json({
+              results:[]
+            })
+          }else{
+            res.status(200).json({
+              results:plans
+            })
+          }
+        })
+      }
+      
+    })
     app.post('/api/modifyplan', function(req, res){
       let donnees = JSON.parse(req.body.data)
       const {_id, categorie, name, price, description, image} = donnees
