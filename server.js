@@ -33,6 +33,96 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.post('/api/modifyplan', function(req, res){
+      let donnees = JSON.parse(req.body.data)
+      const {_id, categorie, name, price, description, image} = donnees
+      const {isStyleModerne, isStyleContemporain, isStyleTraditionnel} = donnees
+      const {isNiveauPlainPied, isNiveauAEtages, isNiveauSousSol} = donnees
+      const {isChambreTwo, isChambreThree, isChambreFourMore} = donnees
+      const {isCoupCoeur, isPopular} = donnees
+      Plan.findById(_id, function(err, plan){
+        if (err || !plan){
+          res.status(500).json({
+            message:"erreur interne, veuillez recommencer.",
+            image:image
+          })
+          console.log(err)
+          console.log(plan)
+        }else{
+          plan.categorie = categorie
+          plan.name = name
+          plan.price = price 
+          plan.image = image 
+          plan.description = description
+          plan.isStyleModerne = isStyleModerne
+          plan.isStyleContemporain = isStyleContemporain
+          plan.isStyleTraditionnel = isStyleTraditionnel
+          plan.isNiveauPlainPied = isNiveauPlainPied
+          plan.isNiveauAEtages = isNiveauAEtages
+          plan.isNiveauSousSol = isNiveauSousSol
+          plan.isChambreTwo = isChambreTwo
+          plan.isChambreThree = isChambreThree
+          plan.isChambreFourMore = isChambreFourMore
+          plan.isCoupCoeur = isCoupCoeur
+          plan.isPopular = isPopular
+
+          if (req.files && Object.keys(req.files).length >0){
+            let uploadedFile = req.files.file
+            const id = shortId.generate(); 
+            const newName = `${id}_${uploadedFile.name}`
+            uploadedFile.mv(`${__dirname}/client/public/images/coupcoeurs/${newName}`, function(err){
+              if (err){
+                res.status(500).json({
+                  message:'Erreur interne, veuillez reéssayer.',
+                  image:image
+                })
+                console.log(err)
+              }
+              else{
+                
+                plan.image = `images/coupcoeurs/${newName}`
+                plan.save(function(err){
+                  if (err){
+                    res.status(500).json({
+                      message:'Erreur de sauvegarde du plan.',
+                      image:image
+                    })
+                    console.log(err)
+                  }else{
+                    res.status(200).json({
+                      message:'Tout s\'est bien passé.',
+                      image:plan.image
+                    })
+                  }
+                })
+                
+              }
+            })
+          }else{
+            plan.save(function(err){
+              if (err){
+                res.status(500).json({
+                  message:'Erreur de sauvegarde du plan.'
+                })
+                console.log(err)
+              }else{
+                res.status(200).json({
+                  message:'Tout s\'est bien passé.'
+                })
+              }
+            })
+          }
+          
+        }
+      })
+      
+      
+      //console.log(`${id}_${uploadedFile.name}`)
+      //console.log(req.body.data)
+      
+      
+      
+    })
     app.post('/api/addplan', function(req, res){
       let uploadedFile = req.files.file
       const id = shortId.generate(); 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { truncateSync } from 'fs';
 import axios from 'axios'
-
+import {Link} from 'react-router-dom'
 class AddPlan extends Component{
     selectedFile = React.createRef()
     state={
@@ -65,6 +65,8 @@ class AddPlan extends Component{
             <React.Fragment>
                 <div className="spaceToSee"></div>
                 <div className="container-fluid">
+                    
+                    <Link to="/administrationbackend">Aller au plans du back end</Link>
                     <h1>Formulaire d'ajout d'un plan</h1>
                     <form action="#" onSubmit={this.handleSubmit}>
                         <label for="categorie">Cat&eacute;gorie :

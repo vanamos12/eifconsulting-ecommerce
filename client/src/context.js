@@ -32,6 +32,36 @@ class ApplicationProvider extends Component{
     componentDidMount(){
         this.setApplicationPlans()
     }
+    setModifiedPlan = (plan)=>{
+        let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
+        const index = allPlans.findIndex(function(item){
+            return item._id === plan._id
+        })
+        if (index>=0){
+            
+            allPlans[index].categorie=plan.categorie
+            allPlans[index].name=plan.name
+            allPlans[index].price=plan.price
+            allPlans[index].image=plan.image
+            allPlans[index].description=plan.description
+            allPlans[index].isStyleModerne= plan.isStyleModerne
+            allPlans[index].isStyleContemporain= plan.isStyleContemporain
+            allPlans[index].isStyleTraditionnel= plan.isStyleTraditionnel
+            allPlans[index].isNiveauPlainPied= plan.isNiveauPlainPied
+            allPlans[index].isNiveauAEtages= plan.isNiveauAEtages
+            allPlans[index].isNiveauSousSol= plan.isNiveauSousSol
+            allPlans[index].isChambreTwo= plan.isChambreTwo
+            allPlans[index].isChambreThree= plan.isChambreThree
+            allPlans[index].isChambreFourMore= plan.isChambreFourMore
+            allPlans[index].isCoupCoeur=plan.isCoupCoeur
+            allPlans[index].isPopular=plan.isPopular
+            let backEndUser = {...this.state.backEndUser}
+            backEndUser.allPlans = allPlans
+            this.setState({
+                backEndUser:backEndUser
+            })
+        }
+    }
     deconnexion = ()=>{
         let frontEndUser = {...this.state.frontEndUser}
         frontEndUser.connected = false
@@ -252,7 +282,7 @@ class ApplicationProvider extends Component{
         })
         .then(data => {
             if (action === 'succes'){
-                console.log(data.tabIdPlans)
+                console.log(data.allPlans)
                 let backEndUser = {...this.state.backEndUser}
                 backEndUser.connected = true
                 backEndUser.email = email
@@ -459,6 +489,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setModifiedPlan:this.setModifiedPlan,
                 deconnexion:this.deconnexion,
                 savePayments:this.savePayments,
                 setActiveFrontEndUser: this.setActiveFrontEndUser,

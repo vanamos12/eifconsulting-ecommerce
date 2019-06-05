@@ -47,7 +47,9 @@ export default class App extends Component {
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />
                 <Route path="/addplan" component={AddPlan} />
-                <Route path="/modifyplan" component={ModifyPlan} />
+                <Route 
+                  path="/modifyplan" 
+                  render={(props)=><ModifyPlan {...props} value={value}/>} />
                 <Route 
                   path="/administrationbackend/" 
                   component={AdministrationBackEnd} />} 
