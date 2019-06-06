@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Plan = require('./models/Plan')
 
 const mongo_uri = 'mongodb://localhost/react-auth';
+const mongo_uri_mlab = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority'
 mongoose.connect(mongo_uri, function(err) {
   if (err) {
     throw err;

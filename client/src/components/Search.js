@@ -49,7 +49,8 @@ class Search extends Component{
         .then(data=>{
             if (action === "succes"){
                 console.log(data.results)
-                //this.props.value.setResults(data.results, this.props.results)
+                console.log(this.props.history)
+                this.props.value.setResults(data.results, this.props.history)
             }
         })
     }

@@ -19,6 +19,7 @@ import ModifyPlan from './components/backend/ModifyPlan'
 import AdministrationBackEnd from './components/backend/AdministrationBackEnd'
 import SignUpBackEnd from './components/SignUpBackEnd'
 import LoginBackEnd from './components/LoginBackEnd'
+import SearchResults from './components/search/SearchResults'
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -32,7 +33,9 @@ export default class App extends Component {
             
               <MenuMobile/>
               <Switch>
-                <Route path="/" exact component={Home} />
+                <Route 
+                  path="/" exact 
+                  render={(props)=><Home {...props} value={value}/>} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/detail" component={Detail} />
                 <Route path="/secret" component={withAuth(Secret)} />
@@ -58,6 +61,10 @@ export default class App extends Component {
                 <Route 
                   path="/loginbackend/:destination" 
                   render={(props) => <LoginBackEnd {...props} value={value}/>} 
+                />
+                <Route 
+                  path="/searchresults" 
+                  render={(props) => <SearchResults {...props} value={value}/>} 
                 />
                 {/* Insert the default route */}
                 <Route  component={Default} />

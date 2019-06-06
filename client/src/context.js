@@ -14,6 +14,9 @@ class ApplicationProvider extends Component{
         sliderImages:{},
         modalOpen:false,
         //modalProduct:detailProduct,
+        search:{
+           results:[] 
+        },
         frontEndUser:{
             connected:false,
             email:'',
@@ -31,6 +34,20 @@ class ApplicationProvider extends Component{
     }
     componentDidMount(){
         this.setApplicationPlans()
+    }
+    setResults = (results, history)=>{
+        let search = {...this.state.search}
+        results.forEach((item)=>{
+            item.total = 0
+            item.inCart = false 
+            item.count = 0
+        })
+        search.results = results
+        this.setState(()=>{
+            return {search:search}
+        }, ()=>{
+            history.push('/searchresults')
+        })
     }
     setModifiedPlan = (plan)=>{
         let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
@@ -489,6 +506,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setResults:this.setResults,
                 setModifiedPlan:this.setModifiedPlan,
                 deconnexion:this.deconnexion,
                 savePayments:this.savePayments,

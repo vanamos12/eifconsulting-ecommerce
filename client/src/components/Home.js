@@ -12,7 +12,7 @@ export default class Home extends Component {
           <Titre titre="Nos coups de coeur"/>
           <PlanList/>
           <Titre titre="Recherche"/>
-          <Search/>
+          <Search value={this.props.value} history={this.props.history}/>
         </React.Fragment>
       );
     }
