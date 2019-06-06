@@ -27,7 +27,13 @@ app.use(fileUpload({
   tempFileDir: `${__dirname}/client/public/files/temp` 
 }))
 
-const mongo_uri = 'mongodb://localhost/react-auth';
+let mongo_uri = '';
+if (process.env.NODE_ENV === 'production') {
+  mongo_uri = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority';
+}else{
+  // We are in developpment mode
+  mongo_uri = 'mongodb://localhost/react-auth';
+}
 mongoose.connect(mongo_uri, function(err) {
   if (err) {
     throw err;
@@ -556,10 +562,10 @@ app.post('/api/world', (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, 'client/public')));
 // Handle React routing, return all requests to React app
   app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
   });
 }
 
