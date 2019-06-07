@@ -130,6 +130,7 @@ class ApplicationProvider extends Component{
           })
     }
     setApplicationPlans = () =>{
+        
         fetch('/api/home', {
             headers : { 
               'Content-Type': 'application/json',
@@ -137,9 +138,16 @@ class ApplicationProvider extends Component{
              }
       
           })
-            .then(res => res.json())
+            .then(res => {
+                console.log(res.status)
+                console.log(res.body)
+                //console.log(res.text())
+                //return res.json()
+                return res.text()
+            })
             .then(data => {
-                data.plansCoupCoeur.forEach(item=>{
+                
+                /*data.plansCoupCoeur.forEach(item=>{
                     item.inCart = false
                     item.count = 0
                     item.total = 0
@@ -150,7 +158,8 @@ class ApplicationProvider extends Component{
                         plansCoupCoeur:data.plansCoupCoeur,
                         sliderImages:sliderImages
                     }
-                })
+                })*/
+                console.log("data from data ", data)
             })
             .catch(err => {
                 console.error(err);
