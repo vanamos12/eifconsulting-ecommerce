@@ -142,12 +142,12 @@ class ApplicationProvider extends Component{
                 console.log(res.status)
                 console.log(res.body)
                 //console.log(res.text())
-                //return res.json()
-                return res.text()
+                return res.json()
+                //return res.text()
             })
             .then(data => {
                 
-                /*data.plansCoupCoeur.forEach(item=>{
+                data.plansCoupCoeur.forEach(item=>{
                     item.inCart = false
                     item.count = 0
                     item.total = 0
@@ -158,7 +158,7 @@ class ApplicationProvider extends Component{
                         plansCoupCoeur:data.plansCoupCoeur,
                         sliderImages:sliderImages
                     }
-                })*/
+                })
                 console.log("data from data ", data)
             })
             .catch(err => {
