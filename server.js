@@ -259,7 +259,9 @@ mongoose.connect(mongo_uri, function(err) {
         .exec(function(err, plansCoupCoeur){
             if (err){
               console.log(err)
-              throw err
+              res.status(500).json({
+                plansCoupCoeur: []
+              })
             }else{
               res.status(200).json({
                 plansCoupCoeur: plansCoupCoeur
