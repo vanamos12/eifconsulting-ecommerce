@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 class Plan extends Component{
     render(){
         const {_id, inCart, name, price, image} = this.props.plan
+        const from = this.props.from
         return (
             <ApplicationConsumer>
                     {value=>(
@@ -18,7 +19,7 @@ class Plan extends Component{
                                     <button 
                                         disabled = {inCart ? true: false }
                                         onClick={()=>{
-                                            value.addToCart(_id)
+                                            value.addToCart(_id, from)
                                         }}
                                         className={inCart ? "btn btn-warning" : "btn btn-primary"}>{inCart ? "Dans panier" : "Acheter"}</button>
                                     <button 

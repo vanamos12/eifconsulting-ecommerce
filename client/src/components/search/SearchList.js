@@ -4,7 +4,7 @@ import Plan from '../Plan'
 class SearchList extends Component{
     render(){
         const results = this.props.value.search.results
-        const plans = results.map((plan)=><Plan key={plan._id} plan={plan} />)
+        const plans = results.map((plan)=><Plan key={plan._id} plan={plan} from="search" />)
         return (
             <React.Fragment>
                 

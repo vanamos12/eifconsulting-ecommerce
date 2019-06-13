@@ -15,7 +15,7 @@ class PlanList extends Component{
                                 <ApplicationConsumer>
                                     {value=>{
                                         return value.plansCoupCoeur.map(plan => {
-                                            return <Plan key={plan._id} plan={plan}/>
+                                            return <Plan key={plan._id} plan={plan} from="coeur"/>
                                         })
                                     }}
                                 </ApplicationConsumer>

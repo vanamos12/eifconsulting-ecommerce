@@ -39,6 +39,22 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.get('/api/getFrontEndUserAllPlans', function(req, res){
+      Plan.find({}, function(err, plans){
+        if (err){
+          console.log(err)
+          res.status(500).json({
+            message:'Erreur interne',
+            allPlans:[]
+          })
+        }else{
+          res.status(200).json({
+            message: 'Succès',
+            allPlans:plans
+          })
+        }
+      })
+    })
     app.post('/api/search', function(req, res){
       const {categorie} = req.body
       const {isAll, isStyleModerne, isStyleContemporain, isStyleTraditionnel} = req.body
@@ -253,6 +269,21 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
       
+    })
+    app.get('/api/homePopular', function(req, res){
+      Plan.find({isPopular:true})
+        .exec(function(err, plansPopular){
+            if (err){
+              console.log(err)
+              res.status(500).json({
+                plansPopular: []
+              })
+            }else{
+              res.status(200).json({
+                plansPopular: plansPopular
+              })
+            }
+        })
     })
     app.get('/api/home', function(req, res){
       Plan.find({isCoupCoeur:true})

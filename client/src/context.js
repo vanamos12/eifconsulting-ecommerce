@@ -11,6 +11,7 @@ class ApplicationProvider extends Component{
         plansCoupCoeur:[],
         detailPlan: {},
         cart:[],
+        allPlans:[],
         sliderImages:{},
         modalOpen:false,
         //modalProduct:detailProduct,
@@ -130,7 +131,42 @@ class ApplicationProvider extends Component{
           })
     }
     setApplicationPlans = () =>{
-        
+        fetch('/api/getFrontEndUserAllPlans')
+        .then(res=>res.json())
+        .then(data=>{
+            data.allPlans.forEach(item=>{
+                item.inCart = false
+                item.count = 0
+                item.total = 0
+            })
+            this.setState(
+                {
+                    allPlans:data.allPlans
+                }
+            )
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        fetch('/api/homePopular')
+        .then(res=>res.json())
+        .then(data=>{
+            data.plansPopular.forEach(item=>{
+                item.inCart = false
+                item.count = 0
+                item.total = 0
+            })
+            
+            this.setState(()=>{
+                return {
+                    plansPopular:data.plansPopular
+                    
+                }
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+        })
         fetch('/api/home', {
             headers : { 
               'Content-Type': 'application/json',
@@ -386,7 +422,7 @@ class ApplicationProvider extends Component{
         })
     }
     getItem = (id) =>{
-        const plan = this.state.plansCoupCoeur.find(item => item._id === id)
+        const plan = this.state.allPlans.find(item => item._id === id)
         return plan
     }
     handleDetail = (id) =>{
@@ -395,23 +431,104 @@ class ApplicationProvider extends Component{
             return {detailProduct:product}
         })
     }
-    addToCart = id => {
+    addToCart = (id, from) => {
         let numberPlans = this.state.cartTotalNumberPlans + 1
-        let tempPlans = [...this.state.plansCoupCoeur]
-        const index = tempPlans.indexOf(this.getItem(id))
-        const plan = tempPlans[index]
-        plan.inCart = true
-        plan.count = 1
-        const price = plan.price
-        plan.total = price
-        this.setState(()=>{
-            return {
-                cartTotalNumberPlans:numberPlans,
-                plansCoupCoeur:tempPlans, 
-                cart:[...this.state.cart, plan]}
-        }, ()=>{
-            this.addTotals()
-        })
+
+        let added = false;
+
+        let tempPlansCoeur = [...this.state.plansCoupCoeur]
+        const indexCoeur = tempPlansCoeur.findIndex(item=>item._id === id)
+        if (indexCoeur >= 0){
+            const plan = tempPlansCoeur[indexCoeur]
+            plan.inCart = true
+            plan.count = 1
+            const price = plan.price
+            plan.total = price
+            if (!added){
+                this.setState(()=>{
+                    
+                    return {
+                        cartTotalNumberPlans:numberPlans,
+                        plansCoupCoeur:tempPlansCoeur, 
+                        cart:[...this.state.cart, plan]}
+                }, ()=>{
+                    added = true
+                    this.addTotals()
+                })
+            }else{
+                this.setState(()=>{
+                    
+                    return {
+                        cartTotalNumberPlans:numberPlans,
+                        plansCoupCoeur:tempPlansCoeur
+                    }
+                }, ()=>{
+                    this.addTotals()
+                })
+            }
+        }
+        let tempPlansSearch = [...this.state.search.results]
+        const indexSearch = tempPlansSearch.findIndex(item=>item._id === id)
+        if (indexSearch>=0){
+            
+            const plan = tempPlansSearch[indexSearch]
+            plan.inCart = true
+            plan.count = 1
+            const price = plan.price
+            plan.total = price
+            if (!added){
+                this.setState(()=>{
+                    
+                    return {
+                        cartTotalNumberPlans:numberPlans,
+                        search:{results:tempPlansSearch}, 
+                        cart:[...this.state.cart, plan]}
+                }, ()=>{
+                    added = true
+                    this.addTotals()
+                })
+            }else{
+                this.setState(()=>{
+                    
+                    return {
+                        cartTotalNumberPlans:numberPlans,
+                        search:{results:tempPlansSearch}
+                    }
+                }, ()=>{
+                    this.addTotals()
+                })
+            }
+        }
+        let tempPlansPopular = [...this.state.plansPopular]
+        const indexPopular = tempPlansPopular.findIndex(item=>item._id === id)
+        if (indexPopular >=0){
+            
+            const plan = tempPlansPopular[indexPopular]
+            plan.inCart = true
+            plan.count = 1
+            const price = plan.price
+            plan.total = price
+            if (!added){
+                this.setState(()=>{
+                    return {
+                        cartTotalNumberPlans:numberPlans,
+                        plansPopular:tempPlansPopular, 
+                        cart:[...this.state.cart, plan]}
+                }, ()=>{
+                    added = true
+                    this.addTotals()
+                })
+            }else{
+                this.setState(()=>{
+                    return {
+                        cartTotalNumberPlans:numberPlans,
+                        plansPopular:tempPlansPopular
+                    }
+                }, ()=>{
+                    this.addTotals()
+                })
+            }
+        }
     }
     openModal = (id) => {
         const product = this.getItem(id)
