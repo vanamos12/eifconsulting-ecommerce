@@ -5,6 +5,10 @@ import PlanList from './PlansList'
 import Search from './Search'
 import SliderHooks from './SliderHooks'
 import Tab from './Tab'
+import QualityBox from './QualityBox'
+import Characteristics from './Characteristics'
+import Newletter from './Newletter'
+import Footer from './Footer'
 import {sliderDefaultImages} from '../data'
 
 export default class Home extends Component {
@@ -18,6 +22,10 @@ export default class Home extends Component {
           <Titre titre="Recherche"/>
           <Search value={this.props.value} history={this.props.history}/>
           <Tab/>
+          <QualityBox/>
+          <Characteristics/>
+          <Newletter/>
+          <Footer/>
         </React.Fragment>
       );
     }
