@@ -174,3 +174,9 @@ text-decoration: none;
     object-fit: cover;
     z-index: -1;
 }
+
+/*React animated Sider center*/
+.blocCenter{
+    width:90%;
+    margin: 0 auto;
+}

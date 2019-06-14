@@ -6,19 +6,22 @@ const sliderImages={
 
 const sliderDefaultImages=[
     {
-        title:'my first title',
-        subtitle:'my subtitle',
-        image: 'https://picsum.photos/300'
+        title:'Un nouveau site de vente en ligne prêt pour vous.',
+        subtitle:'Un site nouvellement mis en place pour répondre à tous vos besoins de plans de maison.',
+        image: 'images/slider/beautiful-home-2826052_960_720.jpg',
+        button:"Achetez maintenant!"
     },
     {
-        title:'my second title',
-        subtitle:'my second subtitle',
-        image: 'https://picsum.photos/350'
+        title:'Une expérience d\'achat unique.',
+        subtitle:'Visitez notre site, avec son interface de qualité, vous serez surpris par vos découvertes.',
+        image: 'images/slider/house-2473443_960_720.jpg',
+        button:"Découvrez maintenant!"
     },
     {
-        title:'my last title',
-        subtitle:'my third subtitle',
-        image: 'https://picsum.photos/325'
+        title:'Ne vous faîtes plus tromper.',
+        subtitle:'De nouveaux plans qui correspondent à vos besoins actuels et futurs.',
+        image: 'images/slider/new-england-1336173_960_720.jpg',
+        button:"Voyez maintenant!"
     }
 ];
 

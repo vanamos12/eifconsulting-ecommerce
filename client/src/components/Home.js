@@ -10,12 +10,13 @@ import Characteristics from './Characteristics'
 import Newletter from './Newletter'
 import Footer from './Footer'
 import {sliderDefaultImages} from '../data'
+import SliderSandBox from './SliderSandBox';
 
 export default class Home extends Component {
     render() {
       return (
         <React.Fragment>
-          <Slider/>
+          <div className="spaceToSee"></div>
           <SliderHooks slides={sliderDefaultImages}/>
           <Titre titre="Nos coups de coeur"/>
           <PlanList/>

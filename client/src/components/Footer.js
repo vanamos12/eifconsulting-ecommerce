@@ -5,7 +5,7 @@ class Footer extends Component{
         return (
             <React.Fragment>
                 <div className="footer_overlay"></div>
-                <footer className="footer">
+                <footer className="footer" style={{position:"absolute"}}>
                     <div className="footer_background"></div>
                     <div className="container">
                         <div className="row">

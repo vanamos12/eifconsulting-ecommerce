@@ -43,7 +43,7 @@ class Slider extends Component{
                                                 <div className="home_slider_content"  data-animation-in="fadeIn" data-animation-out="animate-out fadeOut">
                                                     <div className="home_slider_title">Une exp&eacute;rience d'achat unique.</div>
                                                     <div className="home_slider_subtitle">Visitez notre site, avec son interface de qualité, vous serez surpris par vos d&eacute;couvertes.</div>
-                                                    <div className="button button_light home_button"><a href="#">D&eacute;couvrir maintenant</a></div>
+                                                    <div className="button button_light home_button"><a href="#">D&eacute;couvrez maintenant</a></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@ class Slider extends Component{
                                                 <div className="home_slider_content"  data-animation-in="fadeIn" data-animation-out="animate-out fadeOut">
                                                     <div className="home_slider_title">Ne vous fa&icirc;tes plus tromper.</div>
                                                     <div className="home_slider_subtitle">De nouveaux plans qui correspondent &agrave; vos besoins actuels et futurs.</div>
-                                                    <div className="button button_light home_button"><a href="#">Voir maintenant</a></div>
+                                                    <div className="button button_light home_button"><a href="#">Voyez maintenant</a></div>
                                                 </div>
                                             </div>
                                         </div>
