@@ -50,6 +50,15 @@ class ApplicationProvider extends Component{
             history.push('/searchresults')
         })
     }
+    setAddedPlan = (plan)=>{
+        let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
+        allPlans.push(plan);
+        let backEndUser = {...this.state.backEndUser}
+        backEndUser.allPlans = allPlans
+        this.setState({
+            backEndUser:backEndUser
+        })
+    }
     setModifiedPlan = (plan)=>{
         let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
         const index = allPlans.findIndex(function(item){
@@ -108,7 +117,7 @@ class ApplicationProvider extends Component{
        
     }
     savePayments = ()=>{
-        let tabIdPlans = this.state.cart
+        let tabIdPlans = [...this.state.cart]
         let email = this.state.frontEndUser.email
         fetch('/api/savePaymentsFrontEnd', {
             method: 'POST',
@@ -121,6 +130,20 @@ class ApplicationProvider extends Component{
               if (res.status === 200){
                   // payments are saved
                   console.log('payments are saved')
+                  let tabId = [...this.state.frontEndUser.tabIdPlans]
+                let addTabPlansBuyed = tabIdPlans.map(item=>{
+                    if (tabId.findIndex(function(itemBuy){
+                        return itemBuy._id === item._id
+                    }) < 0){
+                    return item
+                    }
+                })
+                let tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
+                let frontEndUser = {...this.state.frontEndUser}
+                frontEndUser.tabIdPlans = tabPlansBuyed
+                this.setState({
+                    frontEndUser:frontEndUser
+                })
               }else {
                 // payments are not saved
                 console.log('Payments are not saved')
@@ -633,6 +656,7 @@ class ApplicationProvider extends Component{
             <ApplicationContext.Provider value={{
                 ...this.state,
                 setResults:this.setResults,
+                setAddedPlan:this.setAddedPlan,
                 setModifiedPlan:this.setModifiedPlan,
                 deconnexion:this.deconnexion,
                 savePayments:this.savePayments,

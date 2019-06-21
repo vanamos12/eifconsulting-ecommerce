@@ -42,14 +42,31 @@ class AddPlan extends Component{
         const data = new FormData()
         data.append("file", this.selectedFile.current.files[0], this.selectedFile.current.files[0].name)
         data.append("data", JSON.stringify(this.state))
+        let action = "failure"
         axios
             .post("/api/addplan", data, {onUploadProgress: ProgressEvent =>{}})
             .then(res=>{
                 if (res.status === 200) {
-                    this.setState({
-                        message:"Plan crée avec succes"
-                    })
+                    action="succes"
+                    
                 }else{
+                    action="failure"
+                    
+                }
+                return res
+            })
+            .then(data=>{
+                console.log(data)
+                if (action === 'succes'){
+                    this.setState(()=>{
+                        return {
+                            message:"Plan crée avec succes"
+                        }
+                    }, ()=>{
+                        this.props.value.setAddedPlan(data.data.plan)
+                    })
+                    
+                }else if (action === 'failure'){
                     this.setState({
                         message:"Erreur dans la création du plan"
                     })

@@ -28,11 +28,14 @@ app.use(fileUpload({
 }))
 
 let mongo_uri = '';
+let save_path = '';
 if (process.env.NODE_ENV === 'production') {
   mongo_uri = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority';
+  save_path = '/client/build';
 }else{
   // We are in developpment mode
   mongo_uri = 'mongodb://localhost/react-auth';
+  save_path = '/client/public';
 }
 mongoose.connect(mongo_uri, function(err) {
   if (err) {
@@ -160,7 +163,7 @@ mongoose.connect(mongo_uri, function(err) {
             let uploadedFile = req.files.file
             const id = shortId.generate(); 
             const newName = `${id}_${uploadedFile.name}`
-            uploadedFile.mv(`${__dirname}/client/public/images/coupcoeurs/${newName}`, function(err){
+            uploadedFile.mv(`${__dirname}${save_path}/images/coupcoeurs/${newName}`, function(err){
               if (err){
                 res.status(500).json({
                   message:'Erreur interne, veuillez reéssayer.',
@@ -225,7 +228,7 @@ mongoose.connect(mongo_uri, function(err) {
       const {isNiveauPlainPied, isNiveauAEtages, isNiveauSousSol} = donnees
       const {isChambreTwo, isChambreThree, isChambreFourMore} = donnees
       const {isCoupCoeur, isPopular} = donnees
-      uploadedFile.mv(`${__dirname}/client/public/images/coupcoeurs/${newName}`, function(err){
+      uploadedFile.mv(`${__dirname}${save_path}/images/coupcoeurs/${newName}`, function(err){
         if (err){
           res.status(500).json({
             message:'Erreur interne, veuillez reéssayer.'
@@ -256,12 +259,14 @@ mongoose.connect(mongo_uri, function(err) {
           plan.save(function(err){
             if (err){
               res.status(500).json({
-                message:'Erreur de sauvegarde du plan.'
+                message:'Erreur de sauvegarde du plan.',
+                plan:plan
               })
               console.log(err)
             }else{
               res.status(200).json({
-                message:'Tout s\'est bien passé.'
+                message:'Tout s\'est bien passé.',
+                plan:plan
               })
             }
           })
@@ -427,7 +432,7 @@ mongoose.connect(mongo_uri, function(err) {
           let tabId = [...user.tabPlansBuyed]
           let addTabPlansBuyed = tabIdPlans.map(item=>{
             if (tabId.findIndex(function(itemBuy){
-                itemBuy._id === item._id
+                return itemBuy._id === item._id
             }) < 0){
               return item
             }
