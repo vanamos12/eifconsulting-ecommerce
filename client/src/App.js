@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import Header from './components/Header'
+import HeaderNew from './components/HeaderNew'
 import MenuMobile from './components/MenuMobile'
 import Home from './components/Home';
 import Cart from './components/cart/Cart'
@@ -29,9 +30,10 @@ export default class App extends Component {
         <ApplicationConsumer>
           {value=>(
             <React.Fragment>
-              <Header value={value}/>
+              <HeaderNew value={value}/>
+              {/*<Header value={value}/>
             
-              <MenuMobile/>
+          <MenuMobile/>*/}
               <Switch>
                 <Route 
                   path="/" exact 
