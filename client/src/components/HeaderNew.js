@@ -113,6 +113,7 @@ class HeaderNew extends Component{
 					</div>
 					<div className="menu-right">
 						<div className="content">
+							
 							<svg width="28px" height="28px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 									 viewBox="0 0 489 489" style={{enableBackground:"new 0 0 489 489"}} xmlSpace="preserve">
 								<g>
@@ -123,7 +124,9 @@ class HeaderNew extends Component{
 										c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5v-41h45.2l26.9,302.3C412.8,445.2,392.1,462,366.8,462z"/>
 								</g>
 							</svg>
+							<Link to="/cart">
 							<div>Panier({cartTotalNumberPlans})</div>
+							</Link>
 						</div>
 					</div>
 				</div>

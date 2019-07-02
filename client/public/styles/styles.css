@@ -265,6 +265,10 @@ text-decoration: none;
 .header .menu-left{
     margin-left:10px;
 }
+
+.header .menu-right a{
+    color:#fff;
+}
 .header .menu-right{
     font-family: 'Oswald', sans-serif;
     font-size:23px;

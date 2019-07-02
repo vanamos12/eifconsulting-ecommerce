@@ -22,6 +22,10 @@ class CartItem extends Component{
                         
                         <div className="cart_item_price">{ price } FCFA </div>
                         
+                        <div 
+                            className="cart_item_quantity"
+                            onClick={()=>{removeItem(_id)}}>
+                                <i className="fa fa-trash"></i></div>
                         {/*<div className="cart_item_quantity">
                             <div className="product_quantity_container">
                                 <div className="product_quantity clearfix">

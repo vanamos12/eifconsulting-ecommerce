@@ -81,31 +81,41 @@ class AddPlan extends Component{
         return (
             <React.Fragment>
                 <div className="spaceToSee"></div>
-                <div className="container-fluid">
+                <div className="container-fluid text-center">
                     
                     <Link to="/administrationbackend">Aller au plans du back end</Link>
                     <h1>Formulaire d'ajout d'un plan</h1>
                     <form action="#" onSubmit={this.handleSubmit}>
-                        <label for="categorie">Cat&eacute;gorie :
-                            <select name="categorie" value={this.state.categorie} onChange={this.handleChange} required>
-                                <option disabled></option>
-                                <option>Traditionnelle</option>
-                                <option>Contemporaine</option>
-                                <option>Architecte</option>
-                            </select>
-                        </label><br/>
-                        <label for="name">Nom :&nbsp;  
-                            <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleChange} required/>
-                        </label><br/>
-                        <label for="price">Prix :&nbsp;  
-                            <input type="number" id="price" name="price" value={this.state.price} onChange={this.handleChange} required/>
-                        </label><br/>
-                        <label for="image">Image :&nbsp; 
-                            <input type="file" id="image" ref={this.selectedFile} required/>
-                        </label><br/>
-                        <label for="description">Description :&nbsp; 
-                            <textarea  id="descrption" name="description" value={this.state.description} onChange={this.handleChange} required/>
-                        </label><br/>
+                        <div className="form-group">
+                            <label for="categorie">Cat&eacute;gorie :
+                                <select name="categorie" value={this.state.categorie} onChange={this.handleChange} required>
+                                    <option disabled></option>
+                                    <option>Traditionnelle</option>
+                                    <option>Contemporaine</option>
+                                    <option>Architecte</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label for="name">Nom :&nbsp;  
+                                <input type="text" id="name" name="name" value={this.state.name} onChange={this.handleChange} required/>
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label for="price">Prix :&nbsp;  
+                                <input type="number" id="price" name="price" value={this.state.price} onChange={this.handleChange} required/>
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label for="image">Image :&nbsp; 
+                                <input type="file" id="image" ref={this.selectedFile} required/>
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label for="description">Description :&nbsp; 
+                                <textarea  rows="3" cols="100" id="descrption" name="description" value={this.state.description} onChange={this.handleChange} required/>
+                            </label>
+                        </div>
                         <div className="row">
                             <div className="col-xs-12 col-md-4 col-lg-3 well">
                                 <h3>Style</h3>
@@ -165,10 +175,10 @@ class AddPlan extends Component{
                         
                         {/**Use bootstrap well for styling */}
                         <div className="row">
-                            <div className="col-xs-12 col-md-6 col-lg-3">
+                            <div className="col-xs-12 col-md-6 col-lg-6">
                                 <input type="reset" className="btn btn-default" value="R&eacute;initialiser"/>
                             </div>
-                            <div className="col-xs-12 col-md-6 col-lg-3">
+                            <div className="col-xs-12 col-md-6 col-lg-6">
                                 <input type="submit" className="btn btn-primary" value="Sauvegarder"/>
                             </div>
                         </div>

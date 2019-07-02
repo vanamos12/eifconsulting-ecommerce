@@ -604,22 +604,46 @@ class ApplicationProvider extends Component{
         })
     }
     removeItem = (id)=>{
-        let tempPlans = [...this.state.plansCoupCoeur];
+        let tempPlansCoeur = [...this.state.plansCoupCoeur];
+        let tempPlansPopular = [...this.state.plansPopular]
+        let tempPlansSearch = [...this.state.search.results]
         let tempCart = [...this.state.cart]
         tempCart = tempCart.filter(item => item._id !== id);
 
-        const index = tempPlans.indexOf(this.getItem(id))
-        let removedPlan = tempPlans[index]
-        removedPlan.inCart = false
-        removedPlan.total = 0
-        removedPlan.count = 0
+        const indexCoeur = tempPlansCoeur.findIndex(item => item._id === id)
+        if (indexCoeur >= 0){
+            let removedPlanCoeur = tempPlansCoeur[indexCoeur]
+            removedPlanCoeur.inCart = false
+            removedPlanCoeur.total = 0
+            removedPlanCoeur.count = 0
+        }
+
+        const indexPopular = tempPlansPopular.findIndex(item => item._id === id)
+        if (indexPopular>=0){
+            let removedPlanPopular = tempPlansPopular[indexPopular]
+            removedPlanPopular.inCart = false
+            removedPlanPopular.total = 0
+            removedPlanPopular.count = 0
+        }
+        
+        const indexSearch = tempPlansSearch.findIndex(item => item._id === id)
+        if (indexSearch>=0){
+            let removedPlanSearch = tempPlansSearch[indexSearch]
+            removedPlanSearch.inCart = false
+            removedPlanSearch.total = 0
+            removedPlanSearch.count = 0
+        }
+
 
         let numberPlans = this.state.cartTotalNumberPlans - 1
-
+        let search = {...this.state.search}
+        search.results = [...tempPlansSearch]
         this.setState(()=>{
             return {
                 cart: [...tempCart],
-                plansCoupCoeur:[...tempPlans],
+                plansCoupCoeur:[...tempPlansCoeur],
+                plansPopular:[...tempPlansPopular],
+                search:search,
                 cartTotalNumberPlans: numberPlans
             }
         }, ()=>{
