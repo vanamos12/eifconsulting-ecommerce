@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom'
 import PaypalButton from '../PaypalButton'
 
 class CartTotals extends Component{
+    mobile_payment = ()=>{
+        console.log("mobile payments");
+    }
     render(){
         const {cartSubTotal, cartTax, cartTotal, clearCart, processPayment, savePayments} = this.props.value
         const isConnectedFrontEndUser = this.props.value.frontEndUser.connected
@@ -39,7 +42,13 @@ class CartTotals extends Component{
                             </div>
                             {
                                 isConnectedFrontEndUser ?
-                                 <PaypalButton clearCart={clearCart} history={history} savePayments={savePayments}/> :
+                                 <div className="d-flex">
+                                    <PaypalButton clearCart={clearCart} history={history} savePayments={savePayments}/> 
+                                    <div className="cursorPointer" onClick={this.mobile_payment}>
+                                        <img width="150px" height="75px"src="images/logo/logo_orange_mtn_money.png" alt="mobile payment"/>
+                                    </div>
+                                 </div>
+                                 :
                                 <div 
                                     className="button checkout_button"
                                     onClick={()=>{

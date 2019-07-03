@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
+import MenuMobileNew from './MenuMobileNew'
+
 class HeaderNew extends Component{
     render(){
         const {cartTotalNumberPlans, frontEndUser, deconnexion} = this.props.value
@@ -34,9 +36,10 @@ class HeaderNew extends Component{
 					</div>
 				</div>
 				<div className="menu-wrapper">
+					<MenuMobileNew value={this.props.value}/>
 					<div className="menu-left">
 						<ul className="menu-list">
-							<li>Accueil</li>
+							<li><Link to="/">Accueil</Link></li>
 							<li>
 								<a id="buttonDropDown">Plans</a>
                                                 
@@ -110,6 +113,7 @@ class HeaderNew extends Component{
 								}
 							</li>
 						</ul>
+						
 					</div>
 					<div className="menu-right">
 						<div className="content">
