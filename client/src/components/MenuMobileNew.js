@@ -5,10 +5,10 @@ class MenuMobileNew extends Component{
     render(){
         const {frontEndUser, deconnexion} = this.props.value;
         return (
-            <div class="menu-wrap">
-                <input type="checkbox" class="toggler"/>
-                <div class="hamburger-mobile"><div></div></div>
-                <div class="menu-mobile">
+            <div className="menu-wrap">
+                <input type="checkbox" className="toggler"/>
+                <div className="hamburger-mobile"><div></div></div>
+                <div className="menu-mobile">
                     <div>
                         <div>
                             <ul>

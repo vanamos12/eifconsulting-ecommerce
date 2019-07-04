@@ -7,6 +7,10 @@
 		toggle between hiding and showing the dropdown content */
 
 $(window).on('load', function() {
+
+	$('.menu-mobile ul li').on('click', function(event){
+		$('.toggler').prop('checked', false);
+	})
 	
 	document.getElementById("buttonDropDown").onmouseover = function(){
 		console.log("on mouse over");
