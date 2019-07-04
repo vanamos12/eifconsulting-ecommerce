@@ -17,20 +17,35 @@ class RequestNumberPhone extends Component{
         event.preventDefault();
         fetch('/api/mobilePayment', {
             method: 'POST',
-            body: JSON.stringify({cart:this.props.value.cart}),
+            body: JSON.stringify({cart:this.props.value.cart, 
+                telephone:this.state.phone,
+                email:this.props.value.frontEndUser.email,
+                total:this.props.value.cartTotal
+            }),
             headers: {
               'Content-Type': 'application/json'
             }
           })
           .then(res=>res.json())
           .then(data=>{
-            const commande = data.commande
+            const command = data.command
+            console.log(command)
             const fields = {
                 "cmd":"start",
                 "rN":"testeur",
-                "rt":this.state.phone,
+                "rT":this.state.phone,
                 "rE":this.state.email,
                 "rH":"EL156T672281",
+                "rI":command,
+                "rMt":this.props.value.cartTotal,
+                "rDvs":"XAF",
+                "rLocale":"fr",
+                "source":"EIF Consulting E-commerce",
+                "endPage":"https://eifconsulting-ecommerce.herokuapp.com/successdohone",
+                "notifyPage":"https://eifconsulting-ecommerce.herokuapp.com/notifydohone",
+                "cancelPage":"https://eifconsulting-ecommerce.herokuapp.com/canceldohone",
+                "logo":"https://eifconsulting-ecommerce.herokuapp.com/images/logo/logo.jpg",
+                "motif":"Payement d'un plan"
             };
             var $form = $('<form>', {
                 action: 'https://www.my-dohone.com/dohone/pay',

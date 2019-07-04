@@ -22,6 +22,8 @@ import SignUpBackEnd from './components/SignUpBackEnd'
 import LoginBackEnd from './components/LoginBackEnd'
 import SearchResults from './components/search/SearchResults'
 import RequestMobilePhone from './components/RequestNumberPhone'
+import SuccessDohone from './components/SuccesDohone'
+import CancelDohone from './components/CancelDohone'
 import withAuth from './withAuth';
 
 export default class App extends Component {
@@ -74,6 +76,14 @@ export default class App extends Component {
                 <Route 
                   path="/numeromobile" 
                   render={(props) => <RequestMobilePhone {...props} value={value}/>} 
+                />
+                <Route 
+                  path="/successdohone" 
+                  component={SuccessDohone}
+                />
+                <Route 
+                  path="/canceldohone" 
+                  component={CancelDohone}
                 />
                 {/* Insert the default route */}
                 <Route  component={Default} />

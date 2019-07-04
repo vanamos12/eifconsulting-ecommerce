@@ -13,6 +13,7 @@ const shortId = require('shortid')
 const User = require('./models/User.js');
 const FrontEndUser = require('./models/FrontEndUser.js')
 const BackEndUser = require('./models/BackEndUser.js')
+const PrecommandPlan = require('./models/PrecommandPlan.js')
 const Plan = require('./models/Plan.js')
 const {withAuthFrontEnd, withAuthBackEnd} = require('./middleware');
 
@@ -42,6 +43,81 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.get('/notifydohone', function(req, res){
+      const {rI, rMt, rDvs, idReqDoh, rH, mode, motif } = req.query
+      PrecommandPlan.findOne({command:rI}, function(err, cart){
+        if (err && !cart){
+          console.log("On n'a pas trouvé la commande.")
+          res.status(500).json({
+            message:"Erreur d'identification de la commande"
+          })
+        }else{
+          //Verify the amount, verify the rH
+          if (rMt==cart.total && rDvs=="XAF" && rH=="EL156T672281"){
+            // we save the payments
+            console.log("Tout est correct");
+            let tabIdPlans = cart.plans;
+            let email = cart.email;
+            FrontEndUser.findOne({email}, function(err, user){
+              if (err){
+                console.log(err)
+                res.status(500).json({
+                  error:'Erreur interne, essayez encore'
+                })
+              }else if(!user){
+                res.status(401).json({
+                  error:'Vous n\'êtes pas authorisé'
+                })
+              }else{
+                let tabId = [...user.tabPlansBuyed]
+                let addTabPlansBuyed = tabIdPlans.filter(item=>{
+                  return !tabId.some(itemBuy=>itemBuy._id === item._id)
+                })
+                user.tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
+                user.save(function(err){
+                  if (err){
+                    console.log(err)
+                    res.status(500).json({
+                      error:'Erreur interne, essayez encore'
+                    })
+                  }else{
+                    console.log('PaymentsSucessfully saved')
+                    res.status(200).json({
+                      error:'PaymentsSucessfully saved'
+                    })
+                  }
+                })
+              }
+            })
+          }
+        }
+      })
+    })
+    app.post('/api/mobilePayment', function(req, res){
+      const {telephone, cart, email, total} = req.body
+      const command = telephone + shortId.generate()
+      const precommandplan = new PrecommandPlan({
+        _id: new mongoose.Types.ObjectId(),
+        command:command,
+        telephone:telephone,
+        email:email,
+        total:total,
+        plans:cart
+      })
+      precommandplan.save(function(err){
+        if (err){
+          res.status(500).json({
+            message:'Erreur d\'enregistrement dans la base.'
+          })
+        }else{
+          res.status(200).json({
+            message:'Erreur d\'enregistrement dans la base.',
+            command:command
+          })
+        }
+      })
+
+    })
     app.get('/api/getFrontEndUserAllPlans', function(req, res){
       Plan.find({}, function(err, plans){
         if (err){
@@ -430,13 +506,16 @@ mongoose.connect(mongo_uri, function(err) {
           })
         }else{
           let tabId = [...user.tabPlansBuyed]
-          let addTabPlansBuyed = tabIdPlans.map(item=>{
+          let addTabPlansBuyed = tabIdPlans.filter(item=>{
+            return !tabId.some(itemBuy=>itemBuy._id === item._id)
+          })
+          /*let addTabPlansBuyed = tabIdPlans.map(item=>{
             if (tabId.findIndex(function(itemBuy){
                 return itemBuy._id === item._id
             }) < 0){
               return item
             }
-          })
+          })*/
           user.tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
           user.save(function(err){
             if (err){

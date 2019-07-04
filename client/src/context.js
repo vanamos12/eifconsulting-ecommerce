@@ -131,13 +131,16 @@ class ApplicationProvider extends Component{
                   // payments are saved
                   console.log('payments are saved')
                   let tabId = [...this.state.frontEndUser.tabIdPlans]
-                let addTabPlansBuyed = tabIdPlans.map(item=>{
+                  let addTabPlansBuyed = tabIdPlans.filter(item=>{
+                    return !tabId.some(itemBuy=>itemBuy._id === item._id)
+                  })
+                /*let addTabPlansBuyed = tabIdPlans.map(item=>{
                     if (tabId.findIndex(function(itemBuy){
                         return itemBuy._id === item._id
                     }) < 0){
                     return item
                     }
-                })
+                })*/
                 let tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
                 let frontEndUser = {...this.state.frontEndUser}
                 frontEndUser.tabIdPlans = tabPlansBuyed

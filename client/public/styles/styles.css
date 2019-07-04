@@ -455,3 +455,12 @@ text-decoration: none;
         font-size:20px;
     }
 }
+
+/* button Payer */
+.checkout_button:hover{
+    color:#fff;
+}
+
+.checkout_button .buttonPayer{
+    font-size:20px;
+}

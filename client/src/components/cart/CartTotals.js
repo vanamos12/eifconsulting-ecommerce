@@ -16,13 +16,13 @@ class CartTotals extends Component{
                 <div className="row row_cart_buttons">
                     <div className="col">
                         <div className="cart_buttons d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                            <div className="button continue_shopping_button"><a href="/">Retourner aux achats</a></div>
+                            <div className="button continue_shopping_button"><Link to="/">Retourner aux achats</Link></div>
                             <div className="cart_buttons_right ml-lg-auto">
                                 <div 
                                     className="button clear_cart_button"
                                     onClick={()=>{
                                         clearCart();
-                                    }}><a href="/">Clear cart</a></div>
+                                    }}><Link to="/cart">Clear cart</Link></div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@ class CartTotals extends Component{
                                     onClick={()=>{
                                         processPayment(history, cartTotal)
                                     }}>
-                                        <a href="#">Payer</a>
+                                        <span className="buttonPayer" href="">Payer</span>
                                 </div> 
                             }
                             
