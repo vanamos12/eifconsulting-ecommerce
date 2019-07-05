@@ -15,6 +15,7 @@ const FrontEndUser = require('./models/FrontEndUser.js')
 const BackEndUser = require('./models/BackEndUser.js')
 const PrecommandPlan = require('./models/PrecommandPlan.js')
 const Plan = require('./models/Plan.js')
+const Newletter = require('./models/Newletter.js')
 const {withAuthFrontEnd, withAuthBackEnd} = require('./middleware');
 
 app.use(bodyParser.json());
@@ -43,6 +44,36 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.post('/api/newletter', function(req, res){
+      const {email} = req.body
+      console.log(email)
+      const recordnewletter = new Newletter({
+        _id:new mongoose.Types.ObjectId(),
+        email:email
+      })
+      recordnewletter.save(function(err){
+        if (err){
+          console.log(err)
+          if (err.code === 11000){
+            res.status(500)
+              .json({
+                message: 'Cet email est déjà dans la base, merci.'
+              })
+          }else{
+              res.status(500)
+              .json({
+                message: 'Erreur interne, essayez encore!'
+              })
+          }
+        }else{
+          console.log("It has been saved in database.")
+          res.status(200).json({
+            message:'Votre email a été pris en compte.'
+          })
+        }
+      })
+
+    })
     app.get('/notifydohone', function(req, res){
       const {rI, rMt, rDvs, idReqDoh, rH, mode, motif } = req.query
       PrecommandPlan.findOne({command:rI}, function(err, cart){
