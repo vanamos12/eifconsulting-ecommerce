@@ -289,9 +289,9 @@ text-decoration: none;
 .header .menu-right .content{
     display:flex;
     position:absolute;
-    top:50%;
+    /*top:50%;*/
     left:50%;
-    transform:translate(-100%, -50%);
+    transform:translate(-100%, 0%);
     width:125px;
     height:50px;
 }
@@ -456,6 +456,28 @@ text-decoration: none;
     }
 }
 
+@media only screen and (max-width:400px){
+    .header .menu-mobile{
+        margin-left:75px;
+    }
+
+    .header .menu-wrapper{
+        margin-left:15px;
+        margin-right:15px;
+        margin-top:35px;
+    }
+
+    .header .header-new{
+        height:200px;
+    }
+    .slide h1{
+        font-size:15px;
+    }
+
+    .slide h2{
+        font-size:10px;
+    }
+}
 /* button Payer */
 .checkout_button:hover{
     color:#fff;
