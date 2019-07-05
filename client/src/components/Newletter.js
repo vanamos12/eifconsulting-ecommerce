@@ -71,8 +71,8 @@ class Newletter extends Component{
                                             <input type="email" name="email" value={this.state.email} onChange={this.handleChange} className="newsletter_input" required="required"/>
                                             <button className="newsletter_button trans_200"><span>Souscrire</span></button>
                                         </form>
-                                        <h3 className="text-default">{this.state.messagesuccess}</h3>
-                                        <h3 className="test-danger">{this.state.messagefailure}</h3>
+                                        <h3 className="text-primary">{this.state.messagesuccess}</h3>
+                                        <h3 className="text-danger">{this.state.messagefailure}</h3>
                                     </div>
                                 </div>
                             </div>
