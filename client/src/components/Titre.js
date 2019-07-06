@@ -5,9 +5,10 @@ class Titre extends Component{
         const {titre} = this.props
         return (
             <div className="titre">
-                <div className="container text-center diplay-7">
+                <div className="text-center display-7">
                     <h2>{titre}</h2>
                 </div>
+            
             </div>
         )
     }

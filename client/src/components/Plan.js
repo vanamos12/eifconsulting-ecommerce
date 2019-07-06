@@ -11,7 +11,7 @@ class Plan extends Component{
             <ApplicationConsumer>
                     {value=>(
                         <div className="product">
-                            <div className="product_image"><img style={{objectFit:"cover"}} width="255px" height="145px" src={image} alt=""/></div>
+                            <div className="product_image"><img style={{objectFit:"cover"}} src={image} alt=""/></div>
                             <div className="product_content">
                                 <div className="product_title"
                                     onClick={()=>{
