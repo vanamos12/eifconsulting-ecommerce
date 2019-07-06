@@ -14,7 +14,7 @@ class MenuMobileNew extends Component{
                             <ul>
                                 <li><Link to='/'>Accueil</Link></li>
                                 <li><a href="#">Plans</a></li>
-                                <li><a href="#">&Agrave; propos de nous</a></li>
+                                <li><a href="http://eifconsulting.cm/apropos.php" target="_blank">&Agrave; propos de nous</a></li>
                                 <li><a href="#">Contact</a></li>
                                 {
 								    frontEndUser.connected ? 

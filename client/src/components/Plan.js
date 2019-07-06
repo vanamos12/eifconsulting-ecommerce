@@ -11,9 +11,14 @@ class Plan extends Component{
             <ApplicationConsumer>
                     {value=>(
                         <div className="product">
-                            <div className="product_image"><img src={image} alt=""/></div>
+                            <div className="product_image"><img style={{objectFit:"cover"}} width="255px" height="145px" src={image} alt=""/></div>
                             <div className="product_content">
-                                <div className="product_title"><a href="product.html">{name}</a></div>
+                                <div className="product_title"
+                                    onClick={()=>{
+                                        value.setDetailPlan(_id)
+                                    }}>
+                                        <Link to="/detail">{name}</Link>
+                                </div>
                                 <div className="product_price">{price} FCFA</div>
                                 <div className=" d-flex justify-content-between mt-1">
                                     <button 

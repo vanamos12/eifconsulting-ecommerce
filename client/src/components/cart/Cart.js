@@ -15,11 +15,10 @@ class Cart extends Component{
                     if (cart.length>0){
                         return (
                             <React.Fragment>
-                                <div className="spaceToSee">
-
-                                </div>
+                                <div className="spaceToSee"></div>
                                 <div className="cart_info">
                                     <div className="container">
+                                        <h1 className="text-center">Panier</h1>
                                         <CartColumns/>
                                         <CartList value={value}/>
                                         <CartTotals 

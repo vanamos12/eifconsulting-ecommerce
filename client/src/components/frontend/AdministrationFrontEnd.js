@@ -32,6 +32,7 @@ class AdministrationFrontEnd extends Component{
                                 
                                 <div className="cart_info">
                                     <div className="container">
+                                        <h1 className="text-center">Liste des plans achet&eacute;s</h1>
                                         <FrontEndColumns/>
                                         <FrontEndList value={value}/>
                                         

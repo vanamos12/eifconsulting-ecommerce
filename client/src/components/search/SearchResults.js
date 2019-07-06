@@ -24,6 +24,7 @@ class SearchResults extends Component{
                     
                     <div className="cart_info">
                         <div className="container">
+                            <h1 className="text-center">R&eacute;sultats de la recherche</h1>
                             <SearchList value={this.props.value}/>
                             
                         </div> 

@@ -94,7 +94,7 @@ class HeaderNew extends Component{
 									</div>
 								</div>
 							</li>
-							<li>&Agrave; propos de nous</li>
+							<li><a href="http://eifconsulting.cm/apropos.php" target="_blank">&Agrave; propos de nous</a></li>
 							<li>Contact</li>
 							{
 								frontEndUser.connected ? 

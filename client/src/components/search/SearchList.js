@@ -10,17 +10,11 @@ class SearchList extends Component{
                 
                 <div className="products">
                     <div className="container">
-                        <h1>R&eacute;sultats de la recherche</h1>
                         <div className="row">
                             <div className="col">
-                                
-                                <div className="product_grid2">
-                                    
-                                {plans}
-                                                
-            
-                                </div>
-                                    
+                                <div className="product_grid2"> 
+                                    {plans}
+                                </div> 
                             </div>
                         </div>
                     </div>
