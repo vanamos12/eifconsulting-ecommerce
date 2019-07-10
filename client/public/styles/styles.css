@@ -199,9 +199,9 @@ text-decoration: none;
 }
 
 .header .brand{
-    font-size:inherit;
+    font-size:25px;
     font-weight:bold;
-    font-family: 'Oswald', sans-serif;
+    /*font-family: 'Oswald', sans-serif;*/
     text-transform:uppercase;
     color: #368AC0;
     border-top: 3px solid #368AC0;
@@ -228,6 +228,7 @@ text-decoration: none;
 .header .header-new .contact-info{
     width:250px;
 }
+
 .header .contact-info{
     position:relative;
 }
@@ -244,7 +245,8 @@ text-decoration: none;
 .header .contact-info .contact div{
     color: #368AC0;
     text-align:center;
-    font-family:'Oswald', sans-serif;
+    font-size:12px;
+    /*font-family:'Oswald', sans-serif;*/
 }
 
 .header .menu-wrapper{
@@ -255,9 +257,9 @@ text-decoration: none;
 .header .menu-left .menu-list > li {
     display:inline;
     margin-right:25px;
-    font-size:23px;
+    font-size:18px;
     font-weight:bold;
-    font-family:'Oswald', sans-serif;
+    /*font-family:'Oswald', sans-serif;*/
 }
 
 .header .menu-left .menu-list > li > a{
@@ -283,8 +285,8 @@ text-decoration: none;
     color:#fff;
 }
 .header .menu-right{
-    font-family: 'Oswald', sans-serif;
-    font-size:23px;
+    /*font-family: 'Oswald', sans-serif;*/
+    font-size:18px;
     position:relative;
 }
 
@@ -415,6 +417,10 @@ text-decoration: none;
     .header .brand-wrapper{
         width:300px;
         font-size:20px;
+    }
+
+    .header .brand{
+        font-size:15px;
     }
     
     .header .menu-wrapper .menu-left{
