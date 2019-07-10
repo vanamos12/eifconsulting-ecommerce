@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class DetailsFrontEnd extends Component{
     render(){
-        const {_id, image, price, name, description, inCart} = this.props.location.state.item
+        const {image, price, name, description} = this.props.location.state.item
         return (
             <React.Fragment>
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {sliderImages} from './data'
-import Cookies from 'universal-cookie'
 
 const ApplicationContext = React.createContext()
 
@@ -94,10 +93,7 @@ class ApplicationProvider extends Component{
         frontEndUser.connected = false
         frontEndUser.email = ''
         frontEndUser.tabIdPlans = []
-        let cookies = new Cookies()
-        //cookies.set('tokenFrontEnd', 'expired', {maxAge: Date.now(), path:'/', domain:'localhost'})
-        //cookies.remove('tokenFrontEnd', {httpOnly: true, path:'/', domain:'localhost'})
-        //console.log(cookies.getAll())
+        
         fetch('api/clearCookie')
         .then(res=>{
             if (res.status === 200){
@@ -201,11 +197,8 @@ class ApplicationProvider extends Component{
       
           })
             .then(res => {
-                console.log(res.status)
-                console.log(res.body)
-                //console.log(res.text())
+                
                 return res.json()
-                //return res.text()
             })
             .then(data => {
                 

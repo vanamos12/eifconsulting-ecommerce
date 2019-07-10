@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import { truncateSync } from 'fs';
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+
 class AddPlan extends Component{
     selectedFile = React.createRef()
     state={

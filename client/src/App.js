@@ -1,9 +1,7 @@
 
 import React, { Component } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import Header from './components/Header'
+import {Route, Switch } from 'react-router-dom';
 import HeaderNew from './components/HeaderNew'
-import MenuMobile from './components/MenuMobile'
 import Home from './components/Home';
 import Cart from './components/cart/Cart'
 import Detail from './components/Detail'

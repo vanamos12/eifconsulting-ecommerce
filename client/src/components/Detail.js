@@ -7,7 +7,7 @@ export default class Detail extends Component {
         return (
             <ApplicationConsumer>
                 {value=>{
-                    const {_id, image, price, name, description, inCart} = value.detailPlan
+                    const {image, price, name, description} = value.detailPlan
                     return (
                         <React.Fragment>
                             <div className="spaceToSee">

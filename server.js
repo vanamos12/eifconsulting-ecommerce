@@ -46,14 +46,12 @@ mongoose.connect(mongo_uri, function(err) {
     console.log(`Successfully connected to ${mongo_uri}`);
     app.post('/api/newletter', function(req, res){
       const {email} = req.body
-      console.log(email)
       const recordnewletter = new Newletter({
         _id:new mongoose.Types.ObjectId(),
         email:email
       })
       recordnewletter.save(function(err){
         if (err){
-          console.log(err)
           if (err.code === 11000){
             res.status(500)
               .json({
@@ -66,7 +64,6 @@ mongoose.connect(mongo_uri, function(err) {
               })
           }
         }else{
-          console.log("It has been saved in database.")
           res.status(200).json({
             message:'Votre email a été pris en compte.'
           })
@@ -152,7 +149,6 @@ mongoose.connect(mongo_uri, function(err) {
     app.get('/api/getFrontEndUserAllPlans', function(req, res){
       Plan.find({}, function(err, plans){
         if (err){
-          console.log(err)
           res.status(500).json({
             message:'Erreur interne',
             allPlans:[]
@@ -173,7 +169,6 @@ mongoose.connect(mongo_uri, function(err) {
       if (isAll){
         Plan.find({}, function(err, plans){
           if (err){
-            console.log(err)
             res.status(500).json({
               results:[]
             })
@@ -246,8 +241,6 @@ mongoose.connect(mongo_uri, function(err) {
             message:"erreur interne, veuillez recommencer.",
             image:image
           })
-          console.log(err)
-          console.log(plan)
         }else{
           plan.categorie = categorie
           plan.name = name
@@ -276,7 +269,6 @@ mongoose.connect(mongo_uri, function(err) {
                   message:'Erreur interne, veuillez reéssayer.',
                   image:image
                 })
-                console.log(err)
               }
               else{
                 
@@ -287,7 +279,6 @@ mongoose.connect(mongo_uri, function(err) {
                       message:'Erreur de sauvegarde du plan.',
                       image:image
                     })
-                    console.log(err)
                   }else{
                     res.status(200).json({
                       message:'Tout s\'est bien passé.',
@@ -315,20 +306,11 @@ mongoose.connect(mongo_uri, function(err) {
           
         }
       })
-      
-      
-      //console.log(`${id}_${uploadedFile.name}`)
-      //console.log(req.body.data)
-      
-      
-      
     })
     app.post('/api/addplan', function(req, res){
       let uploadedFile = req.files.file
       const id = shortId.generate(); 
       const newName = `${id}_${uploadedFile.name}`
-      //console.log(`${id}_${uploadedFile.name}`)
-      //console.log(req.body.data)
       let donnees = JSON.parse(req.body.data)
       const {categorie, name, price, description} = donnees
       const {isStyleModerne, isStyleContemporain, isStyleTraditionnel} = donnees
@@ -481,7 +463,6 @@ mongoose.connect(mongo_uri, function(err) {
             })
           }
         }else{
-          //console.log("user created")
           res.status(200).json({
             message:'Utilisateur crée avec succès'
           })
@@ -527,7 +508,6 @@ mongoose.connect(mongo_uri, function(err) {
       //TODO save the email user tabIdPlans
       FrontEndUser.findOne({email}, function(err, user){
         if (err){
-          console.log(err)
           res.status(500).json({
             error:'Erreur interne, essayez encore'
           })
@@ -540,13 +520,6 @@ mongoose.connect(mongo_uri, function(err) {
           let addTabPlansBuyed = tabIdPlans.filter(item=>{
             return !tabId.some(itemBuy=>itemBuy._id === item._id)
           })
-          /*let addTabPlansBuyed = tabIdPlans.map(item=>{
-            if (tabId.findIndex(function(itemBuy){
-                return itemBuy._id === item._id
-            }) < 0){
-              return item
-            }
-          })*/
           user.tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
           user.save(function(err){
             if (err){
@@ -555,7 +528,6 @@ mongoose.connect(mongo_uri, function(err) {
                 error:'Erreur interne, essayez encore'
               })
             }else{
-              console.log('PaymentsSucessfully saved')
               res.status(200).json({
                 error:'PaymentsSucessfully saved'
               })
@@ -568,7 +540,6 @@ mongoose.connect(mongo_uri, function(err) {
       const { email, password } = req.body;
       BackEndUser.findOne({ email }, function(err, user) {
         if (err) {
-          console.error(err);
           res.status(500)
             .json({
             error: 'Erreur interne, essayez encore'
@@ -701,21 +672,4 @@ mongoose.connect(mongo_uri, function(err) {
 
   }
 });
-
-/*app.get('/api/home', function(req, res) {
-  res.send('Welcome!');
-});
-app.get('/api/secret', withAuthFrontEnd, function(req, res) {
-  res.send('The password is potato');
-});
-
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
-});*/
 

@@ -10,7 +10,6 @@ class AdministrationFrontEnd extends Component{
             <ApplicationConsumer>
                 {(value)=>{
                     const tabIdPlans = value.frontEndUser.tabIdPlans
-                    console.log(value.frontEndUser)
                     if (tabIdPlans.length === 0){
                         return (
                             <React.Fragment>

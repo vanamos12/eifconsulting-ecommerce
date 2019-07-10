@@ -8,7 +8,7 @@ const SliderHooks = ({slides}) =>{
         setCurr(curr === length - 1 ? 0 : curr + 1)
     }
     React.useEffect(() => {
-        setTimeout(goToNext, 5000)
+        setTimeout(goToNext, 6000)
     })
     if (!Array.isArray(slides) || (slides.length <=0)){
         return null

@@ -1,14 +1,13 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import PaypalButton from '../PaypalButton'
-import $ from 'jquery'
 
 class CartTotals extends Component{
     mobile_payment = ()=>{
         this.props.history.push('/numeromobile')
     }
     render(){
-        const {cartSubTotal, cartTax, cartTotal, clearCart, processPayment, savePayments} = this.props.value
+        const { cartTotal, clearCart, processPayment, savePayments} = this.props.value
         const isConnectedFrontEndUser = this.props.value.frontEndUser.connected
         const history = this.props.history
         return (
