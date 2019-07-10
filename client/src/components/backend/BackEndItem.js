@@ -3,8 +3,7 @@ import {Link} from 'react-router-dom'
 
 class BackEndItem extends Component{
     render(){
-        const {_id, name, image, price, total, count} = this.props.item
-        const {increment, decrement, removeItem} = this.props.value
+        const { name, image, price} = this.props.item
         const LocationDetailsBackEnd = {
             pathname:"/modifyplan",
             state:{item:this.props.item}

@@ -1,33 +1,36 @@
 
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import {Route, Switch } from 'react-router-dom';
-import HeaderNew from './components/HeaderNew'
-import Home from './components/Home';
-import Cart from './components/cart/Cart'
-import Detail from './components/Detail'
-import Default from './components/Default'
 import {ApplicationConsumer} from './context'
-import Secret from './Secret';
-import LoginFrontEnd from './components/LoginFrontEnd';
-import SignUpFrontEnd from './components/SignUpFrontEnd';
-import AdministrationFrontEnd from './components/frontend/AdministrationFrontEnd'
-import DetailsFrontEnd from './components/frontend/DetailsFrontEnd'
-
-import AddPlan from './components/backend/AddPlan'
-import ModifyPlan from './components/backend/ModifyPlan'
-import AdministrationBackEnd from './components/backend/AdministrationBackEnd'
-import SignUpBackEnd from './components/SignUpBackEnd'
-import LoginBackEnd from './components/LoginBackEnd'
-import SearchResults from './components/search/SearchResults'
-import RequestMobilePhone from './components/RequestNumberPhone'
-import SuccessDohone from './components/SuccesDohone'
-import CancelDohone from './components/CancelDohone'
 import withAuth from './withAuth';
+
+const HeaderNew = lazy(()=>import('./components/HeaderNew')) 
+const Home = lazy(()=>import('./components/Home')) ;
+const Cart = lazy(()=>import('./components/cart/Cart')) 
+const Detail = lazy(()=>import('./components/Detail')) 
+const Default = lazy(()=>import('./components/Default')) 
+
+const Secret = lazy(()=>import('./Secret')) ;
+const LoginFrontEnd = lazy(()=>import('./components/LoginFrontEnd')) ;
+const SignUpFrontEnd = lazy(()=>import('./components/SignUpFrontEnd')) ;
+const AdministrationFrontEnd = lazy(()=>import('./components/frontend/AdministrationFrontEnd')) 
+const DetailsFrontEnd = lazy(()=>import('./components/frontend/DetailsFrontEnd')) 
+
+const AddPlan = lazy(()=>import('./components/backend/AddPlan')) 
+const ModifyPlan = lazy(()=>import('./components/backend/ModifyPlan')) 
+const AdministrationBackEnd = lazy(()=>import('./components/backend/AdministrationBackEnd')) 
+const SignUpBackEnd = lazy(()=>import('./components/SignUpBackEnd')) 
+const LoginBackEnd = lazy(()=>import('./components/LoginBackEnd')) 
+const SearchResults = lazy(()=>import('./components/search/SearchResults')) 
+const RequestMobilePhone = lazy(()=>import('./components/RequestNumberPhone')) 
+const SuccessDohone = lazy(()=>import('./components/SuccesDohone')) 
+const CancelDohone = lazy(()=>import('./components/CancelDohone')) 
 
 export default class App extends Component {
   render() {
     return (
       <div className="super_container">
+        <Suspense fallback={<div>Loading...</div>}>
         <ApplicationConsumer>
           {value=>(
             <React.Fragment>
@@ -35,6 +38,7 @@ export default class App extends Component {
               {/*<Header value={value}/>
             
           <MenuMobile/>*/}
+              
               <Switch>
                 <Route 
                   path="/" exact 
@@ -86,10 +90,12 @@ export default class App extends Component {
                 {/* Insert the default route */}
                 <Route  component={Default} />
               </Switch>
+              
             </React.Fragment>
           )}
           
         </ApplicationConsumer>
+        </Suspense>
       </div>
     );
   }

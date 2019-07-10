@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import Slider from './Slider'
+import React, {Component, Suspense, lazy} from 'react'
 import Titre from './Titre'
 import PlanList from './PlansList'
 import Search from './Search'

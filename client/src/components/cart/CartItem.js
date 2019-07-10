@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 
 class CartItem extends Component{
     render(){
-        const {_id, name, image, price, total, count} = this.props.item
-        const {increment, decrement, removeItem} = this.props.value
+        const {_id, name, image, price} = this.props.item
+        const {removeItem} = this.props.value
         return (
             <React.Fragment>
                 <div className="col">
