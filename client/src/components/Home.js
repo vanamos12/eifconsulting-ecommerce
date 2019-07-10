@@ -1,26 +1,34 @@
 import React, {Component, Suspense, lazy} from 'react'
-import Titre from './Titre'
-import PlanList from './PlansList'
-import Search from './Search'
-import SliderHooks from './SliderHooks'
-import Tab from './Tab'
-import QualityBox from './QualityBox'
-import Characteristics from './Characteristics'
-import Newletter from './Newletter'
-import Footer from './Footer'
 import {sliderDefaultImages} from '../data'
+import Titre from './Titre'
+import  QualityBox from './QualityBox'
+import  Characteristics from './Characteristics'
+import  Newletter from './Newletter'
+import  Footer from './Footer'
+import Search from './Search'
+
+const PlanList = lazy(()=>import('./PlansList')) 
+const SliderHooks = lazy(()=>import('./SliderHooks')) 
+const Tab = lazy(()=>import('./Tab')) 
+
 
 export default class Home extends Component {
     render() {
       return (
         <React.Fragment>
           <div className="spaceToSee"></div>
-          <SliderHooks slides={sliderDefaultImages}/>
+          <Suspense fallback={<div>Loading...</div>}>
+            <SliderHooks slides={sliderDefaultImages}/>
+          </Suspense>
           <Titre titre="Nos coups de coeur"/>
-          <PlanList/>
+          <Suspense fallback={<div>Loading...</div>}>
+            <PlanList/>
+          </Suspense>
           <Titre titre="Recherche"/>
           <Search value={this.props.value} history={this.props.history}/>
-          <Tab/>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Tab/>
+          </Suspense>
           <QualityBox/>
           <Characteristics/>
           <Newletter/>

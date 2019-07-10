@@ -3,8 +3,8 @@ import React, { Component, Suspense, lazy } from 'react';
 import {Route, Switch } from 'react-router-dom';
 import {ApplicationConsumer} from './context'
 import withAuth from './withAuth';
+import HeaderNew from './components/HeaderNew'
 
-const HeaderNew = lazy(()=>import('./components/HeaderNew')) 
 const Home = lazy(()=>import('./components/Home')) ;
 const Cart = lazy(()=>import('./components/cart/Cart')) 
 const Detail = lazy(()=>import('./components/Detail')) 
@@ -30,7 +30,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="super_container">
-        <Suspense fallback={<div>Loading...</div>}>
+        
         <ApplicationConsumer>
           {value=>(
             <React.Fragment>
@@ -38,7 +38,7 @@ export default class App extends Component {
               {/*<Header value={value}/>
             
           <MenuMobile/>*/}
-              
+              <Suspense fallback={<div>Loading...</div>}>
               <Switch>
                 <Route 
                   path="/" exact 
@@ -90,12 +90,12 @@ export default class App extends Component {
                 {/* Insert the default route */}
                 <Route  component={Default} />
               </Switch>
-              
+              </Suspense>
             </React.Fragment>
           )}
           
         </ApplicationConsumer>
-        </Suspense>
+        
       </div>
     );
   }
