@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
 const shortId = require('shortid')
+const nodemailer = require("nodemailer");
+
 // Import our User schema
 const User = require('./models/User.js');
 const FrontEndUser = require('./models/FrontEndUser.js')
@@ -44,6 +46,42 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    app.post('/api/sendmail', function(req, res){
+      const {message_html, message_text, mail} = req.body
+      console.log(message_html)
+      console.log(message_text)
+      console.log(mail)
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: 'markupconsulting2017@gmail.com', // generated ethereal user
+          pass: 'loicsadjomarkup' // generated ethereal password
+        }
+      });
+      transporter.sendMail({
+          from: 'markupconsulting2017@gmail.com',
+          to: 'eifconsultingandservices@gmail.com',
+          cc:mail,
+          subject: 'Message depuis le site e-commerce eif-consulting',
+          text: message_text,
+          html: message_html
+      }, (err, info) => {
+        if (err){
+          console.log("erreur", err)
+          res.status(500).json({
+            message:"Erreur interne."
+          })
+        }else{
+          console.log(info.envelope);
+          console.log(info.messageId);
+          res.status(200).json({
+              message:"message send." 
+          })
+        }
+      });
+    })
     app.post('/api/newletter', function(req, res){
       const {email} = req.body
       const recordnewletter = new Newletter({

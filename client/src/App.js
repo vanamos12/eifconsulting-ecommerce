@@ -9,6 +9,7 @@ const Home = lazy(()=>import('./components/Home')) ;
 const Cart = lazy(()=>import('./components/cart/Cart')) 
 const Detail = lazy(()=>import('./components/Detail')) 
 const Default = lazy(()=>import('./components/Default')) 
+const SendMail = lazy(()=>import('./components/SendMail'))
 
 const Secret = lazy(()=>import('./Secret')) ;
 const LoginFrontEnd = lazy(()=>import('./components/LoginFrontEnd')) ;
@@ -45,6 +46,7 @@ export default class App extends Component {
                   render={(props)=><Home {...props} value={value}/>} />
                 <Route path="/cart" component={Cart} />
                 <Route path="/detail" component={Detail} />
+                <Route path="/sendmail" component={SendMail} />
                 <Route path="/secret" component={withAuth(Secret)} />
                 <Route 
                   path="/loginfrontend/:destination" 

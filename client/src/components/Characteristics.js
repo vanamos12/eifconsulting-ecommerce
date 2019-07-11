@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 class Characteristics extends Component{
     render(){
@@ -33,7 +34,7 @@ class Characteristics extends Component{
                             
                             <div className="col-lg-4 icon_box_col">
                                 <div className="icon_box">
-                                    <div className="icon_box_image"><img src="images/icon_3.svg" alt=""/></div>
+                                    <div className="icon_box_image"><Link to='/sendmail'><img src="images/icon_3.svg" alt=""/></Link></div>
                                     <div className="icon_box_title">24h Support rapide</div>
                                     <div className="icon_box_text">
                                         <p>Nous sommes disponibles 24h/24, 7j/7 pour r&eacute;pondre &agrave; toutes vos pr&eacute;occupations.</p>
