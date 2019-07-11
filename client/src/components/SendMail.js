@@ -90,7 +90,7 @@ class SendMail extends Component{
                         </div>
                         <div className="form-group">
                             <label for="email">Votre email :&nbsp;  
-                                <input type="text" id="email" name="email" value={this.state.email} onChange={this.handleChange} required/>
+                                <input type="email" id="email" name="email" value={this.state.email} onChange={this.handleChange} required/>
                             </label>
                         </div>
                         <div className="form-group">
