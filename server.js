@@ -48,9 +48,6 @@ mongoose.connect(mongo_uri, function(err) {
     console.log(`Successfully connected to ${mongo_uri}`);
     app.post('/api/sendmail', function(req, res){
       const {message_html, message_text, mail} = req.body
-      console.log(message_html)
-      console.log(message_text)
-      console.log(mail)
       let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,

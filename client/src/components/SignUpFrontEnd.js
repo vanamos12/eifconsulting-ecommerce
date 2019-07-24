@@ -6,6 +6,7 @@ export default class SignUpFrontEnd extends Component {
     this.state = {
       email : '',
       password: '',
+      retypePassword: '',
       message:'',
       name:'',
       surname:'',
@@ -20,35 +21,39 @@ export default class SignUpFrontEnd extends Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
-    let action = 'notsignedup'
-    fetch('/api/signupFrontEnd', {
-      method: 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => {
-      if (res.status === 200) {
-        action = 'signedup'
-        this.props.history.push('/loginfrontend/signup');
-        return res.json()
-        
-      } else {
-        const error = new Error(res.error);
-        //throw error;
-        return res.json()
-      }
-    })
-    .then(data =>{
-      if (action !== 'signedup'){
-        this.setState({message:data.message})
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      //alert('Error Sign up in please try again');
-    });
+    if (this.state.password !== this.state.retypePassword){
+      this.setState({message:'Vos mots de passe ne sont pas identiques.'})
+    }else{
+      let action = 'notsignedup'
+      fetch('/api/signupFrontEnd', {
+        method: 'POST',
+        body: JSON.stringify(this.state),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          action = 'signedup'
+          this.props.history.push('/loginfrontend/signup');
+          return res.json()
+          
+        } else {
+          const error = new Error(res.error);
+          //throw error;
+          return res.json()
+        }
+      })
+      .then(data =>{
+        if (action !== 'signedup'){
+          this.setState({message:data.message})
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        //alert('Error Sign up in please try again');
+      });
+    }
   }
   render() {
     return (
@@ -112,8 +117,20 @@ export default class SignUpFrontEnd extends Component {
               required
             />
           </div>
+          <div className="form-group">
+            <input
+              className="form-control"
+              type="password"
+              name="retypePassword"
+              placeholder="Retapez votre mot de passe"
+              value={this.state.retypePassword}
+              onChange={this.handleInputChange}
+              required
+            />
+          </div>
+          <div className="text-danger">{this.state.message}</div>
         <input className="btn btn-primary" type="submit" value="Soumettre"/>
-        <div className="text-danger">{this.state.message}</div>
+        
         </form>
         </div>
       </div>
