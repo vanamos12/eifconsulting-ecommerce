@@ -10,6 +10,7 @@ const cors = require('cors')
 const fileUpload = require('express-fileupload')
 const shortId = require('shortid')
 const nodemailer = require("nodemailer");
+const crypto = require('crypto')
 
 // Import our User schema
 const User = require('./models/User.js');
@@ -31,6 +32,16 @@ app.use(fileUpload({
   tempFileDir: `${__dirname}/client/public/files/temp` 
 }))
 
+let transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true for 465, false for other ports
+  auth: {
+    user: 'markupconsulting2017@gmail.com', // generated ethereal user
+    pass: 'loicsadjomarkup' // generated ethereal password
+  }
+});
+
 let mongo_uri = '';
 let save_path = '';
 if (process.env.NODE_ENV === 'production') {
@@ -46,17 +57,9 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
-    app.post('/api/sendmail', function(req, res){
+    app.post('/api/sendmail', async function(req, res){
       const {message_html, message_text, mail} = req.body
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-          user: 'markupconsulting2017@gmail.com', // generated ethereal user
-          pass: 'loicsadjomarkup' // generated ethereal password
-        }
-      });
+      
       transporter.sendMail({
           from: 'markupconsulting2017@gmail.com',
           to: 'eifconsultingandservices@gmail.com',
@@ -79,7 +82,7 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     })
-    app.post('/api/newletter', function(req, res){
+    app.post('/api/newletter', async function(req, res){
       const {email} = req.body
       const recordnewletter = new Newletter({
         _id:new mongoose.Types.ObjectId(),
@@ -474,7 +477,7 @@ mongoose.connect(mongo_uri, function(err) {
       })
     })
     app.post('/api/signupFrontEnd', function(req, res){
-      const {email, password, name, surname, telephone} = req.body
+      const {email, password, name, surname, telephone, role} = req.body
       let signUpUser = new FrontEndUser({
         _id: new mongoose.Types.ObjectId(),
         email:email,
@@ -482,6 +485,7 @@ mongoose.connect(mongo_uri, function(err) {
         name:name,
         surname:surname,
         telephone:telephone,
+        role:role,
         tabPlansBuyed:[]
       })
       signUpUser.save(function (err){
@@ -498,9 +502,62 @@ mongoose.connect(mongo_uri, function(err) {
             })
           }
         }else{
-          res.status(200).json({
-            message:'Utilisateur crée avec succès'
+          // Send the verification mail
+          const randomToken = crypto.randomBytes(20)
+          const emailVerifyToken = crypto.createHash('sha1').update(randomToken+email).digest('hex')
+          FrontEndUser.findOneAndUpdate({
+            email:email
+          }, {
+            emailVerificationToken:emailVerifyToken
+          }, {
+            new:true
+          }).exec((err, details)=>{
+            if (err || !details){
+              res.status(500).json({
+                message:'Erreur d\'enregistrement de l\'utilisateur'
+              })
+            }else{
+              let uri = `${req.protocol}` + '://' + `${req.hostname}` + '/api/verify-email/' + `${emailVerifyToken}`
+              let message_text = `Bonjour ${surname}\n`;
+              message_text += "Bienvenue sur le site d'e-commerce EIF-Consulting\n"
+              message_text += `Pour activer votre compte, veuillez copier et coller le lien suivant dans la barre d'adresse du navigateur : \n`
+              message_text += `${uri}`
+              message_text += '\nBonne journée.\n'
+              message_text += 'Le service client EIF-Consulting'
+
+              let message_html = `Bonjour ${surname}<br/>`;
+              message_html += "Bienvenue sur le site d'e-commerce EIF-Consulting<br/>"
+              message_html += "Veuillez cliquer sur le lien suivant pour activer votre compte : "
+              message_html += `<a href ="${uri}" target="_blank">Vérifier votre compte</a><br/>`
+              message_html += `Ou copier et coller le lien suivant dans la barre d'adresse du navigateur : <br/>`
+              message_html += `${uri}`
+              message_html += '<br/>Bonne journée.<br/>'
+              message_html += 'Le service client EIF-Consulting'
+
+              transporter.sendMail({
+                from: 'markupconsulting2017@gmail.com',
+                to: email,
+                subject: 'Activation de votre compte sur le site e-commerce eif-consulting',
+                text: message_text,
+                html: message_html
+            }, (err, info) => {
+              if (err){
+                console.log("erreur", err)
+                res.status(500).json({
+                  message:"Erreur d'envoi de mail! Vérifiez votre adresse mail."
+                })
+              }else{
+                console.log(info.envelope);
+                console.log(info.messageId);
+                res.status(200).json({
+                    message:"Veuillez vérifier votre boîte mail pour l'activation de votre compte." 
+                })
+              }
+            });
+              
+            }
           })
+          
         }
       })
     })

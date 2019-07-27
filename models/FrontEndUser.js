@@ -10,6 +10,36 @@ const FrontEndUserSchema = new mongoose.Schema({
   name:{type:String, required:true},
   surname:{type:String, required:true},
   telephone:{type:Number, required:true},
+  role:{
+    type:String, 
+    enum:['Utilisateur', 'Administrateur', 'SuperAdministrateur'],
+    required:true 
+  },
+  isActive:{
+    type:Boolean,
+    default:true,
+    required:false,
+  },
+  isAdminActive:{
+    type:Boolean,
+    default:false,
+    required:false
+  },
+  isEmailVerified:{
+    type:Boolean,
+    default:false,
+    required:false
+  },
+  emailVerificationToken:{
+    type:String,
+    trim:true,
+    required:false
+  },
+  passwordResetToken:{
+    type:String,
+    trim:true,
+    required:false
+  },
   tabPlansBuyed:{type:Array, required:true}
 });
 
