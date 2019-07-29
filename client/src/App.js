@@ -26,6 +26,7 @@ const SearchResults = lazy(()=>import('./components/search/SearchResults'))
 const RequestMobilePhone = lazy(()=>import('./components/RequestNumberPhone')) 
 const SuccessDohone = lazy(()=>import('./components/SuccesDohone')) 
 const CancelDohone = lazy(()=>import('./components/CancelDohone')) 
+const VerifyEmail = lazy(()=>import('./components/VerifyEmail'))
 
 export default class App extends Component {
   render() {
@@ -66,8 +67,8 @@ export default class App extends Component {
                   render={(props)=><ModifyPlan {...props} value={value}/>} />
                 <Route 
                   path="/administrationbackend/" 
-                  component={AdministrationBackEnd} />} 
-                />
+                  component={AdministrationBackEnd} />
+                
                 <Route path="/signupbackend" component={SignUpBackEnd} />
                 <Route 
                   path="/loginbackend/:destination" 
@@ -89,6 +90,11 @@ export default class App extends Component {
                   path="/canceldohone" 
                   component={CancelDohone}
                 />
+                <Route 
+                  path="/api/verify-email/:emailVerificationToken" 
+                  component={VerifyEmail}
+                />
+              
                 {/* Insert the default route */}
                 <Route  component={Default} />
               </Switch>

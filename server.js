@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 const secret = 'mysecretsshhh';
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -472,6 +473,29 @@ mongoose.connect(mongo_uri, function(err) {
           //console.log("user created")
           res.status(200).json({
             message:'Utilisateur crée avec succès'
+          })
+        }
+      })
+    })
+    app.post('/api/verify-email-node', function(req, res){
+      const {emailVerificationToken} = req.body
+      console.log(emailVerificationToken);
+      FrontEndUser.findOneAndUpdate({
+        emailVerificationToken:emailVerificationToken
+      },{
+        emailVerificationToken:'',
+        isEmailVerified:true
+      }, {
+        new:true
+      }).exec((err, user)=>{
+        if (err || !user){
+          console.log('We did not find the email verification token ')
+          res.status(200).json({
+            utilisateur:''
+          })
+        }else{
+          res.status(200).json({
+            utilisateur:user.role
           })
         }
       })

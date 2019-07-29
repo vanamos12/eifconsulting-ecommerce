@@ -334,6 +334,8 @@ class ApplicationProvider extends Component{
                     history.push('/administrationfrontend');
                   }else if (destination === 'signup'){
                     history.push('/cart');
+                  }else{
+                      history.push('/');
                   }
             });
             }
