@@ -27,6 +27,8 @@ const RequestMobilePhone = lazy(()=>import('./components/RequestNumberPhone'))
 const SuccessDohone = lazy(()=>import('./components/SuccesDohone')) 
 const CancelDohone = lazy(()=>import('./components/CancelDohone')) 
 const VerifyEmail = lazy(()=>import('./components/VerifyEmail'))
+const SendPasswordModificationToken = lazy(()=>import('./components/SendPasswordModificationToken'))
+const ModifyPassword = lazy(()=>import('./components/ModifyPassword'))
 
 export default class App extends Component {
   render() {
@@ -94,7 +96,15 @@ export default class App extends Component {
                   path="/api/verify-email/:emailVerificationToken" 
                   component={VerifyEmail}
                 />
-              
+                <Route 
+                  path="/api/modify-password/:passwordResetToken" 
+                  component={ModifyPassword}
+                />
+                <Route 
+                  path="/sendpasswordmodificationtoken" 
+                  component={SendPasswordModificationToken}
+                />
+
                 {/* Insert the default route */}
                 <Route  component={Default} />
               </Switch>

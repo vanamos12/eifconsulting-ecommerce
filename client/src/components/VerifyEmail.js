@@ -23,6 +23,7 @@ class VerifyEmail extends Component{
                 loading:false
             })
         })
+        .catch(err=>console.log(err))
     }
     render(){
         let bienvenue=""

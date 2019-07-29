@@ -67,6 +67,8 @@ export default class LoginFrontEnd extends Component {
         <div className="container text-center">
         <h1>Connectez-vous!</h1>
         <small><Link to="/signupfrontend">Incrivez-vous ici</Link></small>
+        <span>&nbsp;&nbsp;</span>
+        <small><Link to="/sendpasswordmodificationtoken">Mot de passe oubli&eacute;</Link></small>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
           <input
@@ -90,8 +92,10 @@ export default class LoginFrontEnd extends Component {
             required
           /><br />
           </div>
+        
+          <div className="text-danger">{this.state.message}</div>
         <input className="btn btn-primary" type="submit" value="Se connnecter"/>
-        <div className="text-danger">{this.state.message}</div>
+        
         </form>
         </div>
       </div>

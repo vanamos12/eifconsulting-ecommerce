@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 const secret = 'mysecretsshhh';
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -474,6 +474,93 @@ mongoose.connect(mongo_uri, function(err) {
           res.status(200).json({
             message:'Utilisateur crée avec succès'
           })
+        }
+      })
+    })
+    app.post('/api/modify-password-node', function(req, res){
+      const {passwordResetToken, password} = req.body
+      FrontEndUser.findOne({
+        passwordResetToken:passwordResetToken
+      }, (err, user)=>{
+        if (err || !user){
+          res.status(200).json({
+            message:'Votre mot de passe n\'a pas été modifié.'
+          })
+        }else{
+          user.password = password
+          user.passwordResetToken = ''
+          user.save(err=>{
+            if (err){
+              res.status(200).json({
+                message:'Votre mot de passe n\'a pas été modifié.'
+              })
+            }else{
+              res.status(200).json({
+                message:'Votre mot de passe a bien été modifié.'
+              })
+            }
+          })
+          
+        }
+      });
+      
+    })
+    app.post('/api/send-password-modification-token', function(req, res){
+      const {email} = req.body
+      const randomToken = crypto.randomBytes(20)
+      const passwordResetToken = crypto.createHash('sha1').update(randomToken+email).digest('hex')
+      FrontEndUser.findOneAndUpdate({
+        email:email
+      }, {
+        passwordResetToken:passwordResetToken
+      }, {
+        new:true
+      }).exec((err, user)=>{
+        if (err || !user){
+          console.log("Email is not in the database")
+          res.status(200).json({
+            status:'emailnonenregistre'
+          })
+        }else{
+          console.log('We send the password modification token.')
+          let uri = `${req.protocol}` + '://' + `${req.hostname}` + '/api/modify-password/' + `${passwordResetToken}`
+          let message_text = `Bonjour ${user.surname}\n`;
+              message_text += "Vous avez demandé la modification de votre mot de passe.\n"
+              message_text += `Pour le faire, veuillez copier et coller le lien suivant dans la barre d'adresse du navigateur : \n`
+              message_text += `${uri}`
+              message_text += '\nBonne journée.\n'
+              message_text += 'Le service client EIF-Consulting'
+
+              let message_html = `Bonjour ${user.surname}<br/>`;
+              message_html += "Bienvenue sur le site d'e-commerce EIF-Consulting<br/>"
+              message_html += "Vous avez demandé la modification de votre mot de passe.<br/>"
+              message_html += "Veuillez cliquer sur le lien suivant pour le faire : "
+              message_html += `<a href ="${uri}" target="_blank">Modifier mon mot de passe</a><br/>`
+              message_html += `Ou copier et coller le lien suivant dans la barre d'adresse du navigateur : <br/>`
+              message_html += `${uri}`
+              message_html += '<br/>Bonne journée.<br/>'
+              message_html += 'Le service client EIF-Consulting'
+
+              transporter.sendMail({
+                from: 'markupconsulting2017@gmail.com',
+                to: email,
+                subject: 'Modification de votre mot de passe sur le site e-commerce eif-consulting',
+                text: message_text,
+                html: message_html
+            }, (err, info) => {
+              if (err){
+                console.log("erreur", err)
+                res.status(200).json({
+                  status:"erreurenvoiemail"
+                })
+              }else{
+                console.log(info.envelope);
+                console.log(info.messageId);
+                res.status(200).json({
+                   status:"okay" 
+                })
+              }
+            });
         }
       })
     })
