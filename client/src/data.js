@@ -25,4 +25,10 @@ const sliderDefaultImages=[
     }
 ];
 
-export {sliderImages, sliderDefaultImages}
+const Role = {
+    Administrateur: 'Administrateur',
+    SuperAdministrateur:'SuperAdministrateur',
+    Utilisateur:'Utilisateur'
+};
+
+export {sliderImages, sliderDefaultImages, Role}

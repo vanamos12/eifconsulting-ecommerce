@@ -19,7 +19,7 @@ const BackEndUser = require('./models/BackEndUser.js')
 const PrecommandPlan = require('./models/PrecommandPlan.js')
 const Plan = require('./models/Plan.js')
 const Newletter = require('./models/Newletter.js')
-const {withAuthFrontEnd, withAuthBackEnd} = require('./middleware');
+const {withAuthFrontEnd, withAuthBackEnd, authorize} = require('./middleware');
 const {secret, Role} = require('./config.js');
 
 app.use(bodyParser.json());
@@ -835,7 +835,7 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
-    app.get('/checkTokenFrontEnd', withAuthFrontEnd, function(req, res) {
+    app.get('/checkTokenFrontEnd', authorize([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]), function(req, res) {
       FrontEndUser.findOne({email:req.email}, function(err, user){
         if (err || !user){
           res.status(500).json({

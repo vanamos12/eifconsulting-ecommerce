@@ -4,6 +4,7 @@ import {Route, Switch } from 'react-router-dom';
 import {ApplicationConsumer} from './context'
 import withAuth from './withAuth';
 import HeaderNew from './components/HeaderNew'
+import {Role} from './data'
 
 const Home = lazy(()=>import('./components/Home')) ;
 const Cart = lazy(()=>import('./components/cart/Cart')) 
@@ -16,6 +17,7 @@ const LoginFrontEnd = lazy(()=>import('./components/LoginFrontEnd')) ;
 const SignUpFrontEnd = lazy(()=>import('./components/SignUpFrontEnd')) ;
 const AdministrationFrontEnd = lazy(()=>import('./components/frontend/AdministrationFrontEnd')) 
 const DetailsFrontEnd = lazy(()=>import('./components/frontend/DetailsFrontEnd')) 
+const PrivateRoute = lazy(()=>import('./PrivateRoute'))
 
 const AddPlan = lazy(()=>import('./components/backend/AddPlan')) 
 const ModifyPlan = lazy(()=>import('./components/backend/ModifyPlan')) 
@@ -55,10 +57,14 @@ export default class App extends Component {
                   path="/loginfrontend/:destination" 
                   render={(props) => <LoginFrontEnd {...props} value={value}/>} 
                 />
+                {/** 
                 <Route 
                   path="/administrationfrontend/" 
                   render={(props) => <AdministrationFrontEnd {...props} value={value}/>} 
                 />
+                */}
+                <PrivateRoute value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationFrontEnd}/>
+                
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />
                 <Route 

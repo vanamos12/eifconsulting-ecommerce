@@ -87,4 +87,4 @@ const withAuthFrontEnd = function(req, res, next) {
     });
   }
 }
-module.exports = {withAuthFrontEnd, withAuthBackEnd};
+module.exports = {withAuthFrontEnd, withAuthBackEnd, authorize};

@@ -245,13 +245,15 @@ class ApplicationProvider extends Component{
                 })
               .then(data =>{
                 if (action === 'connected'){
+                    console.log(data.role)
+                    let frontEndUser = {...this.state.frontEndUser}
+                    frontEndUser.connected = true
+                    frontEndUser.email = data.email
+                    frontEndUser.role = data.role 
+                    frontEndUser.tabIdPlans = data.tabIdPlans
                     this.setState(()=>{
                         return {
-                            frontEndUser:{
-                                connected:true, 
-                                email: data.email,
-                                tabIdPlans:data.tabIdPlans
-                            }
+                            frontEndUser:frontEndUser
                         }
                     })
                 }
