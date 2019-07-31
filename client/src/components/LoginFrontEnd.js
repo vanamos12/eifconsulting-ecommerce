@@ -35,9 +35,10 @@ export default class LoginFrontEnd extends Component {
     .then(res => {
       if (res.status === 200) {
         action='connected'
+        /*
         let history = this.props.history
         let destination = this.state.params.destination
-        this.props.value.setActiveFrontEndUser(this.state.email, history, destination)
+        this.props.value.setActiveFrontEndUser(this.state.email, history, destination)*/
       } else {
         const error = new Error(res.error);
         //throw error;
@@ -51,7 +52,13 @@ export default class LoginFrontEnd extends Component {
           message:data.error
         })
       }else{
+        console.log(data.role)
+        console.log(data.email)
+        console.log(data.tabIdPlans)
         
+        let history = this.props.history
+        let destination = this.state.params.destination
+        this.props.value.setActiveFrontEndUser(data.email,data.role, data.tabIdPlans, history, destination)
         
       }
     })

@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
-//mongoose.set('useFindAndModify', false);
-const secret = 'mysecretsshhh';
+mongoose.set('useFindAndModify', false);
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
@@ -21,6 +20,7 @@ const PrecommandPlan = require('./models/PrecommandPlan.js')
 const Plan = require('./models/Plan.js')
 const Newletter = require('./models/Newletter.js')
 const {withAuthFrontEnd, withAuthBackEnd} = require('./middleware');
+const {secret, Role} = require('./config.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -687,7 +687,7 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })
-    app.post('/api/getFrontEndUserTabIdPlans', function(req, res){
+    /*app.post('/api/getFrontEndUserTabIdPlans', function(req, res){
       const {email} = req.body
       FrontEndUser.findOne({email}, function(err, user){
         if (err){
@@ -705,7 +705,7 @@ mongoose.connect(mongo_uri, function(err) {
           })
         }
       })
-    })
+    })*/
     app.post('/api/savePaymentsFrontEnd', function(req, res){
       const {email, tabIdPlans} = req.body
       //TODO save the email user tabIdPlans
@@ -781,7 +781,7 @@ mongoose.connect(mongo_uri, function(err) {
     });
     app.post('/api/authenticateFrontEnd', function(req, res) {
       const { email, password } = req.body;
-      FrontEndUser.findOne({ email }, function(err, user) {
+      FrontEndUser.findOne({ email:email }, function(err, user) {
         if (err) {
           console.error(err);
           res.status(500)
@@ -807,14 +807,29 @@ mongoose.connect(mongo_uri, function(err) {
               });
             } else {
               // Issue token
-              const payload = { email };
-              const token = jwt.sign(payload, secret, {
-                expiresIn: '1h'
-              });
-              res.cookie('tokenFrontEnd', token, { httpOnly: true })
-                .status(200).json({
-                  error:'Connexion correcte'
+              if (!user.isEmailVerified){
+                res.status(401).json({
+                  error:'Veuillez valider votre compte dans votre boîte mail.'
+                })
+              }
+              else if (user.role === Role.Administrateur && !user.isAdminActive){
+                res.status(401).json({
+                  error:'Veuillez contacter le service client pour l\'activation de votre compte administrateur.'
+                })
+              }else{
+                const payload = { email:email, role:user.role };
+                const token = jwt.sign(payload, secret, {
+                  expiresIn: '1h'
                 });
+                console.log(user.tabPlansBuyed)
+                res.cookie('tokenFrontEnd', token, { httpOnly: true })
+                  .status(200).json({
+                    error:'Connexion correcte',
+                    role:user.role,
+                    email:user.email,
+                    tabIdPlans:user.tabPlansBuyed
+                  });
+              }
             }
           });
         }
@@ -823,10 +838,17 @@ mongoose.connect(mongo_uri, function(err) {
     app.get('/checkTokenFrontEnd', withAuthFrontEnd, function(req, res) {
       FrontEndUser.findOne({email:req.email}, function(err, user){
         if (err || !user){
+          res.status(500).json({
+            email: '',
+            role:'',
+            message: 'Erreur d\'authentification.',
+            tabIdPlans:[]
+          });
           console.log('Erreur de recherche d\'elements, l\'email n\'est pas enregistré')
         }else{
           res.status(200).json({
             email: req.email,
+            role:req.role,
             message: 'Utilisateur authentifie',
             tabIdPlans:user.tabPlansBuyed
           });

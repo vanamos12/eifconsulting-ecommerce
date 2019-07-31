@@ -19,6 +19,7 @@ class ApplicationProvider extends Component{
         },
         frontEndUser:{
             connected:false,
+            role:'',
             email:'',
             tabIdPlans:[]
         },
@@ -94,7 +95,7 @@ class ApplicationProvider extends Component{
         frontEndUser.email = ''
         frontEndUser.tabIdPlans = []
         
-        fetch('api/clearCookie')
+        fetch('/api/clearCookie')
         .then(res=>{
             if (res.status === 200){
                 console.log('cookie cleared')
@@ -301,8 +302,26 @@ class ApplicationProvider extends Component{
             detailPlan:copyPlan
         })
     }
-    setActiveFrontEndUser = (email, history, destination) =>{
-        let action='failure'
+    setActiveFrontEndUser = (email, role, tabIdPlans, history, destination) =>{
+        let frontEndUser = {...this.state.frontEndUser}
+        frontEndUser.connected = true
+        frontEndUser.email = email
+        frontEndUser.role = role
+        frontEndUser.tabIdPlans = tabIdPlans
+        this.setState(()=>{
+            return {
+                frontEndUser:frontEndUser
+            }
+    }, ()=>{
+        if (destination === 'home'){
+            history.push('/administrationfrontend');
+          }else if (destination === 'signup'){
+            history.push('/cart');
+          }else{
+              history.push('/');
+          }
+    });
+        /*let action='failure'
         fetch('/api/getFrontEndUserTabIdPlans', {
             method : 'POST',
             body: JSON.stringify({email:email}),
@@ -321,13 +340,14 @@ class ApplicationProvider extends Component{
         .then(data => {
             if (action === 'succes'){
                 console.log(data.tabIdPlans)
+                let frontEndUser = {...this.state.frontEndUser}
+                frontEndUser.connected = true
+                frontEndUser.email = email
+                frontEndUser.role = role
+                frontEndUser.tabIdPlans = data.tabIdPlans
                 this.setState(()=>{
                     return {
-                        frontEndUser:{
-                            connected:true,
-                            email:email,
-                            tabIdPlans:data.tabIdPlans
-                        }
+                        frontEndUser:frontEndUser
                     }
             }, ()=>{
                 if (destination === 'home'){
@@ -343,7 +363,7 @@ class ApplicationProvider extends Component{
         })
         .catch(err =>{
             console.log(err)
-        })
+        })*/
         
     }
     setActiveBackEndUser = (email, history, destination) =>{
