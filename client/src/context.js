@@ -93,6 +93,7 @@ class ApplicationProvider extends Component{
         let frontEndUser = {...this.state.frontEndUser}
         frontEndUser.connected = false
         frontEndUser.email = ''
+        frontEndUser.role = ''
         frontEndUser.tabIdPlans = []
         
         fetch('/api/clearCookie')

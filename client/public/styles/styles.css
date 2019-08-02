@@ -410,7 +410,33 @@ text-decoration: none;
 .cursorPointer{
     cursor:pointer;
 }
+/* connexion account */
+.compte{
+    position:absolute;
+    top:0;
+    right:100px;
+    z-index:150;
+    color:white;
+    background-color: #368AC0;
+    padding:7px;
+}
 
+.compte .connexion-menu ul li{
+    cursor:pointer;
+}
+
+.compte a{
+    color:white;
+}
+.connexion-menu{
+    display:none;
+}
+/* Dashboard sell plans*/
+.dashbord-sell{
+    display:flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
 /* Responsive header */
 
 @media only screen and (max-width:1100px){

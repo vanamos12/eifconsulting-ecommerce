@@ -11,7 +11,12 @@ $(window).on('load', function() {
 	$('.menu-mobile ul li').on('click', function(event){
 		$('.toggler').prop('checked', false);
 	})
-	
+	$('.connexion-brand').on('click', function(event){
+		$('.connexion-menu').show();
+	})
+	$('.compte .connexion-menu ul li').on('click', function(event){
+		$('.connexion-menu').hide();
+	})
 	document.getElementById("buttonDropDown").onmouseover = function(){
 		console.log("on mouse over");
 		document.getElementById("myDropdown").classList.toggle("show");

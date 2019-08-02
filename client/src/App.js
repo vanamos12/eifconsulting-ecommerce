@@ -18,6 +18,7 @@ const SignUpFrontEnd = lazy(()=>import('./components/SignUpFrontEnd')) ;
 const AdministrationFrontEnd = lazy(()=>import('./components/frontend/AdministrationFrontEnd')) 
 const DetailsFrontEnd = lazy(()=>import('./components/frontend/DetailsFrontEnd')) 
 const PrivateRoute = lazy(()=>import('./PrivateRoute'))
+const WelcomeSell = lazy(()=>import('./components/sell/WelcomeSell'))
 
 const AddPlan = lazy(()=>import('./components/backend/AddPlan')) 
 const ModifyPlan = lazy(()=>import('./components/backend/ModifyPlan')) 
@@ -63,7 +64,8 @@ export default class App extends Component {
                   render={(props) => <AdministrationFrontEnd {...props} value={value}/>} 
                 />
                 */}
-                <PrivateRoute value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationFrontEnd}/>
+                <PrivateRoute path='/administrationfrontend' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationFrontEnd}/>
+                <PrivateRoute path='/sellplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={WelcomeSell}/>
                 
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />

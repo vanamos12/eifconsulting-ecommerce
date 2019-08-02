@@ -16,24 +16,7 @@ class MenuMobileNew extends Component{
                                 <li><a href="#">Plans</a></li>
                                 <li><a href="http://eifconsulting.cm/apropos.php" target="_blank">&Agrave; propos de nous</a></li>
                                 <li><a href="#">Contact</a></li>
-                                {
-								    frontEndUser.connected ? 
-									<li><Link to='/administrationfrontend'>Administration</Link></li>
-									:
-									<React.Fragment></React.Fragment>
-							    }
-                                <li>
-                                    {
-                                        frontEndUser.connected ? 
-                                        <span 
-                                            
-                                            onClick={()=>{
-                                                deconnexion()
-                                            }}>
-                                                D&eacute;connexion</span>:
-                                        <Link to="/loginfrontend/home">Connexion</Link> 
-								    }
-                                </li>
+                                
                             </ul>
                         </div>
                     </div>

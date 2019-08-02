@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {Route, Redirect} from 'react-router-dom'
 
-const PrivateRoute = ({component:Component, roles, value, ...rest})=>(
-    <Route {...rest} render={props=>{
+const PrivateRoute = ({component:Component, roles, value, path, ...rest})=>(
+    <Route {...rest} path={path} render={props=>{
         let role = value.frontEndUser.role
         if (role === ''){
             // not logged, redirect to login page

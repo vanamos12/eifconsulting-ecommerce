@@ -1,13 +1,82 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-
+import {Role} from '../data'
 import MenuMobileNew from './MenuMobileNew'
 
 class HeaderNew extends Component{
     render(){
-        const {cartTotalNumberPlans, frontEndUser, deconnexion} = this.props.value
+		const {cartTotalNumberPlans, frontEndUser, deconnexion} = this.props.value
+		const {role, email} = frontEndUser;
+		let utilisateur = false
+		let administrateur = false
+		let superadminitrateur = false
+		if (role === Role.Utilisateur){
+			utilisateur = true
+		}else if (role===Role.Administrateur){
+			utilisateur = true 
+			administrateur = true
+		}else if (role === Role.SuperAdministrateur){
+			utilisateur = true 
+			administrateur = true 
+			superadminitrateur = true
+		}
+		console.log('utilisateur', utilisateur)
         return (
             <div className="header">
+				<div className="compte">
+					<div className="connexion-brand">
+						{
+							utilisateur ?
+							<span><i className="fa fa-user"></i>&nbsp;{email}&nbsp;<i className="fa fa-arrow-down"></i></span>
+							:
+							<Link to='/loginfrontend/home'>Se connecter</Link>
+						}
+						
+					</div>
+					<div className="connexion-menu">
+						<ul>
+							{
+								utilisateur ?
+								<React.Fragment>
+									<li>Mes informations</li>
+									<li><Link to="/administrationfrontend">Plans achet&eacute;s</Link></li>
+									<li><Link to="/sellplans">Vendre les plans</Link></li>
+									
+								</React.Fragment>
+								:
+								null
+							}
+							{
+								administrateur ?
+								<React.Fragment>
+									<li>Valider les plans</li>
+								</React.Fragment>
+								:
+								null
+							}
+							{
+								superadminitrateur ?
+								<React.Fragment>
+									<li>Valider les admins</li>
+								</React.Fragment>
+								:
+								null
+							}
+							{
+								utilisateur ?
+								<React.Fragment>
+									<li
+										onClick={()=>{deconnexion()}}
+									>Se d&eacute;connecter</li>
+								</React.Fragment>
+								:
+								null
+							}
+							
+							
+						</ul>
+					</div>
+				</div>
 				<div className="header-new">
 					<div className="logo">
 						<img width="125px" height="125px" src="images/logo/logo.jpg" alt="logo"/>
@@ -18,6 +87,7 @@ class HeaderNew extends Component{
 						</div>
 					</div>
 					<div className="contact-info">
+						
 						<div className="contact">
 							<div><i className="fa fa-phone"></i>+237 6 96 12 84 27</div>
 							<div><i className="fa fa-envelope"></i>eifconsultingandservices@gmail.com</div>
@@ -96,22 +166,8 @@ class HeaderNew extends Component{
 							</li>
 							<li><a href="http://eifconsulting.cm/apropos.php" target="_blank">&Agrave; propos de nous</a></li>
 							<li>Contact</li>
-							{
-								frontEndUser.connected ? 
-									<li><Link to='/administrationfrontend'>Administration</Link></li>
-									:
-									<React.Fragment></React.Fragment>
-							}
-							<li>{frontEndUser.connected ? 
-								<span 
-									
-									onClick={()=>{
-										deconnexion()
-									}}>
-										D&eacute;connexion</span>:
-								<Link to="/loginfrontend/home">Connexion</Link> 
-								}
-							</li>
+							
+							
 						</ul>
 						
 					</div>
