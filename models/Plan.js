@@ -21,7 +21,16 @@ const PlanSchema = new mongoose.Schema({
   isChambreThree: {type: Boolean, required:true},
   isChambreFourMore:{type:Boolean, required:true},
   isCoupCoeur:{type:Boolean, required:true},
-  isPopular: {type:Boolean, required:true}
+  isPopular: {type:Boolean, required:true},
+  type:{
+    type:String, 
+    required:false,
+    enum:['Distribution', '3D', 'Devis']
+  },
+  vueMasseFile:{type:String, required:false},
+  vueAerienneFile:{type:String, required:false},
+  vueFaceFile:{type:String, required:false},
+  emailSubmitter:{type:String, required:false}
 });
 
 module.exports = mongoose.model('Plan', PlanSchema);

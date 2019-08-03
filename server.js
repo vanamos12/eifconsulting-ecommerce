@@ -346,6 +346,78 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })
+    app.post('/api/addplandistribution', authorize([Role.Administrateur, Role.Utilisateur, Role.SuperAdministrateur]),async function(req, res){
+      let imageFile = req.files.file
+      const idImage = shortId.generate(); 
+      const newImageName = `${idImage}_${imageFile.name}`
+      const linkImage = `${__dirname}${save_path}/images/coupcoeurs/${newImageName}`
+
+      let vueMasseFile = req.files.vuemasse
+      const idVueMasse = shortId.generate(); 
+      const newVueMasseName = `${idVueMasse}_${vueMasseFile.name}`
+      const linkVueMasse = `${__dirname}${save_path}/images/vuemasse/${newVueMasseName}`
+
+      let vueAerienneFile = req.files.vueaerienne
+      const idVueAerienne = shortId.generate(); 
+      const newVueAerienneName = `${idVueAerienne}_${vueAerienneFile.name}`
+      const linkVueAerienne = `${__dirname}${save_path}/images/vueaerienne/${newVueAerienneName}`
+
+      let vueFaceFile = req.files.vueface
+      const idVueFace = shortId.generate(); 
+      const newVueFaceName = `${idVueFace}_${vueFaceFile.name}`
+      const linkVueFace = `${__dirname}${save_path}/images/vueface/${newVueFaceName}`
+
+      let donnees = JSON.parse(req.body.data)
+      const {categorie, name, price, description} = donnees
+      const {isStyleModerne, isStyleContemporain, isStyleTraditionnel} = donnees
+      const {isNiveauPlainPied, isNiveauAEtages, isNiveauSousSol} = donnees
+      const {isChambreTwo, isChambreThree, isChambreFourMore} = donnees
+      const {isCoupCoeur, isPopular, emailSubmitter} = donnees
+
+      await imageFile.mv(linkImage)
+      await vueMasseFile.mv(linkVueMasse)
+      await vueAerienneFile.mv(linkVueAerienne)
+      await vueFaceFile.mv(linkVueFace)
+      
+      const plan = new Plan({
+        _id: new mongoose.Types.ObjectId(),
+        categorie:categorie,
+        name: name,
+        price: price,
+        image: `images/coupcoeurs/${newImageName}`,
+        description:description,
+        isStyleModerne: isStyleModerne,
+        isStyleContemporain: isStyleContemporain,
+        isStyleTraditionnel: isStyleTraditionnel,
+        isNiveauPlainPied: isNiveauPlainPied,
+        isNiveauAEtages: isNiveauAEtages,
+        isNiveauSousSol: isNiveauSousSol,
+        isChambreTwo: isChambreTwo,
+        isChambreThree: isChambreThree,
+        isChambreFourMore:isChambreFourMore,
+        isCoupCoeur:isCoupCoeur,
+        isPopular: isPopular,
+        type:'Distribution',
+        vueAerienneFile:`images/vueaerienne/${newVueAerienneName}`,
+        vueMasseFile:`images/vuemasse/${newVueMasseName}`,
+        vueFaceFile:`images/vueface/${newVueFaceName}`,
+        emailSubmitter:emailSubmitter
+      })
+      plan.save(function(err){
+        if (err){
+          res.status(500).json({
+            message:'Erreur de sauvegarde du plan.',
+            plan:plan
+          })
+          console.log(err)
+        }else{
+          res.status(200).json({
+            message:'Tout s\'est bien passé.',
+            plan:plan
+          })
+        }
+      })
+    })
     app.post('/api/addplan', function(req, res){
       let uploadedFile = req.files.file
       const id = shortId.generate(); 

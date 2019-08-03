@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 class WelcomeSell extends Component{
     render(){
@@ -18,9 +19,9 @@ class WelcomeSell extends Component{
                     <div className="dashboard-sell-right text-center">
                         <h2>Soumettre les plans</h2>
                         <ul className="dashboard-sell-right-liste">
-                            <li>Plans de distribution</li>
-                            <li>Plans 3D</li>
-                            <li>D&eacute;vis</li>
+                            <li><Link to="addplandistribution">Plans de distribution</Link></li>
+                            <li><Link to="addplan3d">Plans 3D</Link></li>
+                            <li><Link to="addplandevis">D&eacute;vis</Link></li>
                         </ul>
                     </div>
                 </div>

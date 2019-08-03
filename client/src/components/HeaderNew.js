@@ -2,8 +2,15 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {Role} from '../data'
 import MenuMobileNew from './MenuMobileNew'
+import $ from 'jquery'
 
 class HeaderNew extends Component{
+	toggle = (event)=>{
+		$('.connexion-menu').toggle();
+	}
+	close = (event)=>{
+		$('.connexion-menu').hide();
+	}
     render(){
 		const {cartTotalNumberPlans, frontEndUser, deconnexion} = this.props.value
 		const {role, email} = frontEndUser;
@@ -27,13 +34,15 @@ class HeaderNew extends Component{
 					<div className="connexion-brand">
 						{
 							utilisateur ?
-							<span><i className="fa fa-user"></i>&nbsp;{email}&nbsp;<i className="fa fa-arrow-down"></i></span>
+							<span 
+								className="identification"
+								onClick={this.toggle}><i className="fa fa-user"></i>&nbsp;{email}&nbsp;<i className="fa fa-arrow-down"></i></span>
 							:
 							<Link to='/loginfrontend/home'>Se connecter</Link>
 						}
 						
 					</div>
-					<div className="connexion-menu">
+					<div className="connexion-menu" onClick={this.close}>
 						<ul>
 							{
 								utilisateur ?
