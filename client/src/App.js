@@ -21,6 +21,7 @@ const PrivateRoute = lazy(()=>import('./PrivateRoute'))
 const WelcomeSell = lazy(()=>import('./components/sell/WelcomeSell'))
 const AddPlanDistribution = lazy(()=>import('./components/sell/AddPlanDistribution'))
 const AdministrationValidatedPlans = lazy(()=>import('./components/sell/validatedplans/AdministrationValidatedPlans')) 
+const AdministrationNotValidatedPlans = lazy(()=>import('./components/sell/notvalidatedplans/AdministrationNotValidatedPlans')) 
 
 const AddPlan = lazy(()=>import('./components/backend/AddPlan')) 
 const ModifyPlan = lazy(()=>import('./components/backend/ModifyPlan')) 
@@ -70,8 +71,9 @@ export default class App extends Component {
                 <PrivateRoute path='/administrationfrontend' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationFrontEnd}/>
                 <PrivateRoute path='/sellplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={WelcomeSell}/>
                 <PrivateRoute path='/addplandistribution' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AddPlanDistribution}/>
-
+                
                 <PrivateRoute path='/validatedplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationValidatedPlans}/>
+                <PrivateRoute path='/notvalidatedplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationNotValidatedPlans}/>
                 
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />

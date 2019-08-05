@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-class ValidatedPlansItem extends Component{
+class NotValidatedPlansItem extends Component{
     render(){
         const {name, image, price} = this.props.item
         const LocationDetails = {
@@ -63,4 +63,4 @@ class ValidatedPlansItem extends Component{
     }
 }
 
-export default ValidatedPlansItem
+export default NotValidatedPlansItem
