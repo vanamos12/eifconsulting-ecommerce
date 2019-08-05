@@ -378,7 +378,7 @@ mongoose.connect(mongo_uri, function(err) {
       await vueMasseFile.mv(linkVueMasse)
       await vueAerienneFile.mv(linkVueAerienne)
       await vueFaceFile.mv(linkVueFace)
-      
+
       const plan = new Plan({
         _id: new mongoose.Types.ObjectId(),
         categorie:categorie,
@@ -411,10 +411,34 @@ mongoose.connect(mongo_uri, function(err) {
           })
           console.log(err)
         }else{
-          res.status(200).json({
-            message:'Tout s\'est bien passé.',
-            plan:plan
+          FrontEndUser.findOne({email:emailSubmitter}, (err, user)=>{
+            if (err || !user){
+              console.log(err)
+              res.status(500).json({
+                message:'Erreur de recherche de l\'utilisateur.',
+                plan:plan
+              })
+            }else{
+              user.tabPlansNotValidated.push(plan)
+              user.save(err=>{
+                if (err){
+                  console.log(err);
+                  res.status(500).json({
+                    message:'Erreur de sauvegarde del\'utilisateur.',
+                    plan:plan
+                  })
+                }else{
+                  res.status(200).json({
+                    message:'Tout s\'est bien passé.',
+                    plan:plan
+                  })
+                }
+              })
+              
+            }
+            
           })
+          
         }
       })
     })
@@ -899,7 +923,10 @@ mongoose.connect(mongo_uri, function(err) {
                     error:'Connexion correcte',
                     role:user.role,
                     email:user.email,
-                    tabIdPlans:user.tabPlansBuyed
+                    tabIdPlans:user.tabPlansBuyed,
+                    tabPlansValidated:user.tabPlansValidated,
+                    tabPlansNotValidated:user.tabPlansNotValidated,
+                    tabPlansSold:user.tabPlansSold
                   });
               }
             }
@@ -914,7 +941,10 @@ mongoose.connect(mongo_uri, function(err) {
             email: '',
             role:'',
             message: 'Erreur d\'authentification.',
-            tabIdPlans:[]
+            tabIdPlans:[],
+            tabPlansValidated: [],
+            tabPlansNotValidated:[],
+            tabPlansSold: []
           });
           console.log('Erreur de recherche d\'elements, l\'email n\'est pas enregistré')
         }else{
@@ -922,7 +952,11 @@ mongoose.connect(mongo_uri, function(err) {
             email: req.email,
             role:req.role,
             message: 'Utilisateur authentifie',
-            tabIdPlans:user.tabPlansBuyed
+            tabIdPlans:user.tabPlansBuyed,
+            tabPlansValidated: user.tabPlansValidated,
+            tabPlansNotValidated:user.tabPlansNotValidated,
+            tabPlansSold: user.tabPlansSold
+
           });
         }
       })

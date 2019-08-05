@@ -21,7 +21,10 @@ class ApplicationProvider extends Component{
             connected:false,
             role:'',
             email:'',
-            tabIdPlans:[]
+            tabIdPlans:[],
+            tabPlansValidated:[],
+            tabPlansNotValidated:[],
+            tabPlansSold:[]
         },
         backEndUser:{
             connected:false,
@@ -51,13 +54,19 @@ class ApplicationProvider extends Component{
         })
     }
     setAddedPlan = (plan)=>{
+        let frontEndUser = {...this.state.frontEndUser}
+        frontEndUser.tabPlansNotValidated.push(plan)
+        this.setState({
+            frontEndUser:frontEndUser
+        })
+        /*
         let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
         allPlans.push(plan);
         let backEndUser = {...this.state.backEndUser}
         backEndUser.allPlans = allPlans
         this.setState({
             backEndUser:backEndUser
-        })
+        })*/
     }
     setModifiedPlan = (plan)=>{
         let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
@@ -252,6 +261,9 @@ class ApplicationProvider extends Component{
                     frontEndUser.email = data.email
                     frontEndUser.role = data.role 
                     frontEndUser.tabIdPlans = data.tabIdPlans
+                    frontEndUser.tabPlansValidated =  data.tabPlansValidated
+                    frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
+                    frontEndUser.tabPlansSold = data.tabPlansSold
                     this.setState(()=>{
                         return {
                             frontEndUser:frontEndUser
@@ -305,12 +317,16 @@ class ApplicationProvider extends Component{
             detailPlan:copyPlan
         })
     }
-    setActiveFrontEndUser = (email, role, tabIdPlans, history, destination) =>{
+    
+    setActiveFrontEndUser = (email, role, tabIdPlans, tabPlansValidated, tabPlansNotValidated, tabPlansSold, history, destination) =>{
         let frontEndUser = {...this.state.frontEndUser}
         frontEndUser.connected = true
         frontEndUser.email = email
         frontEndUser.role = role
         frontEndUser.tabIdPlans = tabIdPlans
+        frontEndUser.tabPlansValidated = tabPlansValidated
+        frontEndUser.tabPlansNotValidated = tabPlansNotValidated
+        frontEndUser.tabPlansSold = tabPlansSold
         this.setState(()=>{
             return {
                 frontEndUser:frontEndUser

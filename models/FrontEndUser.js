@@ -40,7 +40,10 @@ const FrontEndUserSchema = new mongoose.Schema({
     trim:true,
     required:false
   },
-  tabPlansBuyed:{type:Array, required:true}
+  tabPlansBuyed:{type:Array, required:true},
+  tabPlansValidated:{type:Array, default:[], required:false},
+  tabPlansNotValidated:{type:Array, default:[], required:false},
+  tabPlansSold:{type:Array, default:[], required:false}
 });
 
 FrontEndUserSchema.methods.isCorrectPassword = function(password, callback){

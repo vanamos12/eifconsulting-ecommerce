@@ -98,7 +98,7 @@ class AddPlanDistribution extends Component{
                             uploading:false
                         }
                     }, ()=>{
-                        //this.props.value.setAddedPlan(data.data.plan)
+                        this.props.value.setAddedPlan(data.data.plan)
                     })
                     
                 }else if (action === 'failure'){

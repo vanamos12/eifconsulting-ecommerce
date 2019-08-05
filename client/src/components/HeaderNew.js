@@ -100,17 +100,7 @@ class HeaderNew extends Component{
 						<div className="contact">
 							<div><i className="fa fa-phone"></i>+237 6 96 12 84 27</div>
 							<div><i className="fa fa-envelope"></i>eifconsultingandservices@gmail.com</div>
-							{frontEndUser.connected ? 
-
-								<div>
-										<i className="fa fa-user"></i> {frontEndUser.email}
-										
-								</div>
-								: 
-								<React.Fragment>
-									{/* Nothing to show */}
-								</React.Fragment>
-							}
+							
 						</div>
 					</div>
 				</div>

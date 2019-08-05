@@ -55,10 +55,13 @@ export default class LoginFrontEnd extends Component {
         console.log(data.role)
         console.log(data.email)
         console.log(data.tabIdPlans)
-        
+        console.log("validated", data.tabPlansValidated)
+        console.log("Not validated", data.tabPlansNotValidated)
+        console.log("Sold", data.tabPlansSold)
+
         let history = this.props.history
         let destination = this.state.params.destination
-        this.props.value.setActiveFrontEndUser(data.email,data.role, data.tabIdPlans, history, destination)
+        this.props.value.setActiveFrontEndUser(data.email,data.role, data.tabIdPlans, data.tabPlansValidated, data.tabPlansNotValidated, data.tabPlansSold, history, destination)
         
       }
     })

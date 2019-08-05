@@ -3,6 +3,9 @@ import {Link} from 'react-router-dom'
 
 class WelcomeSell extends Component{
     render(){
+        const countvalidatedplans = this.props.value.frontEndUser.tabPlansValidated.length
+        const countnotvalidatedplans = this.props.value.frontEndUser.tabPlansNotValidated.length
+
         return (
             <div className="container mt-5">
                 <div className="spaceToSee"></div>
@@ -10,8 +13,8 @@ class WelcomeSell extends Component{
                     <div className="dashboard-sell-left text-center">
                         <h2>Informations sur plans</h2>
                         <ul className="dashboard-sell-left-liste">
-                            <li>Mes plans(5)</li>
-                            <li>Plans non validés(4)</li>
+                            <li><Link to="/validatedplans">Mes plans({countvalidatedplans})</Link></li>
+                            <li><Link to="/notvalidatedplans">Plans non validés({countnotvalidatedplans})</Link></li>
                             <li>Plans Vendus</li>
                             <li>R&eacute;mun&eacute;ration</li>
                         </ul>
