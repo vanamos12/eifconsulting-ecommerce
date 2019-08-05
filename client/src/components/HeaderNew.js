@@ -58,7 +58,7 @@ class HeaderNew extends Component{
 							{
 								administrateur ?
 								<React.Fragment>
-									<li>Valider les plans</li>
+									<li><Link to="/validateplans">Valider les plans</Link></li>
 								</React.Fragment>
 								:
 								null

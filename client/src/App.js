@@ -6,6 +6,8 @@ import withAuth from './withAuth';
 import HeaderNew from './components/HeaderNew'
 import {Role} from './data'
 
+const WelcomeValidate  = lazy(()=>import('./components/validate/WelcomeValidate')) ;
+
 const Home = lazy(()=>import('./components/Home')) ;
 const Cart = lazy(()=>import('./components/cart/Cart')) 
 const Detail = lazy(()=>import('./components/Detail')) 
@@ -75,6 +77,8 @@ export default class App extends Component {
                 <PrivateRoute path='/validatedplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationValidatedPlans}/>
                 <PrivateRoute path='/notvalidatedplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationNotValidatedPlans}/>
                 
+                <PrivateRoute path='/validateplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={WelcomeValidate}/>
+
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />
                 <Route 

@@ -1,13 +1,40 @@
 const mongoose = require('mongoose');
-const Plan = require('./models/Plan')
+const Plan = require('./models/Plan');
+const FrontEndUser = require('./models/FrontEndUser')
 
-const mongo_uri = 'mongodb://localhost/react-auth';
-const mongo_uri_mlab = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority'
+let mongo_uri = ''
+if (process.env.NODE_ENV === 'production') {
+    mongo_uri = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority'
+}else{
+    mongo_uri = 'mongodb://localhost/react-auth';
+}
+
+
 mongoose.connect(mongo_uri, function(err) {
   if (err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    let userAdministrateur = FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email: 'braintosoft@hotmail.ca',
+        password: 'rolande12',
+        name:'Poka',
+        surname:'Hermann',
+        telephone:'656752739',
+        role:'Administrateur',
+        isAdminActive:true,
+        isEmailVerified:true
+    })
+
+    userAdministrateur.save(err=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("Utilisteur administrateur crée")
+        }
+    })
+    /*
     let plan1 = Plan({
         _id: new mongoose.Types.ObjectId(),
         categorie:'Traditionnelle',
@@ -275,6 +302,6 @@ mongoose.connect(mongo_uri, function(err) {
         }else{
             console.log('Plan10 Vaux created')
         }
-    })
+    })*/
   }
 });
