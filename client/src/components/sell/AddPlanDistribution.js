@@ -122,8 +122,8 @@ class AddPlanDistribution extends Component{
                 <div className="spaceToSee"></div>
                 <div className="container-fluid text-center">
                     
-                    <Link to="/administrationbackend">Aller au plans du back end</Link>
-                    <h1>Formulaire d'ajout d'un plan</h1>
+                    <Link to="/sellplans">Retourner au menu</Link>
+                    <h1>Formulaire d'ajout d'un plan de distribution</h1>
                     <form action="#" onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <label for="categorie">Cat&eacute;gorie :

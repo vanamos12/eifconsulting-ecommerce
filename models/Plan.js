@@ -30,6 +30,9 @@ const PlanSchema = new mongoose.Schema({
   vueMasseFile:{type:String, required:false},
   vueAerienneFile:{type:String, required:false},
   vueFaceFile:{type:String, required:false},
+  grosOeuvreFile:{type:String, required:false},
+  secondOeuvreFile:{type:String, required:false},
+  charpenteToitureFile:{type:String, required:false},
   emailSubmitter:{type:String, required:false}
 });
 
