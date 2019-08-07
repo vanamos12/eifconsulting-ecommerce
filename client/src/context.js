@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {sliderImages} from './data'
+import {sliderImages, Role} from './data'
 
 const ApplicationContext = React.createContext()
 
@@ -31,6 +31,7 @@ class ApplicationProvider extends Component{
             email:'',
             allPlans:[]
         },
+        administrators:[],
         cartSubTotal:0,
         cartTotalNumberPlans:0,
         cartTax:0,
@@ -257,6 +258,25 @@ class ApplicationProvider extends Component{
                 if (action === 'connected'){
                     console.log(data.role)
                     let frontEndUser = {...this.state.frontEndUser}
+                    let backEndUser = {...this.state.backEndUser}
+                    let administrators = [...this.state.administrators]
+                    if ([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur].includes(data.role)){
+                        frontEndUser.connected = true
+                        frontEndUser.email = data.email
+                        frontEndUser.role = data.role
+                        frontEndUser.tabIdPlans = data.tabIdPlans
+                        frontEndUser.tabPlansValidated = data.tabPlansValidated
+                        frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
+                        frontEndUser.tabPlansSold = data.AccepttabPlansSold
+                    } 
+                    if ([Role.Administrateur, Role.SuperAdministrateur].includes(data.role)){
+                        backEndUser.allPlans = data.allPlans
+                    } 
+                    if ([Role.SuperAdministrateur].includes(data.role)){
+                        administrators = data.administrators
+                    }
+                    /*
+                    let frontEndUser = {...this.state.frontEndUser}
                     frontEndUser.connected = true
                     frontEndUser.email = data.email
                     frontEndUser.role = data.role 
@@ -264,9 +284,12 @@ class ApplicationProvider extends Component{
                     frontEndUser.tabPlansValidated =  data.tabPlansValidated
                     frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
                     frontEndUser.tabPlansSold = data.tabPlansSold
+                    */
                     this.setState(()=>{
                         return {
-                            frontEndUser:frontEndUser
+                            frontEndUser:frontEndUser,
+                            backEndUser:backEndUser,
+                            administrators:administrators
                         }
                     })
                 }
@@ -318,18 +341,30 @@ class ApplicationProvider extends Component{
         })
     }
     
-    setActiveFrontEndUser = (email, role, tabIdPlans, tabPlansValidated, tabPlansNotValidated, tabPlansSold, history, destination) =>{
+    setActiveFrontEndUser = (data, history, destination) =>{
         let frontEndUser = {...this.state.frontEndUser}
-        frontEndUser.connected = true
-        frontEndUser.email = email
-        frontEndUser.role = role
-        frontEndUser.tabIdPlans = tabIdPlans
-        frontEndUser.tabPlansValidated = tabPlansValidated
-        frontEndUser.tabPlansNotValidated = tabPlansNotValidated
-        frontEndUser.tabPlansSold = tabPlansSold
+        let backEndUser = {...this.state.backEndUser}
+        let administrators = [...this.state.administrators]
+        if ([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur].includes(data.role)){
+            frontEndUser.connected = true
+            frontEndUser.email = data.email
+            frontEndUser.role = data.role
+            frontEndUser.tabIdPlans = data.tabIdPlans
+            frontEndUser.tabPlansValidated = data.tabPlansValidated
+            frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
+            frontEndUser.tabPlansSold = data.AccepttabPlansSold
+        } 
+        if ([Role.Administrateur, Role.SuperAdministrateur].includes(data.role)){
+            backEndUser.allPlans = data.allPlans
+        } 
+        if ([Role.SuperAdministrateur].includes(data.role)){
+            administrators = data.administrators
+        }
         this.setState(()=>{
             return {
-                frontEndUser:frontEndUser
+                frontEndUser:frontEndUser,
+                backEndUser:backEndUser,
+                administrators:administrators
             }
     }, ()=>{
         if (destination === 'home'){

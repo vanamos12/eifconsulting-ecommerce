@@ -27,6 +27,7 @@ const PlanSchema = new mongoose.Schema({
     required:false,
     enum:['Distribution', '3D', 'Devis']
   },
+  isValidated:{type:Boolean, default:false, required:false},
   vueMasseFile:{type:String, required:false},
   vueAerienneFile:{type:String, required:false},
   vueFaceFile:{type:String, required:false},

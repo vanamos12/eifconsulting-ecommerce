@@ -6,8 +6,8 @@ class WelcomeValidate extends Component{
         //Search all the plans and place it in the content.
     }
     render(){
-        const countvalidatedplans = this.props.value.frontEndUser.tabPlansValidated.length
-        const countnotvalidatedplans = this.props.value.frontEndUser.tabPlansNotValidated.length
+        const countallplans = this.props.value.allPlans.length
+        
 
         return (
             <div className="container mt-5">
@@ -15,7 +15,7 @@ class WelcomeValidate extends Component{
                 <div className="dashbord-validate text-center">
                     <h2>Valider les plans</h2>
                     <ul className="dashboard-validate-liste">
-                        <li><Link to="/allplans">Tous les plans(100)</Link></li>
+                        <li><Link to="/allplans">Tous les plans({countallplans})</Link></li>
                         <li><Link to="/searchadministrateurplans">Rechercher</Link></li>
                         <li>Gain</li>
                     </ul>

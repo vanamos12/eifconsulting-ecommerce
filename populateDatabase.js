@@ -52,7 +52,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: true,
         isChambreFourMore:true,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan1.save(function (err){
         if (err) {
@@ -78,7 +79,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: false,
         isChambreFourMore:false,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan2.save(function (err){
         if (err) {
@@ -105,7 +107,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: true,
         isChambreFourMore:false,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan3.save(function (err){
         if (err) {
@@ -132,7 +135,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: false,
         isChambreFourMore:true,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan4.save(function (err){
         if (err) {
@@ -159,7 +163,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: false,
         isChambreFourMore:false,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan5.save(function (err){
         if (err) {
@@ -186,7 +191,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: true,
         isChambreFourMore:false,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan6.save(function (err){
         if (err) {
@@ -213,7 +219,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: false,
         isChambreFourMore:true,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan7.save(function (err){
         if (err) {
@@ -240,7 +247,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: false,
         isChambreFourMore:false,
         isCoupCoeur:true,
-        isPopular: false
+        isPopular: false,
+        isValidated: true
     })
     plan8.save(function (err){
         if (err) {
@@ -267,7 +275,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: true,
         isChambreFourMore:false,
         isCoupCoeur:false,
-        isPopular: true
+        isPopular: true,
+        isValidated: true
     })
     plan9.save(function (err){
         if (err) {
@@ -294,7 +303,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreThree: false,
         isChambreFourMore:true,
         isCoupCoeur:false,
-        isPopular: true
+        isPopular: true,
+        isValidated: true
     })
     plan10.save(function (err){
         if (err) {

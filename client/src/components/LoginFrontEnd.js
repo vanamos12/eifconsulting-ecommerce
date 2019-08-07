@@ -61,7 +61,7 @@ export default class LoginFrontEnd extends Component {
 
         let history = this.props.history
         let destination = this.state.params.destination
-        this.props.value.setActiveFrontEndUser(data.email,data.role, data.tabIdPlans, data.tabPlansValidated, data.tabPlansNotValidated, data.tabPlansSold, history, destination)
+        this.props.value.setActiveFrontEndUser(data, history, destination)
         
       }
     })
