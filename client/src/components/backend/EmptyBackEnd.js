@@ -8,8 +8,14 @@ class EmptyBackEnd extends Component{
                 <div className="container mt-5">
                     <div className="row">
                         <div className="col-10 mx-auto text-center">
-                            <h2 className="text-uppercase">Vous n'avez pas de plans sauvegardés.</h2>
-                            <h3><Link to="/addplan">Ajouter un plan</Link></h3>
+                            {
+                                this.props.type === 'search'?
+                                <h2 className="text-uppercase">Votre recherche n'a pas donn&eacute; de r&eacute;sultats.</h2>
+                                :
+                                <h2 className="text-uppercase">Vous n'avez pas de plans.</h2>
+                            }
+                            
+                            
                         </div>
                     </div>
 

@@ -25,7 +25,7 @@ class AdministrationBackEnd extends Component{
                 
                                         </div>
                                         }
-                                        <EmptyBackEnd/>
+                                        <EmptyBackEnd type={this.props.type} />
                                     </div>
                                 </React.Fragment>
                                 )
@@ -41,9 +41,15 @@ class AdministrationBackEnd extends Component{
                                     
                                     <div className="cart_info">
                                         <div className="container text-center">
-                                            <h1>Liste de tous les plans.</h1>
+                                            {
+                                                this.props.type === "search" ?
+                                                <h1>R&eacute;sultats de la recherche.</h1>
+                                                :
+                                                <h1>Liste de tous les plans.</h1>
+                                            }
+                                            
                                             <BackEndColumns/>
-                                            <BackEndList value={value}/>
+                                            <BackEndList value={value} type={this.props.type} />
                                             
                                         </div> 
                                     </div>

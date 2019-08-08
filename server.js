@@ -1067,6 +1067,24 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
+    app.post('/api/searchadministratorsplans', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
+      const {email} = req.body
+      Plan.find({emailSubmitter:email}, (err, plans)=>{
+        if (err || !plans){
+          console.log(err)
+          res.status(500).json({
+            status:500,
+            message:'Erreur dans la recherche des plans'
+          })
+        }else{
+          res.status(200).json({
+            status:200,
+            message:'Recherche des plans réussie',
+            plans:plans
+          })
+        }
+      })
+    })
     app.post('/api/setactiveplan', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
       const {idPlan} = req.body
       console.log("idPlan", idPlan)

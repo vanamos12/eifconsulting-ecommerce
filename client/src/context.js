@@ -55,6 +55,13 @@ class ApplicationProvider extends Component{
             history.push('/searchresults')
         })
     }
+    setSearchAdministratorsPlans = (plans)=>{
+        let search = {...this.state.search}
+        search.resultsAdministrators = plans
+        this.setState({
+            search:search
+        })
+    }
     setAddedPlan = (plan)=>{
         let frontEndUser = {...this.state.frontEndUser}
         frontEndUser.tabPlansNotValidated.push(plan)
@@ -801,6 +808,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setSearchAdministratorsPlans:this.setSearchAdministratorsPlans,
                 setNotActivePlan:this.setNotActivePlan,
                 setActivePlan:this.setActivePlan,
                 setResults:this.setResults,

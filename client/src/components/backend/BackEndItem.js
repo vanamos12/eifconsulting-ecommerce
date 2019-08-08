@@ -35,7 +35,7 @@ class BackEndItem extends Component{
                                 isValidated ?
                                     <span 
                                         onClick={()=>{value.setNotActivePlan(_id)}}
-                                    >Ne plus valider</span>
+                                    >D&eacute;j&agrave; valid&eacute;</span>
                                     :
                                     <span
                                         onClick={()=>{value.setActivePlan(_id)}}

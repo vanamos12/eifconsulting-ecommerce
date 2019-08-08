@@ -3,7 +3,10 @@ import BackEndItem from './BackEndItem'
 
 class BackEndList extends Component{
     render(){
-        const {allPlans} = this.props.value.backEndUser
+        let allPlans = this.props.value.backEndUser.allPlans
+        if (this.props.type === "search"){
+            allPlans = this.props.value.search.resultsAdministrators
+        }
         const value = this.props.value
         return (
             <React.Fragment>

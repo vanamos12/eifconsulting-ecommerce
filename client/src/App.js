@@ -26,6 +26,7 @@ const AddPlan3d = lazy(()=>import('./components/sell/AddPlan3d'))
 const AddPlanDevis = lazy(()=>import('./components/sell/AddPlanDevis'))
 const AdministrationValidatedPlans = lazy(()=>import('./components/sell/validatedplans/AdministrationValidatedPlans')) 
 const AdministrationNotValidatedPlans = lazy(()=>import('./components/sell/notvalidatedplans/AdministrationNotValidatedPlans')) 
+const WelcomeSearchAdministrators = lazy(()=>import('./components/search/searchadministrators/WelcomeSearchAdministrators'))
 
 const AddPlan = lazy(()=>import('./components/backend/AddPlan')) 
 const ModifyPlan = lazy(()=>import('./components/backend/ModifyPlan')) 
@@ -84,6 +85,7 @@ export default class App extends Component {
                 <PrivateRoute path='/validateplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={WelcomeValidate}/>
                 <PrivateRoute path='/allplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={AdministrationBackEnd}/>
                 
+                <PrivateRoute path='/searchadministrateurplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={WelcomeSearchAdministrators}/>
 
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />
