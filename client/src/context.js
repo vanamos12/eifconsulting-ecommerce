@@ -15,7 +15,8 @@ class ApplicationProvider extends Component{
         modalOpen:false,
         //modalProduct:detailProduct,
         search:{
-           results:[] 
+           results:[],
+           resultsAdministrators:[]
         },
         frontEndUser:{
             connected:false,
@@ -57,8 +58,14 @@ class ApplicationProvider extends Component{
     setAddedPlan = (plan)=>{
         let frontEndUser = {...this.state.frontEndUser}
         frontEndUser.tabPlansNotValidated.push(plan)
+        let backEndUser = {...this.state.backEndUser}
+        if ([Role.Administrateur, Role.SuperAdministrateur].includes(frontEndUser.role)){
+            backEndUser.allPlans.push(plan)
+        }
+        
         this.setState({
-            frontEndUser:frontEndUser
+            frontEndUser:frontEndUser,
+            backEndUser:backEndUser
         })
         /*
         let allPlans = this.state.backEndUser.allPlans.map(function(item){return item})
@@ -339,6 +346,49 @@ class ApplicationProvider extends Component{
         this.setState({
             detailPlan:copyPlan
         })
+    }
+    setActivePlan = (id)=>{
+        fetch('/api/setactiveplan', {
+            method:'POST',
+            body:JSON.stringify({idPlan:id}),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if (data.status === 200){
+                console.log('data', data)
+                
+                let backEndUser = {...this.state.backEndUser}
+                const idPlanInTab = backEndUser.allPlans.findIndex(item=>item._id === id)
+                if (idPlanInTab >=0){
+                    backEndUser.allPlans[idPlanInTab].isValidated = true
+                }
+                let frontEndUser = {...this.state.frontEndUser}
+                if (data.emailSubmitter === frontEndUser.email){
+                    const idPlanNotvalidated = frontEndUser.tabPlansNotValidated.findIndex((item)=>item._id == id)
+                    let planToBeValidated = {}
+                    if (idPlanNotvalidated >=0){
+                        planToBeValidated = frontEndUser.tabPlansNotValidated[idPlanNotvalidated]
+                        planToBeValidated.isValidated = true
+                        frontEndUser.tabPlansValidated.push(planToBeValidated)
+                        frontEndUser.tabPlansNotValidated.splice(idPlanNotvalidated, 1)
+                    }
+                }
+                this.setState({
+                    backEndUser:backEndUser,
+                    frontEndUser:frontEndUser
+                })
+                
+            }
+        })
+        .catch(err=>console.log(err))
+
+    }
+
+    setNotActivePlan = (id)=>{
+
     }
     
     setActiveFrontEndUser = (data, history, destination) =>{
@@ -751,6 +801,8 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setNotActivePlan:this.setNotActivePlan,
+                setActivePlan:this.setActivePlan,
                 setResults:this.setResults,
                 setAddedPlan:this.setAddedPlan,
                 setModifiedPlan:this.setModifiedPlan,

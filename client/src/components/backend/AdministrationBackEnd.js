@@ -11,14 +11,20 @@ class AdministrationBackEnd extends Component{
             <React.Fragment>
                 <ApplicationConsumer>
                     {(value)=>{
-                        const allPlans = value.backEndUser.allPlans
+                        
+                        let allPlans = value.backEndUser.allPlans
+                        if (this.props.type === "search"){
+                            allPlans = value.search.resultsAdministrators
+                        }
                         if (allPlans.length === 0){
                             return (
                                 <React.Fragment>
                                     <div id="cart">
+                                        {this.props.type==="search"? null:
                                         <div className="spaceToSee">
                 
                                         </div>
+                                        }
                                         <EmptyBackEnd/>
                                     </div>
                                 </React.Fragment>
@@ -27,13 +33,15 @@ class AdministrationBackEnd extends Component{
                             return (
                                 <React.Fragment>
                                     <div id="cart">
-                                    <div className="spaceToSee">
+                                    {this.props.type==="search"? null:
+                                        <div className="spaceToSee">
                 
-                                    </div>
+                                        </div>
+                                        }
                                     
                                     <div className="cart_info">
-                                        <div className="container">
-                                            <Link to='addplan'>Ajouter un plan</Link>
+                                        <div className="container text-center">
+                                            <h1>Liste de tous les plans.</h1>
                                             <BackEndColumns/>
                                             <BackEndList value={value}/>
                                             

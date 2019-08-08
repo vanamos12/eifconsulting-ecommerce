@@ -82,6 +82,8 @@ export default class App extends Component {
                 <PrivateRoute path='/notvalidatedplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]} component={AdministrationNotValidatedPlans}/>
                 
                 <PrivateRoute path='/validateplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={WelcomeValidate}/>
+                <PrivateRoute path='/allplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={AdministrationBackEnd}/>
+                
 
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />
                 <Route path="/detailsfrontend" component={DetailsFrontEnd} />
@@ -91,9 +93,7 @@ export default class App extends Component {
                 <Route 
                   path="/modifyplan" 
                   render={(props)=><ModifyPlan {...props} value={value}/>} />
-                <Route 
-                  path="/administrationbackend/" 
-                  component={AdministrationBackEnd} />
+                
                 
                 <Route path="/signupbackend" component={SignUpBackEnd} />
                 <Route 

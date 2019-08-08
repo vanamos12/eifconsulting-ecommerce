@@ -1067,6 +1067,75 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
+    app.post('/api/setactiveplan', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
+      const {idPlan} = req.body
+      console.log("idPlan", idPlan)
+      Plan.findById(idPlan, function(err, plan){
+        if (err || !plan){
+          console.log(err)
+          res.status(500).json({
+            status:500,
+            message:"Ce plan n'existe pas"
+          })
+        }else{
+          FrontEndUser.findOne({email:plan.emailSubmitter},function(err, user){
+            if (err || !user){
+              console.log(err)
+              res.status(500).json({
+                status:500,
+                message:"Cet utilisateur n'existe pas",
+                emailSubmitter:plan.emailSubmitter
+              })
+            }else{
+              let tabPlansNotValidated = [...user.tabPlansNotValidated]
+              
+              let tabPlansValidated = [...user.tabPlansValidated]
+              
+              const idPlanNotvalidated = tabPlansNotValidated.findIndex((item)=>item._id == idPlan)
+              
+              let planToBeValidated = {}
+              if (idPlanNotvalidated >=0){
+                planToBeValidated = tabPlansNotValidated[idPlanNotvalidated]
+                planToBeValidated.isValidated = true
+                tabPlansValidated.push(planToBeValidated)
+                tabPlansNotValidated.splice(idPlanNotvalidated, 1)
+              }
+              
+              user.tabPlansNotValidated = tabPlansNotValidated
+              user.tabPlansValidated = tabPlansValidated
+              user.save(function(err){
+                if (err){
+                  console.log(err)
+                  res.status(500).json({
+                    status:500,
+                    message:"Erreur de sauvegarde de l'utilisateur",
+                    emailSubmitter:plan.emailSubmitter
+                  })
+                }else{
+                  plan.isValidated = true
+                  plan.save(err=>{
+                    if (err){
+                      res.status(500).json({
+                        status:500,
+                        message:"Erreur de sauvegarde du plan",
+                        emailSubmitter:plan.emailSubmitter
+                      })
+                    }else{
+                      res.status(200).json({
+                        status:200,
+                        message:"Le plan a bien été validé",
+                        emailSubmitter:plan.emailSubmitter
+                      })
+                    }
+                  })
+                  
+                }
+              })
+            }
+          })
+        }
+      })
+    })
     app.post('/api/authenticateFrontEnd', function(req, res) {
       const { email, password } = req.body;
       FrontEndUser.findOne({ email:email }, function(err, user) {

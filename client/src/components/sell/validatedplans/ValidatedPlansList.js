@@ -3,8 +3,9 @@ import ValidatedPlansItem from './ValidatedPlansItem'
 
 class ValidatedPlansList extends Component{
     render(){
-        const tabPlansValidated = value.frontEndUser.tabPlansValidated
         const value = this.props.value
+        const tabPlansValidated = value.frontEndUser.tabPlansValidated
+        
         return (
             <React.Fragment>
                 <div className="row cart_items_row">

@@ -2,11 +2,9 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
 class WelcomeValidate extends Component{
-    componentDidMount(){
-        //Search all the plans and place it in the content.
-    }
+    
     render(){
-        const countallplans = this.props.value.allPlans.length
+        const countallplans = this.props.value.backEndUser.allPlans.length
         
 
         return (

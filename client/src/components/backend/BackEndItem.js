@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom'
 
 class BackEndItem extends Component{
     render(){
-        const { name, image, price} = this.props.item
+        const {_id, name, image, price, isValidated} = this.props.item
+        const value = this.props.value
         const LocationDetailsBackEnd = {
             pathname:"/modifyplan",
             state:{item:this.props.item}
@@ -27,9 +28,20 @@ class BackEndItem extends Component{
                         <div className="cart_item_price">{ price } FCFA </div>
                         
                         <div className="cart_item_quantity">
-                            <Link 
+                            {/*<Link 
                                 to={LocationDetailsBackEnd}
-                                >Modifier</Link>
+                            >Modifier</Link>*/}
+                            {
+                                isValidated ?
+                                    <span 
+                                        onClick={()=>{value.setNotActivePlan(_id)}}
+                                    >Ne plus valider</span>
+                                    :
+                                    <span
+                                        onClick={()=>{value.setActivePlan(_id)}}
+                                    >Valider</span>
+
+                            }
                         </div>
                         {/*<div className="cart_item_quantity">
                             <div className="product_quantity_container">
