@@ -48,6 +48,7 @@ class CartTotals extends Component{
                                     */
                                     savePayments()
                                     clearCart()
+                                    history.push('/administrationfrontend')
                                 }}>
                                     <span className="buttonPayer">Payer</span>
                             </div> 

@@ -74,7 +74,7 @@ export default class LoginFrontEnd extends Component {
     return (
       <div className="login">
         <div className="spaceToSee"></div>
-        <div className="container text-center">
+        <div className="container form-container text-center">
         <h1>Connectez-vous!</h1>
         <small><Link to="/signupfrontend">Incrivez-vous ici</Link></small>
         <span>&nbsp;&nbsp;</span>
@@ -82,7 +82,7 @@ export default class LoginFrontEnd extends Component {
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
           <input
-            className="form-control"
+            className="form-control rounded-1"
             type="email"
             name="email"
             placeholder="Entrez votre email"
@@ -93,7 +93,7 @@ export default class LoginFrontEnd extends Component {
           </div>
           <div className="form-group">
           <input
-            className="form-control"
+            className="form-control rounded-1"
             type="password"
             name="password"
             placeholder="Entrez votre mot de passe"
