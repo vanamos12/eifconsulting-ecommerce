@@ -19,6 +19,7 @@ const BackEndUser = require('./models/BackEndUser.js')
 const PrecommandPlan = require('./models/PrecommandPlan.js')
 const Plan = require('./models/Plan.js')
 const Newletter = require('./models/Newletter.js')
+const Sold = require('./models/Sold.js')
 const {withAuthFrontEnd, withAuthBackEnd, authorize} = require('./middleware');
 const {secret, Role} = require('./config.js');
 
@@ -29,7 +30,7 @@ app.use(cors())
 app.use(fileUpload({
   useTempFiles: true,
   safeFileNames: true,
-  preserveExtension: true,
+  preserveExtension: 15,
   tempFileDir: `${__dirname}/client/public/files/temp` 
 }))
 
@@ -110,9 +111,9 @@ mongoose.connect(mongo_uri, function(err) {
       })
 
     })
-    app.get('/notifydohone', function(req, res){
+    app.get('/notifydohone', async function(req, res){
       const {rI, rMt, rDvs, idReqDoh, rH, mode, motif } = req.query
-      PrecommandPlan.findOne({command:rI}, function(err, cart){
+      PrecommandPlan.findOne({command:rI}, async function(err, cart){
         if (err && !cart){
           console.log("On n'a pas trouvé la commande.")
           res.status(500).json({
@@ -125,7 +126,7 @@ mongoose.connect(mongo_uri, function(err) {
             console.log("Tout est correct");
             let tabIdPlans = cart.plans;
             let email = cart.email;
-            FrontEndUser.findOne({email}, function(err, user){
+            FrontEndUser.findOne({email}, async function(err, user){
               if (err){
                 console.log(err)
                 res.status(500).json({
@@ -141,13 +142,24 @@ mongoose.connect(mongo_uri, function(err) {
                   return !tabId.some(itemBuy=>itemBuy._id === item._id)
                 })
                 user.tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
-                user.save(function(err){
+                user.save(async function(err){
                   if (err){
                     console.log(err)
                     res.status(500).json({
                       error:'Erreur interne, essayez encore'
                     })
                   }else{
+                    for(let i = 0; i<tabIdPlans.length; i++){
+                      let sold = new Sold({
+                        _id:new mongoose.Types.ObjectId(),
+                        emailBuyer:email,
+                        emailSubmitter:tabIdPlans[i].emailSubmitter,
+                        plan:tabIdPlans[i],
+                        idPlan:tabIdPlans[i]._id,
+                        isBuyed:false
+                      })
+                      await sold.save();
+                    }
                     console.log('PaymentsSucessfully saved')
                     res.status(200).json({
                       error:'PaymentsSucessfully saved'
@@ -186,7 +198,7 @@ mongoose.connect(mongo_uri, function(err) {
 
     })
     app.get('/api/getFrontEndUserAllPlans', function(req, res){
-      Plan.find({}, function(err, plans){
+      Plan.find({isValidated:true}, function(err, plans){
         if (err){
           res.status(500).json({
             message:'Erreur interne',
@@ -692,7 +704,7 @@ mongoose.connect(mongo_uri, function(err) {
       
     })
     app.get('/api/homePopular', function(req, res){
-      Plan.find({isPopular:true})
+      Plan.find({isPopular:true, isValidated:true})
         .exec(function(err, plansPopular){
             if (err){
               console.log(err)
@@ -707,7 +719,7 @@ mongoose.connect(mongo_uri, function(err) {
         })
     })
     app.get('/api/home', function(req, res){
-      Plan.find({isCoupCoeur:true})
+      Plan.find({isCoupCoeur:true, isValidated:true})
         .exec(function(err, plansCoupCoeur){
             if (err){
               console.log(err)
@@ -994,10 +1006,10 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })*/
-    app.post('/api/savePaymentsFrontEnd', function(req, res){
+    app.post('/api/savePaymentsFrontEnd', async function(req, res){
       const {email, tabIdPlans} = req.body
       //TODO save the email user tabIdPlans
-      FrontEndUser.findOne({email}, function(err, user){
+      FrontEndUser.findOne({email}, async function(err, user){
         if (err){
           res.status(500).json({
             error:'Erreur interne, essayez encore'
@@ -1012,13 +1024,24 @@ mongoose.connect(mongo_uri, function(err) {
             return !tabId.some(itemBuy=>itemBuy._id === item._id)
           })
           user.tabPlansBuyed = [...tabId, ...addTabPlansBuyed]
-          user.save(function(err){
+          user.save(async function(err){
             if (err){
               console.log(err)
               res.status(500).json({
                 error:'Erreur interne, essayez encore'
               })
             }else{
+              for(let i = 0; i<tabIdPlans.length; i++){
+                let sold = new Sold({
+                  _id:new mongoose.Types.ObjectId(),
+                  emailBuyer:email,
+                  emailSubmitter:tabIdPlans[i].emailSubmitter,
+                  plan:tabIdPlans[i],
+                  idPlan:tabIdPlans[i]._id,
+                  isBuyed:false
+                })
+                await sold.save();
+              }
               res.status(200).json({
                 error:'PaymentsSucessfully saved'
               })

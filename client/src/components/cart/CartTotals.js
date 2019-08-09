@@ -40,8 +40,19 @@ class CartTotals extends Component{
                                     </li>
                                 </ul>
                             </div>
+                            <div 
+                                className="button checkout_button"
+                                onClick={()=>{
+                                    /*
+                                    processPayment(history, cartTotal)
+                                    */
+                                    savePayments()
+                                    clearCart()
+                                }}>
+                                    <span className="buttonPayer">Payer</span>
+                            </div> 
                             {
-                                isConnectedFrontEndUser ?
+                                /*isConnectedFrontEndUser ?
                                  <div className="d-flex">
                                     <PaypalButton clearCart={clearCart} history={history} savePayments={savePayments}/> 
                                     <div className="cursorPointer" onClick={this.mobile_payment}>
@@ -54,8 +65,9 @@ class CartTotals extends Component{
                                     onClick={()=>{
                                         processPayment(history, cartTotal)
                                     }}>
-                                        <span className="buttonPayer" href="">Payer</span>
+                                        <span className="buttonPayer">Payer</span>
                                 </div> 
+                                */
                             }
                             
                         </div>

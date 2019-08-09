@@ -889,7 +889,8 @@ h6::selection
 {
 	width: 100%;
 	background: #FFFFFF;
-	padding-top: 96px;
+	/*padding-top: 96px;*/
+	padding-top:0px;
 	z-index: 2;
 }
 #cart .cart_info_columns
@@ -925,8 +926,10 @@ h6::selection
 }
 #cart .cart_item
 {
-	padding-top: 33px;
-	padding-bottom: 33px;
+	/*padding-top: 33px;
+	padding-bottom: 33px;*/
+	padding-top: 5px;
+	padding-bottom:5px;
 }
 #cart .cart_item_product
 {
@@ -949,7 +952,8 @@ h6::selection
 #cart .cart_item_image div
 {
 	width: 183px;
-	height: 163px;
+	/*
+	height: 163px;*/
 }
 #cart .cart_item_image div img
 {

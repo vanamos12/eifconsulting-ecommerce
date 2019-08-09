@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Plan = require('./models/Plan');
 const FrontEndUser = require('./models/FrontEndUser')
+const BackEndUser = require('./models/BackEndUser')
+const Sold = require('./models/Sold')
 
 let mongo_uri = ''
 if (process.env.NODE_ENV === 'production') {
@@ -15,6 +17,61 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
+    Sold.find({}, (err, solds)=>{
+        if (err){
+            console.log("erreur de recherche de plans", err)
+        }else{
+            solds.forEach(item=>{
+                console.log("Submitter", item.emailSubmitter)
+                console.log("Buyer", item.emailBuyer)
+                console.log("idPlan", item.idPlan)
+            })
+        }
+    })
+    /*BackEndUser.deleteMany({}, (err, deleted)=>{
+        if (err){
+            console.log("Error of suppression", err)
+        }else{
+            console.log("suppresion completed", deleted)
+        }
+    })
+    FrontEndUser.deleteMany({}, (err, deleted)=>{
+        if (err){
+            console.log("Error of suppression front user", err)
+        }else{
+            console.log("suppresion completed front user", deleted)
+        }
+    })
+    Plan.deleteMany({}, (err, deleted)=>{
+        if (err){
+            console.log("Error of suppression plan", err)
+        }else{
+            console.log("suppresion completed plan", deleted)
+        }
+    })
+    */
+    /*
+    let userSuperAdministrateur = FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email: 'pokatchoneng@live.fr',
+        password: 'rolande12',
+        name:'Poka',
+        surname:'Hermann',
+        telephone:'656752739',
+        role:'SuperAdministrateur',
+        isAdminActive:true,
+        isEmailVerified:true,
+        tabPlansBuyed:[]
+    })
+
+    userSuperAdministrateur.save(err=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("Utilisteur super administrateur crée")
+        }
+    })
+
     let userAdministrateur = FrontEndUser({
         _id: new mongoose.Types.ObjectId(),
         email: 'braintosoft@hotmail.ca',
@@ -24,7 +81,8 @@ mongoose.connect(mongo_uri, function(err) {
         telephone:'656752739',
         role:'Administrateur',
         isAdminActive:true,
-        isEmailVerified:true
+        isEmailVerified:true,
+        tabPlansBuyed:[]
     })
 
     userAdministrateur.save(err=>{
@@ -34,6 +92,27 @@ mongoose.connect(mongo_uri, function(err) {
             console.log("Utilisteur administrateur crée")
         }
     })
+    
+    let userUtilisateur = FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email: 'pokatchoneng@yahoo.fr',
+        password: 'rolande12',
+        name:'Poka',
+        surname:'Hermann',
+        telephone:'656752739',
+        role:'Utilisateur',
+        isEmailVerified:true,
+        tabPlansBuyed:[]
+    })
+
+    userUtilisateur.save(err=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("Utilisteur utilisateur crée")
+        }
+    })
+    µ/
     /*
     let plan1 = Plan({
         _id: new mongoose.Types.ObjectId(),
@@ -53,7 +132,8 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:true,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        isValidated: true,
+        
     })
     plan1.save(function (err){
         if (err) {
