@@ -31,7 +31,8 @@ class WelcomeSearchSold extends Component{
                 
                 this.props.value.setSearchSoldPlans(data.solds)
                 this.setState({
-                    uploading:false
+                    uploading:false,
+                    message:data.message
                 })
             }else{
                 this.setState({

@@ -66,7 +66,7 @@ class HeaderNew extends Component{
 							{
 								superadminitrateur ?
 								<React.Fragment>
-									<li>Valider les admins</li>
+									<li><Link to="/validateadmin">Valider les admins</Link></li>
 								</React.Fragment>
 								:
 								null

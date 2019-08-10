@@ -908,11 +908,12 @@ h6::selection
 }
 #cart .cart_info_col_product
 {
-	width: 63%;
+	/*width: 63%;*/
+	width:50%;
 }
 #cart .cart_info_col_price
 {
-	width: 10%;
+	width: 20%;
 }
 #cart .cart_info_col_quantity
 {
@@ -933,11 +934,13 @@ h6::selection
 }
 #cart .cart_item_product
 {
-	width: 63%;
+	/*width: 63%;*/
+	width:50%;
 }
 #cart .cart_item_price
 {
-	width: 10%;
+	/*width: 10%;*/
+	width:20%;
 }
 #cart .cart_item_quantity
 {

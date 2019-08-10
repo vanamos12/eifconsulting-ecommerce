@@ -31,7 +31,8 @@ class WelcomeSearchAdministrators extends Component{
                 
                 this.props.value.setSearchAdministratorsPlans(data.plans)
                 this.setState({
-                    uploading:false
+                    uploading:false,
+                    
                 })
             }else{
                 this.setState({

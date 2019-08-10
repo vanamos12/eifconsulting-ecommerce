@@ -13,7 +13,9 @@ class AdministrationBackEnd extends Component{
                     {(value)=>{
                         
                         let allPlans = value.backEndUser.allPlans
+                        console.log("first phase")
                         if (this.props.type === "search"){
+                            console.log("second phase")
                             allPlans = value.search.resultsAdministrators
                         }
                         if (allPlans.length === 0){

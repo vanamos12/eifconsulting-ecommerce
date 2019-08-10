@@ -1092,17 +1092,35 @@ mongoose.connect(mongo_uri, function(err) {
     });
     app.post('/api/searchsoldplans', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
       const {email}=req.body
-      Sold.find({emailSubmitter:email}, (err, solds)=>{
-        if (err || !solds){
+      FrontEndUser.findOne({email:email}, (err, user)=>{
+        if (err){
           console.log(err)
           res.status(500).json({
             status:500,
-            solds:[]
+            message:"Erreur de recherche dans la base"
+          })
+        }else if (!user){
+          res.status(500).json({
+            status:500,
+            solds:[],
+            message:"Nous n'avons pas cet email dans notre base"
           })
         }else{
-          res.status(200).json({
-            status:200,
-            solds:solds
+          Sold.find({emailSubmitter:email}, (err, solds)=>{
+            if (err || !solds){
+              console.log(err)
+              res.status(500).json({
+                status:500,
+                solds:[],
+                message:"Erreur recherche dans les achats"
+              })
+            }else{
+              res.status(200).json({
+                status:200,
+                solds:solds,
+                message:"Les résultats sont plus bas."
+              })
+            }
           })
         }
       })
