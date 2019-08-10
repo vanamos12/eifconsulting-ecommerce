@@ -6,6 +6,7 @@ import withAuth from './withAuth';
 import HeaderNew from './components/HeaderNew'
 import {Role} from './data'
 
+
 const WelcomeValidate  = lazy(()=>import('./components/validate/WelcomeValidate')) ;
 
 const Home = lazy(()=>import('./components/Home')) ;
@@ -28,6 +29,7 @@ const AdministrationValidatedPlans = lazy(()=>import('./components/sell/validate
 const AdministrationNotValidatedPlans = lazy(()=>import('./components/sell/notvalidatedplans/AdministrationNotValidatedPlans')) 
 const WelcomeSearchAdministrators = lazy(()=>import('./components/search/searchadministrators/WelcomeSearchAdministrators'))
 const SoldPlans = lazy(()=>import('./components/sell/SoldPlans'))
+const WelcomeSearchSold = lazy(()=>import('./components/search/searchsold/WelcomeSearchSold'))
 
 const AddPlan = lazy(()=>import('./components/backend/AddPlan')) 
 const ModifyPlan = lazy(()=>import('./components/backend/ModifyPlan')) 
@@ -89,6 +91,8 @@ export default class App extends Component {
                 <PrivateRoute path='/allplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={AdministrationBackEnd}/>
                 
                 <PrivateRoute path='/searchadministrateurplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={WelcomeSearchAdministrators}/>
+
+                <PrivateRoute path='/searchsoldplans' value={value} roles={[Role.Administrateur, Role.SuperAdministrateur]} component={WelcomeSearchSold}/>
                 
 
                 <Route path="/signupfrontend" component={SignUpFrontEnd} />

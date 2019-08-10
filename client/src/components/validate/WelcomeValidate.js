@@ -15,7 +15,7 @@ class WelcomeValidate extends Component{
                     <ul className="dashboard-validate-liste">
                         <li><Link to="/allplans">Tous les plans({countallplans})</Link></li>
                         <li><Link to="/searchadministrateurplans">Rechercher</Link></li>
-                        <li>Gain</li>
+                        <li><Link to="/searchsoldplans">Gain</Link></li>
                     </ul>
                     
                 </div>

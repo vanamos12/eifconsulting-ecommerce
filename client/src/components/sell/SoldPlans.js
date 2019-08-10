@@ -2,15 +2,26 @@ import React, {Component} from 'react'
 
 class SoldPlans extends Component{
     render(){
-        const tabPlansSold = this.props.value.frontEndUser.tabPlansSold
+        let tabPlansSold = this.props.value.frontEndUser.tabPlansSold
+        
+        if (this.props.type=="search"){
+            tabPlansSold = this.props.value.search.resultsSold
+        }
         const countNbPlansVendus = tabPlansSold.length
         const percentageToRefill = this.props.value.frontEndUser.percentageToRefill
         let priceNbPlansVendus = tabPlansSold.reduce((acc, item)=>acc+item.plan.price, 0)*percentageToRefill
         priceNbPlansVendus = priceNbPlansVendus.toFixed(0)
         return (
             <div className="soldplans">
-                <div className="spaceToSee">   
-                </div>
+                {
+                    this.props.type === "search"
+                    ?
+                    null
+                    :
+                    <div className="spaceToSee">   
+                    </div>
+                }
+                
                 <div className="container text-center informations">
                     <h2>Plans vendus</h2>
                     <h3>Nombre de plans vendus : {countNbPlansVendus}</h3>

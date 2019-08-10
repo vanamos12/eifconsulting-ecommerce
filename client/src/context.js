@@ -16,7 +16,8 @@ class ApplicationProvider extends Component{
         //modalProduct:detailProduct,
         search:{
            results:[],
-           resultsAdministrators:[]
+           resultsAdministrators:[],
+           resultsSold:[]
         },
         frontEndUser:{
             connected:false,
@@ -54,6 +55,13 @@ class ApplicationProvider extends Component{
             return {search:search}
         }, ()=>{
             history.push('/searchresults')
+        })
+    }
+    setSearchSoldPlans = (solds)=>{
+        let search = {...this.props.search}
+        search.resultsSold = solds
+        this.setState({
+            search:search
         })
     }
     setSearchAdministratorsPlans = (plans)=>{
@@ -127,6 +135,7 @@ class ApplicationProvider extends Component{
         let search = {...this.state.search}
         search.results = []
         search.resultsAdministrators = []
+        search.resultsSold = []
         let backEndUser = {...this.state.backEndUser}
         backEndUser.allPlans = []
         let administrators = []
@@ -830,6 +839,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setSearchSoldPlans:this.setSearchSoldPlans,
                 setSearchAdministratorsPlans:this.setSearchAdministratorsPlans,
                 setNotActivePlan:this.setNotActivePlan,
                 setActivePlan:this.setActivePlan,

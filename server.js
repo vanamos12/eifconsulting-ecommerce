@@ -1090,6 +1090,23 @@ mongoose.connect(mongo_uri, function(err) {
         }
       });
     });
+    app.post('/api/searchsoldplans', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
+      const {email}=req.body
+      Sold.find({emailSubmitter:email}, (err, solds)=>{
+        if (err || !solds){
+          console.log(err)
+          res.status(500).json({
+            status:500,
+            solds:[]
+          })
+        }else{
+          res.status(200).json({
+            status:200,
+            solds:solds
+          })
+        }
+      })
+    })
     app.post('/api/searchadministratorsplans', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
       const {email} = req.body
       Plan.find({emailSubmitter:email}, (err, plans)=>{
