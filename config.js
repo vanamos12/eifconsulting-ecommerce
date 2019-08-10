@@ -4,5 +4,6 @@ const Role = {
     Utilisateur:"Utilisateur",
     SuperAdministrateur:"SuperAdministrateur"
 };
+const percentageToRefill = 0.75
 
-module.exports = {secret, Role};
+module.exports = {secret, Role, percentageToRefill};

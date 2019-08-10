@@ -49,7 +49,7 @@ class SendPasswordModificationToken extends Component{
         return (
             <div className="login">
                 <div className="spaceToSee"></div>
-                <div className="container text-center">
+                <div className="container form-container text-center">
                 <h1>Mettez &agrave; jour votre mot de passe!</h1>
                 
                 <form onSubmit={this.onSubmit}>

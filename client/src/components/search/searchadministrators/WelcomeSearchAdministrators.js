@@ -48,7 +48,7 @@ class WelcomeSearchAdministrators extends Component{
             <div>
                 <div className="spaceToSee"></div>
                 <div>    
-                    <div className="container text-center">
+                    <div className="container form-container text-center">
                     <h1>Rechercher un plan!</h1>
                     
                     <form onSubmit={this.onSubmit}>

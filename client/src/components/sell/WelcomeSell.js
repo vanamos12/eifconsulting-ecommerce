@@ -5,7 +5,7 @@ class WelcomeSell extends Component{
     render(){
         const countvalidatedplans = this.props.value.frontEndUser.tabPlansValidated.length
         const countnotvalidatedplans = this.props.value.frontEndUser.tabPlansNotValidated.length
-
+        const countNbPlansSold = this.props.value.frontEndUser.tabPlansSold.length
         return (
             <div className="container mt-5">
                 <div className="spaceToSee"></div>
@@ -15,8 +15,7 @@ class WelcomeSell extends Component{
                         <ul className="dashboard-sell-left-liste">
                             <li><Link to="/validatedplans">Mes plans({countvalidatedplans})</Link></li>
                             <li><Link to="/notvalidatedplans">Plans non validés({countnotvalidatedplans})</Link></li>
-                            <li>Plans Vendus</li>
-                            <li>R&eacute;mun&eacute;ration</li>
+                            <li><Link to="/soldplans">Plans Vendus({countNbPlansSold})</Link></li>
                         </ul>
                     </div>
                     <div className="dashboard-sell-right text-center">

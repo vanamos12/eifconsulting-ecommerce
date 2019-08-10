@@ -21,7 +21,7 @@ const Plan = require('./models/Plan.js')
 const Newletter = require('./models/Newletter.js')
 const Sold = require('./models/Sold.js')
 const {withAuthFrontEnd, withAuthBackEnd, authorize} = require('./middleware');
-const {secret, Role} = require('./config.js');
+const {secret, Role, percentageToRefill} = require('./config.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -1215,59 +1215,70 @@ mongoose.connect(mongo_uri, function(err) {
                   error:'Veuillez contacter le service client pour l\'activation de votre compte administrateur.'
                 })
               }else{
-                
-                const payload = { email:email, role:user.role };
-                const token = jwt.sign(payload, secret, {
-                  expiresIn: '1h'
-                });
-                if ([Role.Administrateur].includes(user.role)){
-                  // We load all the plans 
-                  Plan.find({}, (err, plans)=>{
-                    res.cookie('tokenFrontEnd', token, { httpOnly: true })
-                    .status(200).json({
-                      error:'Connexion correcte',
-                      role:user.role,
-                      email:user.email,
-                      tabIdPlans:user.tabPlansBuyed,
-                      tabPlansValidated:user.tabPlansValidated,
-                      tabPlansNotValidated:user.tabPlansNotValidated,
-                      tabPlansSold:user.tabPlansSold,
-                      allPlans:plans
-                    });
-                  })
-                }
-                else if([Role.SuperAdministrateur].includes(user.role)){
-                  // we load the plans and all the administrators users
-                  Plan.find({}, (err, plans)=>{
-                    FrontEndUser.find({role:Role.Administrateur}, (err, administrators)=>{
-                      res.cookie('tokenFrontEnd', token, { httpOnly: true })
-                      .status(200).json({
-                        error:'Connexion correcte',
-                        role:user.role,
-                        email:user.email,
-                        tabIdPlans:user.tabPlansBuyed,
-                        tabPlansValidated:user.tabPlansValidated,
-                        tabPlansNotValidated:user.tabPlansNotValidated,
-                        tabPlansSold:user.tabPlansSold,
-                        allPlans:plans,
-                        administrators:administrators
-                      })
+                Sold.find({emailSubmitter:email, isBuyed:false}, (err, solds)=>{
+                  if (err){
+                    console.log(err)
+                    res.status(500).json({
+                      error:'Erreur interne, veuillez réessayer'
                     })
-                  })
-                }
-                else{
-                  // you are a simple user Role.Utilisateur === user.role
-                  res.cookie('tokenFrontEnd', token, { httpOnly: true })
-                    .status(200).json({
-                      error:'Connexion correcte',
-                      role:user.role,
-                      email:user.email,
-                      tabIdPlans:user.tabPlansBuyed,
-                      tabPlansValidated:user.tabPlansValidated,
-                      tabPlansNotValidated:user.tabPlansNotValidated,
-                      tabPlansSold:user.tabPlansSold
+                  }else{
+                    const payload = { email:email, role:user.role };
+                    const token = jwt.sign(payload, secret, {
+                      expiresIn: '1h'
                     });
-                }
+                    if ([Role.Administrateur].includes(user.role)){
+                      // We load all the plans 
+                      Plan.find({}, (err, plans)=>{
+                        res.cookie('tokenFrontEnd', token, { httpOnly: true })
+                        .status(200).json({
+                          error:'Connexion correcte',
+                          role:user.role,
+                          email:user.email,
+                          tabIdPlans:user.tabPlansBuyed,
+                          tabPlansValidated:user.tabPlansValidated,
+                          tabPlansNotValidated:user.tabPlansNotValidated,
+                          tabPlansSold:solds,
+                          allPlans:plans,
+                          percentageToRefill:percentageToRefill
+                        });
+                      })
+                    }
+                    else if([Role.SuperAdministrateur].includes(user.role)){
+                      // we load the plans and all the administrators users
+                      Plan.find({}, (err, plans)=>{
+                        FrontEndUser.find({role:Role.Administrateur}, (err, administrators)=>{
+                          res.cookie('tokenFrontEnd', token, { httpOnly: true })
+                          .status(200).json({
+                            error:'Connexion correcte',
+                            role:user.role,
+                            email:user.email,
+                            tabIdPlans:user.tabPlansBuyed,
+                            tabPlansValidated:user.tabPlansValidated,
+                            tabPlansNotValidated:user.tabPlansNotValidated,
+                            tabPlansSold:solds,
+                            allPlans:plans,
+                            administrators:administrators,
+                            percentageToRefill:percentageToRefill
+                          })
+                        })
+                      })
+                    }
+                    else{
+                      // you are a simple user Role.Utilisateur === user.role
+                      res.cookie('tokenFrontEnd', token, { httpOnly: true })
+                        .status(200).json({
+                          error:'Connexion correcte',
+                          role:user.role,
+                          email:user.email,
+                          tabIdPlans:user.tabPlansBuyed,
+                          tabPlansValidated:user.tabPlansValidated,
+                          tabPlansNotValidated:user.tabPlansNotValidated,
+                          tabPlansSold:solds,
+                          percentageToRefill:percentageToRefill
+                        });
+                    }
+                  }
+                })
               }
             }
           });
@@ -1284,13 +1295,60 @@ mongoose.connect(mongo_uri, function(err) {
             tabIdPlans:[],
             tabPlansValidated: [],
             tabPlansNotValidated:[],
-            tabPlansSold: []
+            tabPlansSold: [],
+            percentageToRefill:percentageToRefill
           });
           console.log('Erreur de recherche d\'elements, l\'email n\'est pas enregistré')
         }else{
-          if ([Role.SuperAdministrateur].includes(req.role)){
-            Plan.find({}, (err, plans)=>{
-              FrontEndUser.find({role:Role.Administrateur}, (err, administrators)=>{
+          Sold.find({emailSubmitter:req.email, isBuyed:false}, (err, solds)=>{
+            if (err){
+              console.log(err)
+              res.status(500).json({
+                email: '',
+                role:'',
+                message: 'Erreur d\'authentification.',
+                tabIdPlans:[],
+                tabPlansValidated: [],
+                tabPlansNotValidated:[],
+                tabPlansSold: [],
+                percentageToRefill:percentageToRefill
+              })
+            }else{
+              if ([Role.SuperAdministrateur].includes(req.role)){
+                Plan.find({}, (err, plans)=>{
+                  FrontEndUser.find({role:Role.Administrateur}, (err, administrators)=>{
+                    res.status(200).json({
+                      email: req.email,
+                      role:req.role,
+                      message: 'Utilisateur authentifie',
+                      tabIdPlans:user.tabPlansBuyed,
+                      tabPlansValidated: user.tabPlansValidated,
+                      tabPlansNotValidated:user.tabPlansNotValidated,
+                      tabPlansSold: solds,
+                      allPlans:plans,
+                      administrators:administrators,
+                      percentageToRefill:percentageToRefill
+                    });
+                  })
+                })
+    
+              }else if ([Role.Administrateur].includes(req.role)){
+                Plan.find({}, (err, plans)=>{
+                  res.status(200).json({
+                    email: req.email,
+                    role:req.role,
+                    message: 'Utilisateur authentifie',
+                    tabIdPlans:user.tabPlansBuyed,
+                    tabPlansValidated: user.tabPlansValidated,
+                    tabPlansNotValidated:user.tabPlansNotValidated,
+                    tabPlansSold: solds,
+                    allPlans:plans,
+                    percentageToRefill:percentageToRefill
+                  });
+    
+                })
+              }else{
+                // You are a simple user req.role === Role.Utilisateur
                 res.status(200).json({
                   email: req.email,
                   role:req.role,
@@ -1298,40 +1356,12 @@ mongoose.connect(mongo_uri, function(err) {
                   tabIdPlans:user.tabPlansBuyed,
                   tabPlansValidated: user.tabPlansValidated,
                   tabPlansNotValidated:user.tabPlansNotValidated,
-                  tabPlansSold: user.tabPlansSold,
-                  allPlans:plans,
-                  administrators:administrators
+                  tabPlansSold: solds,
+                  percentageToRefill:percentageToRefill
                 });
-              })
-            })
-
-          }else if ([Role.Administrateur].includes(req.role)){
-            Plan.find({}, (err, plans)=>{
-              res.status(200).json({
-                email: req.email,
-                role:req.role,
-                message: 'Utilisateur authentifie',
-                tabIdPlans:user.tabPlansBuyed,
-                tabPlansValidated: user.tabPlansValidated,
-                tabPlansNotValidated:user.tabPlansNotValidated,
-                tabPlansSold: user.tabPlansSold,
-                allPlans:plans
-              });
-
-            })
-          }else{
-            // You are a simple user req.role === Role.Utilisateur
-            res.status(200).json({
-              email: req.email,
-              role:req.role,
-              message: 'Utilisateur authentifie',
-              tabIdPlans:user.tabPlansBuyed,
-              tabPlansValidated: user.tabPlansValidated,
-              tabPlansNotValidated:user.tabPlansNotValidated,
-              tabPlansSold: user.tabPlansSold
-
-            });
-          }
+              }
+            }
+          })
         }
       })
       

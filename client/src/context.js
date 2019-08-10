@@ -25,7 +25,8 @@ class ApplicationProvider extends Component{
             tabIdPlans:[],
             tabPlansValidated:[],
             tabPlansNotValidated:[],
-            tabPlansSold:[]
+            tabPlansSold:[],
+            percentageToRefill:0
         },
         backEndUser:{
             connected:false,
@@ -119,6 +120,16 @@ class ApplicationProvider extends Component{
         frontEndUser.email = ''
         frontEndUser.role = ''
         frontEndUser.tabIdPlans = []
+        frontEndUser.tabPlansValidated=[]
+        frontEndUser.tabPlansNotValidated=[]
+        frontEndUser.tabPlansSold=[]
+        frontEndUser.percentageToRefill=0
+        let search = {...this.state.search}
+        search.results = []
+        search.resultsAdministrators = []
+        let backEndUser = {...this.state.backEndUser}
+        backEndUser.allPlans = []
+        let administrators = []
         
         fetch('/api/clearCookie')
         .then(res=>{
@@ -126,7 +137,10 @@ class ApplicationProvider extends Component{
                 console.log('cookie cleared')
                 this.setState(()=>{
                     return {
-                        frontEndUser:frontEndUser
+                        frontEndUser:frontEndUser,
+                        search:search,
+                        backEndUser:backEndUser,
+                        administrators:administrators
                     }
                 })
             }else{
@@ -281,7 +295,8 @@ class ApplicationProvider extends Component{
                         frontEndUser.tabIdPlans = data.tabIdPlans
                         frontEndUser.tabPlansValidated = data.tabPlansValidated
                         frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
-                        frontEndUser.tabPlansSold = data.AccepttabPlansSold
+                        frontEndUser.tabPlansSold = data.tabPlansSold
+                        frontEndUser.percentageToRefill = data.percentageToRefill
                     } 
                     if ([Role.Administrateur, Role.SuperAdministrateur].includes(data.role)){
                         backEndUser.allPlans = data.allPlans
@@ -383,9 +398,15 @@ class ApplicationProvider extends Component{
                         frontEndUser.tabPlansNotValidated.splice(idPlanNotvalidated, 1)
                     }
                 }
+                let search = {...this.state.search}
+                const idSearchPlan = search.resultsAdministrators.findIndex(item=>item._id == id)
+                if(idSearchPlan>=0){
+                    search.resultsAdministrators[idSearchPlan].isValidated = true
+                }
                 this.setState({
                     backEndUser:backEndUser,
-                    frontEndUser:frontEndUser
+                    frontEndUser:frontEndUser,
+                    search:search
                 })
                 
             }
@@ -409,7 +430,8 @@ class ApplicationProvider extends Component{
             frontEndUser.tabIdPlans = data.tabIdPlans
             frontEndUser.tabPlansValidated = data.tabPlansValidated
             frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
-            frontEndUser.tabPlansSold = data.AccepttabPlansSold
+            frontEndUser.tabPlansSold = data.tabPlansSold
+            frontEndUser.percentageToRefill = data.percentageToRefill
         } 
         if ([Role.Administrateur, Role.SuperAdministrateur].includes(data.role)){
             backEndUser.allPlans = data.allPlans
