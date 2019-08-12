@@ -27,9 +27,9 @@ class ValidateAdminItem extends Component{
                             {
                                 isAdminActive
                                 ?
-                                <span onClick={()=>{value.setAdminValidate(_id, "active")}}>D&eacute;j&agrave; valid&eacute;</span>
+                                <span onClick={()=>{value.setAdminValidate(_id, false)}}>D&eacute;j&agrave; valid&eacute;</span>
                                 :
-                                <span onClick={()=>{value.setAdminValidate(_id, "notactive")}}>Valider</span>
+                                <span onClick={()=>{value.setAdminValidate(_id, true)}}>Valider</span>
                             }
                         </div>
                         {/*<div className="cart_item_quantity">

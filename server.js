@@ -198,7 +198,7 @@ mongoose.connect(mongo_uri, function(err) {
 
     })
     app.get('/api/getFrontEndUserAllPlans', function(req, res){
-      Plan.find({isValidated:true}, function(err, plans){
+      Plan.aggregate([{$match:{isValidated:true}}, {$sample:{size:8}}], function(err, plans){
         if (err){
           res.status(500).json({
             message:'Erreur interne',
@@ -704,7 +704,7 @@ mongoose.connect(mongo_uri, function(err) {
       
     })
     app.get('/api/homePopular', function(req, res){
-      Plan.find({isPopular:true, isValidated:true})
+      Plan.aggregate([{$match:{isPopular:true, isValidated:true}}, {$sample:{size:8}}])
         .exec(function(err, plansPopular){
             if (err){
               console.log(err)
@@ -719,7 +719,7 @@ mongoose.connect(mongo_uri, function(err) {
         })
     })
     app.get('/api/home', function(req, res){
-      Plan.find({isCoupCoeur:true, isValidated:true})
+      Plan.aggregate([{$match:{isCoupCoeur:true, isValidated:true}}, {$sample:{size:5}}])
         .exec(function(err, plansCoupCoeur){
             if (err){
               console.log(err)
@@ -1006,6 +1006,15 @@ mongoose.connect(mongo_uri, function(err) {
         }
       })
     })*/
+    app.post('/api/private-detail', authorize([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]), function(req, res){
+      const {idPlan} = req.body
+      Plan.findById(idPlan, (err, plan)=>{
+        res.status(200).json({
+          status:200,
+          plan:plan
+        })
+      })
+    })
     app.post('/api/savePaymentsFrontEnd', async function(req, res){
       const {email, tabIdPlans} = req.body
       //TODO save the email user tabIdPlans
@@ -1044,6 +1053,33 @@ mongoose.connect(mongo_uri, function(err) {
               }
               res.status(200).json({
                 error:'PaymentsSucessfully saved'
+              })
+            }
+          })
+        }
+      })
+    })
+    app.post('/api/validate-admin', authorize([Role.SuperAdministrateur]), function(req,res){
+      const {idAdmin, status} = req.body
+      FrontEndUser.findById(idAdmin, (err, user)=>{
+        if (err || !user){
+          res.status(500).json({
+            status:500,
+            message:"Cet utilisateur n'existe pas."
+          })
+        }else{
+          user.isAdminActive = status
+          user.save(err=>{
+            if (err){
+              res.status(500).json({
+                status:500,
+                message:"Erreur de mise à jour de l'utilisateur."
+              })
+            }
+            else{
+              res.status(200).json({
+                status:200,
+                message:"Les informations ont bien été enregistrées."
               })
             }
           })
@@ -1144,8 +1180,7 @@ mongoose.connect(mongo_uri, function(err) {
       })
     })
     app.post('/api/setactiveplan', authorize([Role.Administrateur, Role.SuperAdministrateur]), function(req, res){
-      const {idPlan} = req.body
-      console.log("idPlan", idPlan)
+      const {idPlan, status} = req.body
       Plan.findById(idPlan, function(err, plan){
         if (err || !plan){
           console.log(err)
@@ -1166,17 +1201,27 @@ mongoose.connect(mongo_uri, function(err) {
               let tabPlansNotValidated = [...user.tabPlansNotValidated]
               
               let tabPlansValidated = [...user.tabPlansValidated]
-              
-              const idPlanNotvalidated = tabPlansNotValidated.findIndex((item)=>item._id == idPlan)
-              
-              let planToBeValidated = {}
-              if (idPlanNotvalidated >=0){
-                planToBeValidated = tabPlansNotValidated[idPlanNotvalidated]
-                planToBeValidated.isValidated = true
-                tabPlansValidated.push(planToBeValidated)
-                tabPlansNotValidated.splice(idPlanNotvalidated, 1)
+              if (status){
+                const idPlanNotvalidated = tabPlansNotValidated.findIndex((item)=>item._id == idPlan)
+                
+                let planToBeValidated = {}
+                if (idPlanNotvalidated >=0){
+                  planToBeValidated = tabPlansNotValidated[idPlanNotvalidated]
+                  planToBeValidated.isValidated = true
+                  tabPlansValidated.push(planToBeValidated)
+                  tabPlansNotValidated.splice(idPlanNotvalidated, 1)
+                }
+              }else{
+                const idPlanvalidated = tabPlansValidated.findIndex((item)=>item._id == idPlan)
+                
+                let planToBeValidated = {}
+                if (idPlanvalidated >=0){
+                  planToBeValidated = tabPlansValidated[idPlanvalidated]
+                  planToBeValidated.isValidated = false
+                  tabPlansNotValidated.push(planToBeValidated)
+                  tabPlansValidated.splice(idPlanvalidated, 1)
+                }
               }
-              
               user.tabPlansNotValidated = tabPlansNotValidated
               user.tabPlansValidated = tabPlansValidated
               user.save(function(err){
@@ -1188,7 +1233,7 @@ mongoose.connect(mongo_uri, function(err) {
                     emailSubmitter:plan.emailSubmitter
                   })
                 }else{
-                  plan.isValidated = true
+                  plan.isValidated = status
                   plan.save(err=>{
                     if (err){
                       res.status(500).json({

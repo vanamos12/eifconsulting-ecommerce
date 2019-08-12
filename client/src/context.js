@@ -71,6 +71,30 @@ class ApplicationProvider extends Component{
             search:search
         })
     }
+    setAdminValidate = (id, status)=>{
+        fetch('/api/validate-admin', {
+            method:'POST',
+            body:JSON.stringify({idAdmin:id, status:status}),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if (data.status === 200){
+                let administrators = [...this.state.administrators]
+                const idAdmin = administrators.findIndex(item=>item._id==id)
+                console.log(idAdmin, status)
+                if (idAdmin >= 0){
+                    administrators[idAdmin].isAdminActive = status
+                }
+                this.setState({
+                    administrators:administrators
+                })
+            }
+        })
+        .catch(err=>console.log(err))
+    }
     setAddedPlan = (plan)=>{
         let frontEndUser = {...this.state.frontEndUser}
         frontEndUser.tabPlansNotValidated.push(plan)
@@ -378,10 +402,10 @@ class ApplicationProvider extends Component{
             detailPlan:copyPlan
         })
     }
-    setActivePlan = (id)=>{
+    setActivePlan = (id, status)=>{
         fetch('/api/setactiveplan', {
             method:'POST',
-            body:JSON.stringify({idPlan:id}),
+            body:JSON.stringify({idPlan:id, status:status}),
             headers:{
                 'Content-Type':'application/json'
             }
@@ -394,17 +418,28 @@ class ApplicationProvider extends Component{
                 let backEndUser = {...this.state.backEndUser}
                 const idPlanInTab = backEndUser.allPlans.findIndex(item=>item._id === id)
                 if (idPlanInTab >=0){
-                    backEndUser.allPlans[idPlanInTab].isValidated = true
+                    backEndUser.allPlans[idPlanInTab].isValidated = status
                 }
                 let frontEndUser = {...this.state.frontEndUser}
                 if (data.emailSubmitter === frontEndUser.email){
-                    const idPlanNotvalidated = frontEndUser.tabPlansNotValidated.findIndex((item)=>item._id == id)
-                    let planToBeValidated = {}
-                    if (idPlanNotvalidated >=0){
-                        planToBeValidated = frontEndUser.tabPlansNotValidated[idPlanNotvalidated]
-                        planToBeValidated.isValidated = true
-                        frontEndUser.tabPlansValidated.push(planToBeValidated)
-                        frontEndUser.tabPlansNotValidated.splice(idPlanNotvalidated, 1)
+                    if (status){
+                        const idPlanNotvalidated = frontEndUser.tabPlansNotValidated.findIndex((item)=>item._id == id)
+                        let planToBeValidated = {}
+                        if (idPlanNotvalidated >=0){
+                            planToBeValidated = frontEndUser.tabPlansNotValidated[idPlanNotvalidated]
+                            planToBeValidated.isValidated = true
+                            frontEndUser.tabPlansValidated.push(planToBeValidated)
+                            frontEndUser.tabPlansNotValidated.splice(idPlanNotvalidated, 1)
+                        }
+                    }else{
+                        const idPlanvalidated = frontEndUser.tabPlansValidated.findIndex((item)=>item._id == id)
+                        let planToBeValidated = {}
+                        if (idPlanvalidated >=0){
+                            planToBeValidated = frontEndUser.tabPlansValidated[idPlanvalidated]
+                            planToBeValidated.isValidated = false
+                            frontEndUser.tabPlansNotValidated.push(planToBeValidated)
+                            frontEndUser.tabPlansValidated.splice(idPlanvalidated, 1)
+                        } 
                     }
                 }
                 let search = {...this.state.search}
@@ -839,6 +874,7 @@ class ApplicationProvider extends Component{
         return (
             <ApplicationContext.Provider value={{
                 ...this.state,
+                setAdminValidate:this.setAdminValidate,
                 setSearchSoldPlans:this.setSearchSoldPlans,
                 setSearchAdministratorsPlans:this.setSearchAdministratorsPlans,
                 setNotActivePlan:this.setNotActivePlan,

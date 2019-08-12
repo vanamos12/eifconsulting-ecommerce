@@ -6,7 +6,7 @@ class BackEndItem extends Component{
         const {_id, name, image, price, isValidated} = this.props.item
         const value = this.props.value
         const LocationDetailsBackEnd = {
-            pathname:"/modifyplan",
+            pathname:"/detailsfrontend",
             state:{item:this.props.item}
         }
         return (
@@ -28,17 +28,18 @@ class BackEndItem extends Component{
                         <div className="cart_item_price">{ price } FCFA </div>
                         
                         <div className="cart_item_quantity">
-                            {/*<Link 
+                            <Link 
                                 to={LocationDetailsBackEnd}
-                            >Modifier</Link>*/}
+                            >Voir</Link>
+                            &nbsp;&nbsp;
                             {
                                 isValidated ?
                                     <span 
-                                        onClick={()=>{value.setNotActivePlan(_id)}}
+                                        onClick={()=>{value.setActivePlan(_id, false)}}
                                     >D&eacute;j&agrave; valid&eacute;</span>
                                     :
                                     <span
-                                        onClick={()=>{value.setActivePlan(_id)}}
+                                        onClick={()=>{value.setActivePlan(_id, true)}}
                                     >Valider</span>
 
                             }

@@ -1,7 +1,33 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
+import PrivateDetail from './PrivateDetail'
+
 class DetailsFrontEnd extends Component{
+    state={
+        privateDetail:false,
+        plan:{}
+    }
+    componentDidMount(){
+        const {_id} = this.props.location.state.item
+        fetch('/api/private-detail', {
+            method:'POST',
+            body:JSON.stringify({idPlan:_id}),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            if (data.status === 200){
+                this.setState({
+                    privateDetail:true,
+                    plan:data.plan
+                })
+            }
+        })
+        .catch(err=>console.log(err))
+    }
     render(){
         const {image, price, name, description} = this.props.location.state.item
         return (
@@ -35,11 +61,21 @@ class DetailsFrontEnd extends Component{
                         </p>
                         <p className="text-muted lead">{description}</p>
                         {/* Buttons */}
+                        
+                        {
+                            this.state.privateDetail 
+                            ?
+                                <PrivateDetail plan={this.state.plan}/>
+                            :
+                                null
+                        }
+
                         <div>
                             <Link to="/">
                                 <span>Rentrer aux plans</span>
                             </Link>
                         </div>
+
                     </div>
                 </div>
                 </div>

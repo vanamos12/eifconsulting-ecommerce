@@ -5,7 +5,7 @@ class NotValidatedPlansItem extends Component{
     render(){
         const {name, image, price} = this.props.item
         const LocationDetails = {
-            pathname:"/detailsplansconnected",
+            pathname:"/detailsfrontend",
             state:{item:this.props.item}
         }
         return (
