@@ -40,18 +40,28 @@ class CartTotals extends Component{
                                     </li>
                                 </ul>
                             </div>
-                            <div 
-                                className="button checkout_button"
-                                onClick={()=>{
-                                    /*
-                                    processPayment(history, cartTotal)
-                                    */
-                                    savePayments()
-                                    clearCart()
-                                    history.push('/administrationfrontend')
-                                }}>
-                                    <span className="buttonPayer">Payer</span>
-                            </div> 
+                            {
+                                isConnectedFrontEndUser ?
+                                <div 
+                                    className="button checkout_button"
+                                    onClick={()=>{
+                                        /*
+                                        processPayment(history, cartTotal)
+                                        */
+                                        savePayments()
+                                        clearCart()
+                                        history.push('/administrationfrontend')
+                                    }}>
+                                        <span className="buttonPayer">Payer</span>
+                                </div> :
+                                <div 
+                                    className="button checkout_button"
+                                    onClick={()=>{
+                                        processPayment(history, cartTotal)
+                                    }}>
+                                        <span className="buttonPayer">Se connecter</span>
+                                </div>
+                            }
                             {
                                 /*isConnectedFrontEndUser ?
                                  <div className="d-flex">

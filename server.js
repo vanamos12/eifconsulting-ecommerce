@@ -1009,10 +1009,39 @@ mongoose.connect(mongo_uri, function(err) {
     app.post('/api/private-detail', authorize([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur]), function(req, res){
       const {idPlan} = req.body
       Plan.findById(idPlan, (err, plan)=>{
-        res.status(200).json({
-          status:200,
-          plan:plan
-        })
+        if ([Role.Administrateur, Role.SuperAdministrateur].includes(req.role)){
+          res.status(200).json({
+            status:200,
+            plan:plan
+          })
+        }else{
+          //You are a Utilisateur
+          Plan.find({_id:idPlan, emailSubmitter:req.email}, (err, plans)=>{
+            if (plans.length >=1){
+              // This plan belong to this user
+              res.status(200).json({
+                status:200,
+                plan:plan
+              })
+            }else{
+              Sold.find({emailBuyer:req.email, idPlan:idPlan}, (err, solds)=>{
+                if (solds.length >=1){
+                  //This plan is bought by this user
+                  res.status(200).json({
+                    status:200,
+                    plan:plan
+                  })
+                }else{
+                  res.status(401).json({
+                    status:401,
+                    message:"Vous n'êtes pas authorisés à voir la partie téléchargement de l'application."
+                  })
+                }
+              })
+            }
+          })
+        }
+        
       })
     })
     app.post('/api/savePaymentsFrontEnd', async function(req, res){

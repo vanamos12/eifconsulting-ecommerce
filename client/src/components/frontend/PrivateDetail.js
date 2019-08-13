@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 
 class PrivateDetail extends Component{
     render(){
@@ -12,15 +13,15 @@ class PrivateDetail extends Component{
         charpenteToitureFile} = this.props.plan
         if (type === "Devis"){
             download = <div>
-                            <a href={grosOeuvreFile}>Gros oeuvre</a><br/>
-                            <a href={secondOeuvreFile}>Second oeuvre</a><br/>
-                            <a href={charpenteToitureFile}>Charpente et toiture</a><br/>
+                            <Link to={grosOeuvreFile} target="_blank" download>Gros oeuvre</Link><br/>
+                            <Link to={secondOeuvreFile} target="_blank" download>Second oeuvre</Link><br/>
+                            <Link to={charpenteToitureFile} target="_blank" download>Charpente et toiture</Link><br/>
                         </div>;
         }else{
             download = <div>
-                            <a href={vueMasseFile}>Vue de masse </a><br/>
-                            <a href={vueAerienneFile}>Vue a&eacute;rienne</a><br/>
-                            <a href={vueFaceFile}>Vue de face</a><br/>
+                            <Link to={vueMasseFile} target="_blank" download>Vue de masse </Link><br/>
+                            <Link to={vueAerienneFile} target="_blank" download>Vue a&eacute;rienne</Link><br/>
+                            <Link to={vueFaceFile} target="_blank" download>Vue de face</Link><br/>
                         </div>;
         }
 

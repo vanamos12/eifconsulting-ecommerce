@@ -92,7 +92,7 @@ class HeaderNew extends Component{
 					</div>
 					<div className="brand-wrapper">
 						<div className="brand">
-						Electricité-Informatique-Froid
+						Vos plans de b&acirc;timents en un clic
 						</div>
 					</div>
 					<div className="contact-info">
