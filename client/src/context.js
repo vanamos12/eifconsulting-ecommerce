@@ -23,6 +23,7 @@ class ApplicationProvider extends Component{
             connected:false,
             role:'',
             email:'',
+            user:{},
             tabIdPlans:[],
             tabPlansValidated:[],
             tabPlansNotValidated:[],
@@ -324,6 +325,7 @@ class ApplicationProvider extends Component{
                     if ([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur].includes(data.role)){
                         frontEndUser.connected = true
                         frontEndUser.email = data.email
+                        frontEndUser.user = data.user
                         frontEndUser.role = data.role
                         frontEndUser.tabIdPlans = data.tabIdPlans
                         frontEndUser.tabPlansValidated = data.tabPlansValidated
@@ -471,6 +473,7 @@ class ApplicationProvider extends Component{
             frontEndUser.connected = true
             frontEndUser.email = data.email
             frontEndUser.role = data.role
+            frontEndUser.user = data.user
             frontEndUser.tabIdPlans = data.tabIdPlans
             frontEndUser.tabPlansValidated = data.tabPlansValidated
             frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
@@ -609,13 +612,31 @@ class ApplicationProvider extends Component{
             })
           .then(data =>{
             if (action === 'connected'){
+                let frontEndUser = {...this.state.frontEndUser}
+                let backEndUser = {...this.state.backEndUser}
+                let administrators = [...this.state.administrators]
+                if ([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur].includes(data.role)){
+                    frontEndUser.connected = true
+                    frontEndUser.email = data.email
+                    frontEndUser.user = data.user
+                    frontEndUser.role = data.role
+                    frontEndUser.tabIdPlans = data.tabIdPlans
+                    frontEndUser.tabPlansValidated = data.tabPlansValidated
+                    frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
+                    frontEndUser.tabPlansSold = data.tabPlansSold
+                    frontEndUser.percentageToRefill = data.percentageToRefill
+                } 
+                if ([Role.Administrateur, Role.SuperAdministrateur].includes(data.role)){
+                    backEndUser.allPlans = data.allPlans
+                } 
+                if ([Role.SuperAdministrateur].includes(data.role)){
+                    administrators = data.administrators
+                }
                 this.setState(()=>{
                     return {
-                        frontEndUser:{
-                            connected:true,
-                            email: data.email,
-                            tabIdPlans:data.tabIdPlans
-                        }
+                        frontEndUser:frontEndUser,
+                        backEndUser:backEndUser,
+                        administrators:administrators
                     }
                 }, ()=>{
                     history.push('/cart')

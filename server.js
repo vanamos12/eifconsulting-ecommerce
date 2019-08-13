@@ -1312,6 +1312,7 @@ mongoose.connect(mongo_uri, function(err) {
                         res.cookie('tokenFrontEnd', token, { httpOnly: true })
                         .status(200).json({
                           error:'Connexion correcte',
+                          user:user,
                           role:user.role,
                           email:user.email,
                           tabIdPlans:user.tabPlansBuyed,
@@ -1331,6 +1332,7 @@ mongoose.connect(mongo_uri, function(err) {
                           .status(200).json({
                             error:'Connexion correcte',
                             role:user.role,
+                            user:user,
                             email:user.email,
                             tabIdPlans:user.tabPlansBuyed,
                             tabPlansValidated:user.tabPlansValidated,
@@ -1348,6 +1350,7 @@ mongoose.connect(mongo_uri, function(err) {
                       res.cookie('tokenFrontEnd', token, { httpOnly: true })
                         .status(200).json({
                           error:'Connexion correcte',
+                          user:user,
                           role:user.role,
                           email:user.email,
                           tabIdPlans:user.tabPlansBuyed,
@@ -1370,6 +1373,7 @@ mongoose.connect(mongo_uri, function(err) {
         if (err || !user){
           res.status(500).json({
             email: '',
+            user:{},
             role:'',
             message: 'Erreur d\'authentification.',
             tabIdPlans:[],
@@ -1386,6 +1390,7 @@ mongoose.connect(mongo_uri, function(err) {
               res.status(500).json({
                 email: '',
                 role:'',
+                user:{},
                 message: 'Erreur d\'authentification.',
                 tabIdPlans:[],
                 tabPlansValidated: [],
@@ -1399,6 +1404,7 @@ mongoose.connect(mongo_uri, function(err) {
                   FrontEndUser.find({role:Role.Administrateur}, (err, administrators)=>{
                     res.status(200).json({
                       email: req.email,
+                      user:user,
                       role:req.role,
                       message: 'Utilisateur authentifie',
                       tabIdPlans:user.tabPlansBuyed,
@@ -1417,6 +1423,7 @@ mongoose.connect(mongo_uri, function(err) {
                   res.status(200).json({
                     email: req.email,
                     role:req.role,
+                    user:user,
                     message: 'Utilisateur authentifie',
                     tabIdPlans:user.tabPlansBuyed,
                     tabPlansValidated: user.tabPlansValidated,
@@ -1432,6 +1439,7 @@ mongoose.connect(mongo_uri, function(err) {
                 res.status(200).json({
                   email: req.email,
                   role:req.role,
+                  user:user,
                   message: 'Utilisateur authentifie',
                   tabIdPlans:user.tabPlansBuyed,
                   tabPlansValidated: user.tabPlansValidated,

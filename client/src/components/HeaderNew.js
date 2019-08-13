@@ -47,7 +47,7 @@ class HeaderNew extends Component{
 							{
 								utilisateur ?
 								<React.Fragment>
-									<li>Mes informations</li>
+									<li><Link to="/myinformations">Mes informations</Link></li>
 									<li><Link to="/administrationfrontend">Plans achet&eacute;s</Link></li>
 									<li><Link to="/sellplans">Vendre les plans</Link></li>
 									
