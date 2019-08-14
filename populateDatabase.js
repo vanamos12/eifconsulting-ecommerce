@@ -5,11 +5,11 @@ const BackEndUser = require('./models/BackEndUser')
 const Sold = require('./models/Sold')
 
 let mongo_uri = ''
-if (process.env.NODE_ENV === 'production') {
-    mongo_uri = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority'
-}else{
-    mongo_uri = 'mongodb://localhost/react-auth';
-}
+
+mongo_uri = 'mongodb+srv://pokatchoneng:rolande12@cluster0-dq3vz.mongodb.net/test?retryWrites=true&w=majority'
+
+//mongo_uri = 'mongodb://localhost/react-auth';
+
 
 
 mongoose.connect(mongo_uri, function(err) {
@@ -17,7 +17,7 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
-    Sold.find({}, (err, solds)=>{
+    /*Sold.find({}, (err, solds)=>{
         if (err){
             console.log("erreur de recherche de plans", err)
         }else{
@@ -27,21 +27,24 @@ mongoose.connect(mongo_uri, function(err) {
                 console.log("idPlan", item.idPlan)
             })
         }
-    })
-    /*BackEndUser.deleteMany({}, (err, deleted)=>{
-        if (err){
-            console.log("Error of suppression", err)
-        }else{
-            console.log("suppresion completed", deleted)
-        }
-    })
-    FrontEndUser.deleteMany({}, (err, deleted)=>{
+    })*/
+    FrontEndUser.deleteMany({email:"pokatchoneng@gmail.com"}, (err, deleted)=>{
         if (err){
             console.log("Error of suppression front user", err)
         }else{
             console.log("suppresion completed front user", deleted)
         }
     })
+
+    /*
+    BackEndUser.deleteMany({}, (err, deleted)=>{
+        if (err){
+            console.log("Error of suppression", err)
+        }else{
+            console.log("suppresion completed", deleted)
+        }
+    })
+    
     Plan.deleteMany({}, (err, deleted)=>{
         if (err){
             console.log("Error of suppression plan", err)
@@ -50,69 +53,7 @@ mongoose.connect(mongo_uri, function(err) {
         }
     })
     */
-    /*
-    let userSuperAdministrateur = FrontEndUser({
-        _id: new mongoose.Types.ObjectId(),
-        email: 'pokatchoneng@live.fr',
-        password: 'rolande12',
-        name:'Poka',
-        surname:'Hermann',
-        telephone:'656752739',
-        role:'SuperAdministrateur',
-        isAdminActive:true,
-        isEmailVerified:true,
-        tabPlansBuyed:[]
-    })
-
-    userSuperAdministrateur.save(err=>{
-        if (err){
-            console.log(err);
-        }else{
-            console.log("Utilisteur super administrateur crée")
-        }
-    })
-
-    let userAdministrateur = FrontEndUser({
-        _id: new mongoose.Types.ObjectId(),
-        email: 'braintosoft@hotmail.ca',
-        password: 'rolande12',
-        name:'Poka',
-        surname:'Hermann',
-        telephone:'656752739',
-        role:'Administrateur',
-        isAdminActive:true,
-        isEmailVerified:true,
-        tabPlansBuyed:[]
-    })
-
-    userAdministrateur.save(err=>{
-        if (err){
-            console.log(err);
-        }else{
-            console.log("Utilisteur administrateur crée")
-        }
-    })
     
-    let userUtilisateur = FrontEndUser({
-        _id: new mongoose.Types.ObjectId(),
-        email: 'pokatchoneng@yahoo.fr',
-        password: 'rolande12',
-        name:'Poka',
-        surname:'Hermann',
-        telephone:'656752739',
-        role:'Utilisateur',
-        isEmailVerified:true,
-        tabPlansBuyed:[]
-    })
-
-    userUtilisateur.save(err=>{
-        if (err){
-            console.log(err);
-        }else{
-            console.log("Utilisteur utilisateur crée")
-        }
-    })
-    µ/
     /*
     let plan1 = Plan({
         _id: new mongoose.Types.ObjectId(),
@@ -132,7 +73,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:true,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true,
+        type:'Distribution',
+        isValidated:true,
+        vueMasseFile:'images/coupcoeurs/carrelet-140_140.webp',
+        vueAerienneFile:'images/coupcoeurs/carrelet-140_140.webp',
+        vueFaceFile:'images/coupcoeurs/carrelet-140_140.webp',
+        grosOeuvreFile:'',
+        secondOeuvreFile:'',
+        charpenteToitureFile:'',
+        emailSubmitter:'pokatchoneng@yahoo.fr'
         
     })
     plan1.save(function (err){
@@ -160,7 +109,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:false,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'3D',
+        isValidated:true,
+        vueMasseFile:'images/coupcoeurs/dompierre-163_163.webp',
+        vueAerienneFile:'images/coupcoeurs/dompierre-163_163.webp',
+        vueFaceFile:'images/coupcoeurs/dompierre-163_163.webp',
+        grosOeuvreFile:'',
+        secondOeuvreFile:'',
+        charpenteToitureFile:'',
+        emailSubmitter:'pokatchoneng@yahoo.fr'
     })
     plan2.save(function (err){
         if (err) {
@@ -188,7 +145,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:false,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'3D',
+        isValidated:true,
+        vueMasseFile:'images/coupcoeurs/marine-115_150.webp',
+        vueAerienneFile:'images/coupcoeurs/marine-115_150.webp',
+        vueFaceFile:'images/coupcoeurs/marine-115_150.webp',
+        grosOeuvreFile:'',
+        secondOeuvreFile:'',
+        charpenteToitureFile:'',
+        emailSubmitter:'pokatchoneng@yahoo.fr'
     })
     plan3.save(function (err){
         if (err) {
@@ -216,7 +181,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:true,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'Devis',
+        isValidated:true,
+        vueMasseFile:'',
+        vueAerienneFile:'',
+        vueFaceFile:'',
+        grosOeuvreFile:'images/coupcoeurs/lagune-117_117.webp',
+        secondOeuvreFile:'images/coupcoeurs/lagune-117_117.webp',
+        charpenteToitureFile:'images/coupcoeurs/lagune-117_117.webp',
+        emailSubmitter:'braintosoft@hotmail.ca'
     })
     plan4.save(function (err){
         if (err) {
@@ -244,7 +217,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:false,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'Devis',
+        isValidated:true,
+        vueMasseFile:'',
+        vueAerienneFile:'',
+        vueFaceFile:'',
+        grosOeuvreFile:'images/coupcoeurs/mathes-120_150.webp',
+        secondOeuvreFile:'images/coupcoeurs/mathes-120_150.webp',
+        charpenteToitureFile:'images/coupcoeurs/mathes-120_150.webp',
+        emailSubmitter:'braintosoft@hotmail.ca'
     })
     plan5.save(function (err){
         if (err) {
@@ -272,7 +253,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:false,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'Devis',
+        isValidated:true,
+        vueMasseFile:'',
+        vueAerienneFile:'',
+        vueFaceFile:'',
+        grosOeuvreFile:'images/coupcoeurs/meschers-129_145.webp',
+        secondOeuvreFile:'images/coupcoeurs/meschers-129_145.webp',
+        charpenteToitureFile:'images/coupcoeurs/meschers-129_145.webp',
+        emailSubmitter:'braintosoft@hotmail.ca'
     })
     plan6.save(function (err){
         if (err) {
@@ -300,7 +289,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:true,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'Devis',
+        isValidated:true,
+        vueMasseFile:'',
+        vueAerienneFile:'',
+        vueFaceFile:'',
+        grosOeuvreFile:'images/coupcoeurs/palmyre-150_180.webp',
+        secondOeuvreFile:'images/coupcoeurs/palmyre-150_180.webp',
+        charpenteToitureFile:'images/coupcoeurs/palmyre-150_180.webp',
+        emailSubmitter:'braintosoft@hotmail.ca'
     })
     plan7.save(function (err){
         if (err) {
@@ -328,7 +325,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:false,
         isCoupCoeur:true,
         isPopular: false,
-        isValidated: true
+        type:'Distribution',
+        isValidated:true,
+        vueMasseFile:'images/coupcoeurs/pinede-191_191.webp',
+        vueAerienneFile:'images/coupcoeurs/pinede-191_191.webp',
+        vueFaceFile:'images/coupcoeurs/pinede-191_191.webp',
+        grosOeuvreFile:'',
+        secondOeuvreFile:'',
+        charpenteToitureFile:'',
+        emailSubmitter:'pokatchoneng@yahoo.fr'
     })
     plan8.save(function (err){
         if (err) {
@@ -356,7 +361,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:false,
         isCoupCoeur:false,
         isPopular: true,
-        isValidated: true
+        type:'Distribution',
+        isValidated:true,
+        vueMasseFile:'images/coupcoeurs/saint-palais-130_145.webp',
+        vueAerienneFile:'images/coupcoeurs/saint-palais-130_145.webp',
+        vueFaceFile:'images/coupcoeurs/saint-palais-130_145.webp',
+        grosOeuvreFile:'',
+        secondOeuvreFile:'',
+        charpenteToitureFile:'',
+        emailSubmitter:'pokatchoneng@yahoo.fr'
     })
     plan9.save(function (err){
         if (err) {
@@ -384,7 +397,15 @@ mongoose.connect(mongo_uri, function(err) {
         isChambreFourMore:true,
         isCoupCoeur:false,
         isPopular: true,
-        isValidated: true
+        type:'3D',
+        isValidated:true,
+        vueMasseFile:'images/coupcoeurs/vaux-130_150.webp',
+        vueAerienneFile:'images/coupcoeurs/vaux-130_150.webp',
+        vueFaceFile:'images/coupcoeurs/vaux-130_150.webp',
+        grosOeuvreFile:'',
+        secondOeuvreFile:'',
+        charpenteToitureFile:'',
+        emailSubmitter:'pokatchoneng@yahoo.fr'
     })
     plan10.save(function (err){
         if (err) {
@@ -392,6 +413,77 @@ mongoose.connect(mongo_uri, function(err) {
         }else{
             console.log('Plan10 Vaux created')
         }
+    })
+    let userSuperAdministrateur = FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email: 'pokatchoneng@live.fr',
+        password: 'rolande12',
+        name:'Poka',
+        surname:'Hermann',
+        telephone:'656752739',
+        role:'SuperAdministrateur',
+        isAdminActive:true,
+        isEmailVerified:true,
+        tabPlansBuyed:[],
+        tabPlansValidated:[],
+        tabPlansNotValidated:[],
+        tabPlansSold:[]
+    })
+
+    userSuperAdministrateur.save(err=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("Utilisteur super administrateur crée")
+        }
+    })
+
+    let userAdministrateur = FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email: 'braintosoft@hotmail.ca',
+        password: 'rolande12',
+        name:'Poka',
+        surname:'Hermann',
+        telephone:'656752739',
+        role:'Administrateur',
+        isAdminActive:true,
+        isEmailVerified:true,
+        tabPlansBuyed:[],
+        tabPlansValidated:[],
+        tabPlansNotValidated:[plan7, plan6, plan5, plan4],
+        tabPlansSold:[]
+    })
+
+    userAdministrateur.save(err=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("Utilisteur administrateur crée")
+        }
+    })
+    
+    let userUtilisateur = FrontEndUser({
+        _id: new mongoose.Types.ObjectId(),
+        email: 'pokatchoneng@yahoo.fr',
+        password: 'rolande12',
+        name:'Poka',
+        surname:'Hermann',
+        telephone:'656752739',
+        role:'Utilisateur',
+        isEmailVerified:true,
+        tabPlansBuyed:[],
+        tabPlansValidated:[],
+        tabPlansNotValidated:[plan10, plan9, plan8, plan3, plan2, plan1],
+        tabPlansSold:[]
+    })
+
+    userUtilisateur.save(err=>{
+        if (err){
+            console.log(err);
+        }else{
+            console.log("Utilisteur utilisateur crée")
+        }
     })*/
+    
   }
 });
