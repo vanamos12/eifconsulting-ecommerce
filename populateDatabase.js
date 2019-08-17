@@ -27,15 +27,25 @@ mongoose.connect(mongo_uri, function(err) {
                 console.log("idPlan", item.idPlan)
             })
         }
-    })*/
+    })
     FrontEndUser.deleteMany({email:"pokatchoneng@gmail.com"}, (err, deleted)=>{
         if (err){
             console.log("Error of suppression front user", err)
         }else{
             console.log("suppresion completed front user", deleted)
         }
+    })*/
+    Plan.find({}).exec(async function(err, plans){
+        if (err || !plans ){
+            console.log("Error in updatind plans")
+        }else{
+            plans.forEach(async function(item){
+                item.isValidated = false
+                await item.save()
+            })
+            console.log("All the plans are not validated")
+        }
     })
-
     /*
     BackEndUser.deleteMany({}, (err, deleted)=>{
         if (err){
@@ -74,7 +84,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'Distribution',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'images/coupcoeurs/carrelet-140_140.webp',
         vueAerienneFile:'images/coupcoeurs/carrelet-140_140.webp',
         vueFaceFile:'images/coupcoeurs/carrelet-140_140.webp',
@@ -110,7 +120,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'3D',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'images/coupcoeurs/dompierre-163_163.webp',
         vueAerienneFile:'images/coupcoeurs/dompierre-163_163.webp',
         vueFaceFile:'images/coupcoeurs/dompierre-163_163.webp',
@@ -146,7 +156,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'3D',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'images/coupcoeurs/marine-115_150.webp',
         vueAerienneFile:'images/coupcoeurs/marine-115_150.webp',
         vueFaceFile:'images/coupcoeurs/marine-115_150.webp',
@@ -182,7 +192,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'Devis',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'',
         vueAerienneFile:'',
         vueFaceFile:'',
@@ -218,7 +228,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'Devis',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'',
         vueAerienneFile:'',
         vueFaceFile:'',
@@ -254,7 +264,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'Devis',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'',
         vueAerienneFile:'',
         vueFaceFile:'',
@@ -290,7 +300,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'Devis',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'',
         vueAerienneFile:'',
         vueFaceFile:'',
@@ -326,7 +336,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:true,
         isPopular: false,
         type:'Distribution',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'images/coupcoeurs/pinede-191_191.webp',
         vueAerienneFile:'images/coupcoeurs/pinede-191_191.webp',
         vueFaceFile:'images/coupcoeurs/pinede-191_191.webp',
@@ -362,7 +372,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:false,
         isPopular: true,
         type:'Distribution',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'images/coupcoeurs/saint-palais-130_145.webp',
         vueAerienneFile:'images/coupcoeurs/saint-palais-130_145.webp',
         vueFaceFile:'images/coupcoeurs/saint-palais-130_145.webp',
@@ -398,7 +408,7 @@ mongoose.connect(mongo_uri, function(err) {
         isCoupCoeur:false,
         isPopular: true,
         type:'3D',
-        isValidated:true,
+        isValidated:false,
         vueMasseFile:'images/coupcoeurs/vaux-130_150.webp',
         vueAerienneFile:'images/coupcoeurs/vaux-130_150.webp',
         vueFaceFile:'images/coupcoeurs/vaux-130_150.webp',
