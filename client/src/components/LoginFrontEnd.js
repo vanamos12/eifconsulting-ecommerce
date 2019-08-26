@@ -7,6 +7,7 @@ export default class LoginFrontEnd extends Component {
     super(props)
     this.state = {
       email : '',
+      loading:false,
       password: '',
       message: '',
       params:{}
@@ -24,6 +25,10 @@ export default class LoginFrontEnd extends Component {
   }
   onSubmit = (event) => {
     event.preventDefault();
+    this.setState({
+      loading:true,
+      message:''
+    })
     let action=''
     fetch('/api/authenticateFrontEnd', {
       method: 'POST',
@@ -49,7 +54,8 @@ export default class LoginFrontEnd extends Component {
     .then(data => {
       if (action !== 'connected'){
         this.setState({
-          message:data.error
+          message:data.error,
+          loading:false
         })
       }else{
         console.log(data.role)
@@ -76,7 +82,7 @@ export default class LoginFrontEnd extends Component {
         <div className="spaceToSee"></div>
         <div className="container form-container text-center">
         <h1>Connectez-vous!</h1>
-        <small><Link to="/signupfrontend">Incrivez-vous ici</Link></small>
+        <small><Link to="/signupfrontend">Inscrivez-vous ici</Link></small>
         <span>&nbsp;&nbsp;</span>
         <small><Link to="/sendpasswordmodificationtoken">Mot de passe oubli&eacute;</Link></small>
         <form onSubmit={this.onSubmit}>
@@ -104,6 +110,16 @@ export default class LoginFrontEnd extends Component {
           </div>
         
           <div className="text-danger">{this.state.message}</div>
+          {
+            this.state.loading ? 
+            <img 
+              width="75px" 
+              height="75px" 
+              src="images/gif/giphyhourglass.gif" 
+              alt="Chargement"/> 
+            : 
+            null
+          }
         <input className="btn btn-primary" type="submit" value="Se connnecter"/>
         
         </form>

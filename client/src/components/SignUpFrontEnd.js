@@ -75,7 +75,7 @@ export default class SignUpFrontEnd extends Component {
       <div className="signup">
         <div className="spaceToSee"></div>
         <div className="container form-container text-center">
-        <h1>Incrivez-vous ici!</h1>
+        <h1>Inscrivez-vous ici!</h1>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <input

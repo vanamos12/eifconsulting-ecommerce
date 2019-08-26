@@ -41,8 +41,8 @@ class ApplicationProvider extends Component{
         cartTax:0,
         cartTotal:0
     }
-    componentDidMount(){
-        this.setApplicationPlans()
+    async componentDidMount(){
+        await this.setApplicationPlans().then()
     }
     setResults = (results, history)=>{
         let search = {...this.state.search}
@@ -226,7 +226,76 @@ class ApplicationProvider extends Component{
               console.log(err)
           })
     }
-    setApplicationPlans = () =>{
+    setApplicationPlans = async () =>{
+        const fetchfrontEnd = await fetch('/api/getFrontEnd')
+        const fetchfrontEndThen = await fetchfrontEnd.json()
+
+        
+        const fetchCheckTokenFrontEnd = await fetch('/checkTokenFrontEnd')
+        const fetchCheckTokenFrontEndThen = await fetchCheckTokenFrontEnd.json()
+        const values = [fetchfrontEndThen, fetchCheckTokenFrontEndThen]
+
+        
+        if (values[0].status === 200){
+            values[0].allPlans.forEach(item=>{
+                item.inCart = false
+                item.count = 0
+                item.total = 0
+            })
+            values[0].plansPopular.forEach(item=>{
+                item.inCart = false
+                item.count = 0
+                item.total = 0
+            })
+
+            values[0].plansCoupCoeur.forEach(item=>{
+                item.inCart = false
+                item.count = 0
+                item.total = 0
+            })
+
+            this.setState({
+                allPlans:values[0].allPlans,
+                plansPopular:values[0].plansPopular,
+                plansCoupCoeur:values[0].plansCoupCoeur,
+                sliderImages:sliderImages
+            })
+
+        }
+
+        if (values[1].status === 200){
+            let frontEndUser = {...this.state.frontEndUser}
+            let backEndUser = {...this.state.backEndUser}
+            let administrators = [...this.state.administrators]
+            if ([Role.Administrateur, Role.SuperAdministrateur, Role.Utilisateur].includes(values[1].role)){
+                frontEndUser.connected = true
+                frontEndUser.email = values[1].email
+                frontEndUser.user = values[1].user
+                frontEndUser.role = values[1].role
+                frontEndUser.tabIdPlans = values[1].tabIdPlans
+                frontEndUser.tabPlansValidated = values[1].tabPlansValidated
+                frontEndUser.tabPlansNotValidated = values[1].tabPlansNotValidated
+                frontEndUser.tabPlansSold = values[1].tabPlansSold
+                frontEndUser.percentageToRefill = values[1].percentageToRefill
+            } 
+            if ([Role.Administrateur, Role.SuperAdministrateur].includes(values[1].role)){
+                backEndUser.allPlans = values[1].allPlans
+            } 
+            if ([Role.SuperAdministrateur].includes(values[1].role)){
+                administrators = values[1].administrators
+            }
+            
+            this.setState(()=>{
+                return {
+                    frontEndUser:frontEndUser,
+                    backEndUser:backEndUser,
+                    administrators:administrators
+                }
+            })
+        }
+        
+        
+        /*
         fetch('/api/getFrontEndUserAllPlans')
         .then(res=>res.json())
         .then(data=>{
@@ -294,7 +363,7 @@ class ApplicationProvider extends Component{
                 console.error(err);
                 alert('Error getting the plans in please try again');
             });
-            let action = ''
+            
             fetch('/checkTokenFrontEnd', {
                 headers : { 
                   'Content-Type': 'application/json',
@@ -302,22 +371,9 @@ class ApplicationProvider extends Component{
                  }
           
               })
-              .then(res => {
-                  if (res.status === 401){
-                      
-                      action='notConnected'
-                  }else if(res.status === 200){
-                      action  = 'connected'
-                      return res.json();
-                      
-                  }
-                  else{
-                      console.log(res.status)
-                      console.log("Erreur inconnue")
-                  }
-                })
+              .then(res => res.json())
               .then(data =>{
-                if (action === 'connected'){
+                if (data.status === 200){
                     console.log(data.role)
                     let frontEndUser = {...this.state.frontEndUser}
                     let backEndUser = {...this.state.backEndUser}
@@ -339,16 +395,7 @@ class ApplicationProvider extends Component{
                     if ([Role.SuperAdministrateur].includes(data.role)){
                         administrators = data.administrators
                     }
-                    /*
-                    let frontEndUser = {...this.state.frontEndUser}
-                    frontEndUser.connected = true
-                    frontEndUser.email = data.email
-                    frontEndUser.role = data.role 
-                    frontEndUser.tabIdPlans = data.tabIdPlans
-                    frontEndUser.tabPlansValidated =  data.tabPlansValidated
-                    frontEndUser.tabPlansNotValidated = data.tabPlansNotValidated
-                    frontEndUser.tabPlansSold = data.tabPlansSold
-                    */
+                    
                     this.setState(()=>{
                         return {
                             frontEndUser:frontEndUser,
@@ -361,6 +408,8 @@ class ApplicationProvider extends Component{
               .catch(err=>{
                   console.error(err)
               })
+        */
+        /*
         let actionTwo = ''
         fetch('/checkTokenBackEnd')
         .then(res=>{
@@ -388,6 +437,7 @@ class ApplicationProvider extends Component{
         .catch(err=>{
             console.log(err)
         })
+        */
         /*let tempProducts = []
         storeProducts.forEach(item =>{
             const singleItem = {...item}
@@ -588,7 +638,7 @@ class ApplicationProvider extends Component{
         
     }
     processPayment = (history, totalPrice)=>{
-        let action = ''
+        
         fetch('/checkTokenFrontEnd', {
             headers : { 
               'Content-Type': 'application/json',
@@ -596,22 +646,9 @@ class ApplicationProvider extends Component{
              }
       
           })
-          .then(res => {
-              if (res.status === 401){
-                  history.push('/loginfrontend/signup')
-                  action='notConnected'
-              }else if(res.status === 200){
-                  action  = 'connected'
-                  return res.json();
-                  
-              }
-              else{
-                  console.log(res.status)
-                  console.log("Unknow error")
-              }
-            })
+          .then(res => res.json())
           .then(data =>{
-            if (action === 'connected'){
+            if (data.status === 200){
                 let frontEndUser = {...this.state.frontEndUser}
                 let backEndUser = {...this.state.backEndUser}
                 let administrators = [...this.state.administrators]
@@ -641,6 +678,9 @@ class ApplicationProvider extends Component{
                 }, ()=>{
                     history.push('/cart')
                 })
+            }
+            else if (data.status===401){
+                history.push('/loginfrontend/signup')
             }
           })
           .catch(err=>{

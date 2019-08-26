@@ -17,7 +17,25 @@ mongoose.connect(mongo_uri, function(err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
-    /*Sold.find({}, (err, solds)=>{
+    /*
+    FrontEndUser.deleteMany({}, (err, deleted)=>{
+        if (err){
+            console.log("Error of suppression front user", err)
+        }else{
+            console.log("suppresion completed front user", deleted)
+        }
+    })
+    
+    Plan.deleteMany({}, (err, deleted)=>{
+        if (err){
+            console.log("Error of suppression plan", err)
+        }else{
+            console.log("suppresion completed plan", deleted)
+        }
+    })
+
+    
+    Sold.find({}, (err, solds)=>{
         if (err){
             console.log("erreur de recherche de plans", err)
         }else{
@@ -28,13 +46,6 @@ mongoose.connect(mongo_uri, function(err) {
             })
         }
     })
-    FrontEndUser.deleteMany({email:"pokatchoneng@gmail.com"}, (err, deleted)=>{
-        if (err){
-            console.log("Error of suppression front user", err)
-        }else{
-            console.log("suppresion completed front user", deleted)
-        }
-    })*/
     Plan.find({}).exec(async function(err, plans){
         if (err || !plans ){
             console.log("Error in updatind plans")
@@ -46,6 +57,7 @@ mongoose.connect(mongo_uri, function(err) {
             console.log("All the plans are not validated")
         }
     })
+    */
     /*
     BackEndUser.deleteMany({}, (err, deleted)=>{
         if (err){
@@ -54,17 +66,9 @@ mongoose.connect(mongo_uri, function(err) {
             console.log("suppresion completed", deleted)
         }
     })
-    
-    Plan.deleteMany({}, (err, deleted)=>{
-        if (err){
-            console.log("Error of suppression plan", err)
-        }else{
-            console.log("suppresion completed plan", deleted)
-        }
-    })
     */
     
-    /*
+    
     let plan1 = Plan({
         _id: new mongoose.Types.ObjectId(),
         categorie:'Traditionnelle',
@@ -427,7 +431,7 @@ mongoose.connect(mongo_uri, function(err) {
     let userSuperAdministrateur = FrontEndUser({
         _id: new mongoose.Types.ObjectId(),
         email: 'pokatchoneng@live.fr',
-        password: 'rolande12',
+        password: 'markupconsulting',
         name:'Poka',
         surname:'Hermann',
         telephone:'656752739',
@@ -451,7 +455,7 @@ mongoose.connect(mongo_uri, function(err) {
     let userAdministrateur = FrontEndUser({
         _id: new mongoose.Types.ObjectId(),
         email: 'braintosoft@hotmail.ca',
-        password: 'rolande12',
+        password: 'markupconsulting',
         name:'Poka',
         surname:'Hermann',
         telephone:'656752739',
@@ -475,7 +479,7 @@ mongoose.connect(mongo_uri, function(err) {
     let userUtilisateur = FrontEndUser({
         _id: new mongoose.Types.ObjectId(),
         email: 'pokatchoneng@yahoo.fr',
-        password: 'rolande12',
+        password: 'markupconsulting',
         name:'Poka',
         surname:'Hermann',
         telephone:'656752739',
@@ -493,7 +497,7 @@ mongoose.connect(mongo_uri, function(err) {
         }else{
             console.log("Utilisteur utilisateur crée")
         }
-    })*/
+    })
     
   }
 });

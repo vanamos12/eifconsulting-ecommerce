@@ -197,6 +197,23 @@ mongoose.connect(mongo_uri, function(err) {
       })
 
     })
+    app.get('/api/getFrontEnd', function(req, res){
+      Plan.aggregate([{$match:{isValidated:true}}, {$sample:{size:8}}], function(err, allPlans){
+        Plan.aggregate([{$match:{isPopular:true, isValidated:true}}, {$sample:{size:8}}])
+        .exec(function(err, plansPopular){
+          Plan.aggregate([{$match:{isCoupCoeur:true, isValidated:true}}, {$sample:{size:5}}])
+          .exec(function(err, plansCoupCoeur){
+            res.status(200).json({
+              status:200,
+              message: 'Succès',
+              allPlans:allPlans,
+              plansPopular:plansPopular,
+              plansCoupCoeur:plansCoupCoeur
+            })
+          })
+        })
+      })
+    })
     app.get('/api/getFrontEndUserAllPlans', function(req, res){
       Plan.aggregate([{$match:{isValidated:true}}, {$sample:{size:8}}], function(err, plans){
         if (err){
@@ -1500,6 +1517,7 @@ mongoose.connect(mongo_uri, function(err) {
       FrontEndUser.findOne({email:req.email}, function(err, user){
         if (err || !user){
           res.status(500).json({
+            status:500,
             email: '',
             user:{},
             role:'',
@@ -1516,6 +1534,7 @@ mongoose.connect(mongo_uri, function(err) {
             if (err){
               console.log(err)
               res.status(500).json({
+                status:500,
                 email: '',
                 role:'',
                 user:{},
@@ -1531,6 +1550,7 @@ mongoose.connect(mongo_uri, function(err) {
                 Plan.find({}, (err, plans)=>{
                   FrontEndUser.find({role:Role.Administrateur}, (err, administrators)=>{
                     res.status(200).json({
+                      status:200,
                       email: req.email,
                       user:user,
                       role:req.role,
@@ -1549,6 +1569,7 @@ mongoose.connect(mongo_uri, function(err) {
               }else if ([Role.Administrateur].includes(req.role)){
                 Plan.find({}, (err, plans)=>{
                   res.status(200).json({
+                    status:200,
                     email: req.email,
                     role:req.role,
                     user:user,
@@ -1565,6 +1586,7 @@ mongoose.connect(mongo_uri, function(err) {
               }else{
                 // You are a simple user req.role === Role.Utilisateur
                 res.status(200).json({
+                  status:200,
                   email: req.email,
                   role:req.role,
                   user:user,

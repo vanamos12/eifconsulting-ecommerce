@@ -7,7 +7,7 @@ class AddPlanDevis extends Component{
     grosOeuvreFile = React.createRef()
     secondOeuvreFile = React.createRef()
     charpenteToitureFile = React.createRef()
-    fileExtensionsImage = ['webp', 'jpg', 'png', 'jpeg', 'gif']
+    fileExtensionsImage = ['webp', 'jpg', 'png', 'jpeg', 'gif', 'svg']
     tenMegaInOctets = 10000000
     state={
         categorie:'',

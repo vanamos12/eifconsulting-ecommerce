@@ -15,12 +15,14 @@ const authorize = function (roles=[]){
       req.cookies.tokenFrontEnd;
     if (!token) {
       res.status(401).json({
+        status:401,
         message:'Unauthorized: No token provided'
       });
     } else {
       jwt.verify(token, secret, function(err, decoded) {
         if (err) {
           res.status(401).json({
+            status:401,
             message:'Unauthorized: Invalid token'
           });
         } else {
@@ -28,6 +30,7 @@ const authorize = function (roles=[]){
           req.role = decoded.role
           if (!roles.includes(req.role)){
             res.status(401).json({
+              status:401,
               message:'Unauthorized: Invalid role'
             });
           }else{
