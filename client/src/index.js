@@ -1,9 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import {BrowserRouter as Router} from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import ReactDOM from 'react-dom'; 
+import Loadable from 'react-loadable'
 import * as serviceWorker from './serviceWorker';
-import {ApplicationProvider} from './context'
+//import {BrowserRouter as Router} from 'react-router-dom'
+//import {ApplicationProvider} from './context'
+const Router = Loadable({
+    loader: ()=>import('react-router-dom'),
+    loading:()=><div>Chargement...</div>,
+    render:(loaded, props)=>{
+        let Component = loaded.BrowserRouter
+        return <Component {...props}/>
+    }
+})
+const ApplicationProvider = Loadable({
+    loader:()=>import('./context'),
+    loading:()=><div>Chargement...</div>,
+    render:(loaded, props)=>{
+        let Component = loaded.ApplicationProvider
+        return <Component {...props}/>
+    }
+})
+//const {BrowserRouter:Router} = lazy(()=>import('react-router-dom'))
+//const {ApplicationProvider} = lazy(()=>import('./context'))
+//const App = lazy(()=>import('./App'))
+const App = Loadable({
+    loader:()=>import('./App'),
+    loading:()=><div>Chargement...</div>
+})
 
 ReactDOM.render(
     <Router>
