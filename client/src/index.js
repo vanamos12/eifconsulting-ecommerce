@@ -4,6 +4,8 @@ import Loadable from 'react-loadable'
 import * as serviceWorker from './serviceWorker';
 //import {BrowserRouter as Router} from 'react-router-dom'
 //import {ApplicationProvider} from './context'
+import Footer from './components/Footer'
+
 const Router = Loadable({
     loader: ()=>import('react-router-dom'),
     loading:()=><div>Chargement...</div>,
@@ -29,11 +31,16 @@ const App = Loadable({
 })
 
 ReactDOM.render(
-    <Router>
-        <ApplicationProvider>
-            <App />
-        </ApplicationProvider>
-    </Router>
+    <React.Fragment>
+        <Router>
+            <ApplicationProvider>
+                <App />
+            </ApplicationProvider>
+        </Router>
+        <div id="footer">
+            <Footer/>
+        </div>
+    </React.Fragment>
     , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

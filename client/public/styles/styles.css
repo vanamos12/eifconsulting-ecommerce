@@ -1,3 +1,17 @@
+html, body, #root{
+    height:100%;
+}
+.super_container{
+    min-height:100%;
+    overflow: auto;
+    padding-bottom:129px;
+}
+#footer{
+    position:relative;
+    height:129px;
+    margin-top:-129px;
+    clear:both;
+}
 /*Styles css*/
 #myDropdown ol{
     list-style-type: none;

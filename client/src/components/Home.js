@@ -32,7 +32,7 @@ export default class Home extends Component {
           <QualityBox/>
           <Characteristics/>
           <Newletter/>
-          <Footer/>
+          {/*<Footer/>*/}
         </React.Fragment>
       );
     }
