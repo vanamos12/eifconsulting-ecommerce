@@ -64,7 +64,7 @@ class Search extends Component{
                         <div className="btn btn-primary">
                             <label for="isAll">
                                 <i className="fa fa-home"></i>
-                                Tout voir
+                                &nbsp;Tout voir&nbsp;
                                 <input 
                                     type="checkbox" 
                                     name="isAll" 
@@ -76,7 +76,7 @@ class Search extends Component{
                         <div className="btn btn-primary">
                             <label for="Traditionnelle">
                                 <i className="fa fa-home"></i>
-                                Maison Traditionnelle
+                                &nbsp;Maison Traditionnelle&nbsp;
                                 <input 
                                     type="radio" 
                                     value="Traditionnelle" 
@@ -88,7 +88,7 @@ class Search extends Component{
                         <div className="btn btn-primary">
                             <label for="Contemporaine">
                                 <i className="fa fa-home"></i>
-                                Maison Contemporaine
+                                &nbsp;Maison Contemporaine&nbsp;
                                 <input 
                                     type="radio" 
                                     value="Contemporaine" 
@@ -100,7 +100,7 @@ class Search extends Component{
                         <div className="btn btn-primary">
                             <label for="Architecte">
                                 <i className="fa fa-home"></i>
-                                Maison d'architecte
+                                &nbsp;Maison d'architecte&nbsp;
                                 <input 
                                     type="radio" 
                                     value="Architecte" 
@@ -208,7 +208,7 @@ class Search extends Component{
                             </label><br/>
                             </div>
                         </div>
-                        <div className="col-12 col-md-3 col-lg-3 rechercher text-center">
+                        <div className="search_button col-12 col-md-3 col-lg-3 rechercher text-center">
                             <button type="submit" className="btn btn-primary">Rechercher</button>
                         </div>
                     </div>

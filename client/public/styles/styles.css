@@ -138,10 +138,11 @@ text-decoration: none;
 
 /* Footer */
 .footer_background{
+    
     background: white;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #1CB5E0, #1CB5E0,#1CB5E0, white, white);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #1CB5E0,#1CB5E0,#1CB5E0, white,  white); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    /*background: linear-gradient(to left, #1CB5E0,#1CB5E0,#1CB5E0, white,  white); *//* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to left, #368AC0,#368AC0,#368AC0, white,  white);
 }
 
 /*Logo*/
@@ -224,10 +225,32 @@ text-decoration: none;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    width:inherit;
+    /*width:inherit;
+    height:50px;*/
+}
+
+.search_button{
+    position:relative;
+}
+
+.search_button button{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+.titre{
+    position:relative;
     height:50px;
 }
 
+.titre div{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
 .header .header-new{
     display:flex;
     flex-wrap: wrap;
@@ -453,6 +476,9 @@ text-decoration: none;
 .form-container{
     width:50%;
 }
+.product, .product_grid2{
+    text-align:center;
+}
 /* Responsive header */
 
 @media only screen and (max-width:1100px){
@@ -504,6 +530,9 @@ text-decoration: none;
     .slide h2{
         font-size:20px;
     }
+    .super_container{
+        padding-bottom: 200px;
+    }
 }
 
 @media only screen and (max-width:400px){
@@ -548,12 +577,51 @@ text-decoration: none;
     .spaceToSee{
         margin-top: 300px;
     }
+    
+    .super_container{
+        padding-bottom: 200px;
+    }
 }
 /* button Payer */
 .checkout_button:hover{
     color:#fff;
 }
 
+.checkout_button span{
+    color:black;
+}
+
+.checkout_button:hover span{
+    color:white;
+    /*z-index: 2000;*/
+}
+
+/*.checkout_button::after{
+    z-index: -1;
+}*/
+
 .checkout_button .buttonPayer{
     font-size:20px;
+}
+
+.icon_box_col:hover{
+    box-shadow: 0 0 20px rgb(19, 17, 17);
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+.icon_box_col:hover .icon_box_title{
+    font-size:20px;
+}
+
+.icon_box_col:hover .icon_box_text{
+    font-size:18px;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.padding{
+    padding: 3px;
 }

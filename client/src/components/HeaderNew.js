@@ -35,7 +35,7 @@ class HeaderNew extends Component{
 						{
 							utilisateur ?
 							<span 
-								className="identification"
+								className="identification pointer padding"
 								onClick={this.toggle}><i className="fa fa-user"></i>&nbsp;{email}&nbsp;<i className="fa fa-arrow-down"></i></span>
 							:
 							<Link to='/loginfrontend/home'>Se connecter</Link>
@@ -47,9 +47,9 @@ class HeaderNew extends Component{
 							{
 								utilisateur ?
 								<React.Fragment>
-									<li><Link to="/myinformations">Mes informations</Link></li>
-									<li><Link to="/administrationfrontend">Plans achet&eacute;s</Link></li>
-									<li><Link to="/sellplans">Vendre les plans</Link></li>
+									<li className="padding"><Link to="/myinformations">Mes informations</Link></li>
+									<li className="padding"><Link to="/administrationfrontend">Plans achet&eacute;s</Link></li>
+									<li className="padding"><Link to="/sellplans">Vendre les plans</Link></li>
 									
 								</React.Fragment>
 								:
@@ -58,7 +58,7 @@ class HeaderNew extends Component{
 							{
 								administrateur ?
 								<React.Fragment>
-									<li><Link to="/validateplans">Valider les plans</Link></li>
+									<li className="padding"><Link to="/validateplans">Valider les plans</Link></li>
 								</React.Fragment>
 								:
 								null
@@ -66,7 +66,7 @@ class HeaderNew extends Component{
 							{
 								superadminitrateur ?
 								<React.Fragment>
-									<li><Link to="/validateadmin">Valider les admins</Link></li>
+									<li className="padding"><Link to="/validateadmin">Valider les admins</Link></li>
 								</React.Fragment>
 								:
 								null
@@ -75,6 +75,7 @@ class HeaderNew extends Component{
 								utilisateur ?
 								<React.Fragment>
 									<li
+										className="padding"
 										onClick={()=>{deconnexion()}}
 									>Se d&eacute;connecter</li>
 								</React.Fragment>
@@ -88,7 +89,7 @@ class HeaderNew extends Component{
 				</div>
 				<div className="header-new">
 					<div className="logo">
-						<img width="125px" height="125px" src="images/logo/logo.jpg" alt="logo"/>
+						<Link to="/"><img width="125px" height="125px" src="images/logo/logo.jpg" alt="logo"/></Link>
 					</div>
 					<div className="brand-wrapper">
 						<div className="brand">

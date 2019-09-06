@@ -34,11 +34,11 @@ class BackEndItem extends Component{
                             &nbsp;&nbsp;
                             {
                                 isValidated ?
-                                    <span 
+                                    <span className="btn btn-danger pointer" 
                                         onClick={()=>{value.setActivePlan(_id, false)}}
                                     >D&eacute;j&agrave; valid&eacute;</span>
                                     :
-                                    <span
+                                    <span className="btn btn-primary pointer"
                                         onClick={()=>{value.setActivePlan(_id, true)}}
                                     >Valider</span>
 

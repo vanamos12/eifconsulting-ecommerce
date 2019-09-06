@@ -11,7 +11,7 @@ class Footer extends Component{
                         <div className="row">
                             <div className="col">
                                 <div className="footer_content d-flex flex-lg-row flex-column align-items-center justify-content-lg-start justify-content-center">
-                                    <div className="footer_logo"><a href="#"><img width="96px" height="96px" src="images/logo/logo.jpg" alt="EIF Consulting"/></a></div>
+                                    <div className="footer_logo"><a href="/"><img width="96px" height="96px" src="images/logo/logo.jpg" alt="EIF Consulting"/></a></div>
                                     <div className="copyright ml-auto mr-auto">{/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
             Copyright &copy; All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
             {/*  Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}</div>

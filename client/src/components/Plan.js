@@ -22,12 +22,20 @@ class Plan extends Component{
                                 <div className="product_price">{price} FCFA</div>
                                 <div className=" d-flex justify-content-between mt-1">
                                     <button 
+                                        style={{
+                                            width:'50%',
+                                            marginLeft:'2px'
+                                        }}
                                         disabled = {inCart ? true: false }
                                         onClick={()=>{
                                             value.addToCart(_id, from)
                                         }}
                                         className={inCart ? "btn btn-warning" : "btn btn-primary"}>{inCart ? "Dans panier" : "Acheter"}</button>
                                     <button 
+                                        style={{
+                                            width:'50%',
+                                            marginLeft:'2px'
+                                        }}
                                         onClick={()=>{
                                             console.log("details")
                                             value.setDetailPlan(_id)

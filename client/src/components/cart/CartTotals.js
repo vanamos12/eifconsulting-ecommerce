@@ -59,7 +59,7 @@ class CartTotals extends Component{
                                     onClick={()=>{
                                         processPayment(history, cartTotal)
                                     }}>
-                                        <span className="buttonPayer">Se connecter</span>
+                                        <span id="btnplay" className="buttonPayer">Se connecter</span>
                                 </div>
                             }
                             {
