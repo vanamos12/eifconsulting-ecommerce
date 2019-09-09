@@ -5,7 +5,7 @@ class UserInformations extends Component{
         const user = this.props.value.frontEndUser.user
         return (
             <div className="informations">
-                <div className="spaceToSee"></div>
+                {/* <div className="spaceToSee"></div> */}
                 <div className="container text-center">
                     <h1>Informations de l'utilisateur</h1>
                     <h2>Nom : <b>{user.name}</b></h2>

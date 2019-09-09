@@ -119,7 +119,7 @@ class AddPlanDistribution extends Component{
     render(){
         return (
             <React.Fragment>
-                <div className="spaceToSee"></div>
+                {/*<div className="spaceToSee"></div>*/}
                 <div className="container-fluid text-center">
                     
                     <Link to="/sellplans">Retourner au menu</Link>

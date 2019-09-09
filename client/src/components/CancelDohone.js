@@ -6,7 +6,7 @@ class CancelDohone extends Component{
         return (
             
                 <div className="container mt-5">
-                    <div className="spaceToSee"></div>
+                    {/* <div className="spaceToSee"></div> */}
                     <div className="row">
                         <div className="col-10 mx-auto text-center">
                             <h2 className="text-uppercase">Votre achat a &eacute;t&eacute; annul&eacute;.</h2>

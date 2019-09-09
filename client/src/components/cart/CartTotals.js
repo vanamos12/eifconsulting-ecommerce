@@ -55,7 +55,7 @@ class CartTotals extends Component{
                                         <span className="buttonPayer">Payer</span>
                                 </div> :
                                 <div 
-                                    className="button checkout_button"
+                                    className="button checkout_button d-flex justify-content-center align-items-center"
                                     onClick={()=>{
                                         processPayment(history, cartTotal)
                                     }}>
@@ -72,7 +72,7 @@ class CartTotals extends Component{
                                  </div>
                                  :
                                 <div 
-                                    className="button checkout_button"
+                                    className="button checkout_button d-flex justify-content-center align-items-center"
                                     onClick={()=>{
                                         processPayment(history, cartTotal)
                                     }}>

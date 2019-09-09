@@ -4,8 +4,16 @@ import BackEndList from './BackEndList'
 import BackEndColumns from './BackEndColumns'
 import {ApplicationConsumer} from '../../context'
 import {Link} from 'react-router-dom'
+import Pagination from '../Pagination'
 
 class AdministrationBackEnd extends Component{
+    
+    /*
+    componentDidMount(){
+        const {match:{params}} = this.props 
+        this.setState({params:params})
+        console.log("params", params)
+    }*/
     render(){
         return (
             <React.Fragment>
@@ -13,19 +21,17 @@ class AdministrationBackEnd extends Component{
                     {(value)=>{
                         
                         let allPlans = value.backEndUser.allPlans
-                        console.log("first phase")
                         if (this.props.type === "search"){
-                            console.log("second phase")
                             allPlans = value.search.resultsAdministrators
                         }
                         if (allPlans.length === 0){
                             return (
                                 <React.Fragment>
                                     <div id="cart">
-                                        {this.props.type==="search"? null:
+                                        {/*this.props.type==="search"? null:
                                         <div className="spaceToSee">
                 
-                                        </div>
+                                        </div>*/
                                         }
                                         <EmptyBackEnd type={this.props.type} />
                                     </div>
@@ -35,10 +41,10 @@ class AdministrationBackEnd extends Component{
                             return (
                                 <React.Fragment>
                                     <div id="cart">
-                                    {this.props.type==="search"? null:
+                                    {/*this.props.type==="search"? null:
                                         <div className="spaceToSee">
                 
-                                        </div>
+                                        </div>*/
                                         }
                                     
                                     <div className="cart_info">
@@ -55,6 +61,7 @@ class AdministrationBackEnd extends Component{
                                             
                                         </div> 
                                     </div>
+                                    <Pagination plans={allPlans} link="allPlans"/>
                                     </div>
                                 </React.Fragment>
                             )

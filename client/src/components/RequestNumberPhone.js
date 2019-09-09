@@ -67,7 +67,7 @@ class RequestNumberPhone extends Component{
     render(){
         return (
             <div className="requestNumberPhone">
-                <div className="spaceToSee"></div>
+                {/* <div className="spaceToSee"></div> */}
                 <div className="container form-container text-center">
                 <h1>Entrez votre num&eacute;ro de mobile!</h1>
                 <form onSubmit={this.onSubmit}>

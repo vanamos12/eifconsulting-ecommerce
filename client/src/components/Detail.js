@@ -10,9 +10,9 @@ export default class Detail extends Component {
                     const {image, price, name, description} = value.detailPlan
                     return (
                         <React.Fragment>
-                            <div className="spaceToSee">
+                            {/* <div className="spaceToSee">
 
-                            </div>
+                            </div> */}
                         <div className="container py-5">
                         {/* title */}
                         <div className="row">

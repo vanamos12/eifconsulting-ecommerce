@@ -9,7 +9,7 @@ class WelcomeValidate extends Component{
 
         return (
             <div className="container mt-5">
-                <div className="spaceToSee"></div>
+                {/*<div className="spaceToSee"></div>*/}
                 <div className="dashbord-validate text-center">
                     <h2>Valider les plans</h2>
                     <ul className="dashboard-validate-liste">

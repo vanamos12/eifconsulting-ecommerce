@@ -47,7 +47,7 @@ class WelcomeSearchSold extends Component{
     render(){
         return (
             <div>
-                <div className="spaceToSee"></div>
+                {/*<div className="spaceToSee"></div>*/}
                 <div>    
                     <div className="container form-container text-center">
                     <h1>Rechercher le gain d'un client!</h1>

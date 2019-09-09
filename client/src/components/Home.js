@@ -16,7 +16,7 @@ export default class Home extends Component {
     render() {
       return (
         <React.Fragment>
-          <div className="spaceToSee"></div>
+          {/* <div className="spaceToSee"></div> */}
           <Suspense fallback={<div>Loading...</div>}>
             <SliderHooks slides={sliderDefaultImages}/>
           </Suspense>

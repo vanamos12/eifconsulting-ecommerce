@@ -77,9 +77,9 @@ class SendMail extends Component{
     render(){
         return (
             <React.Fragment>
-                <div className="spaceToSee">
+                {/* <div className="spaceToSee">
 
-                </div>
+                </div> */}
                 <div className="container text-center">
                     <h1>Formulaire de Contact</h1>
                     <form onSubmit={this.onSubmit}>

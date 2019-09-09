@@ -8,9 +8,9 @@ class SearchResults extends Component{
         if (results.length === 0){
             return (
                 <React.Fragment>
-                    <div className="spaceToSee">
+                    {/*<div className="spaceToSee">
 
-                    </div>
+                    </div>*/}
                     <EmptySearch/> 
                 </React.Fragment>
                 )
@@ -18,9 +18,9 @@ class SearchResults extends Component{
             return (
                 <React.Fragment>
                     
-                    <div className="spaceToSee">
+                    {/*<div className="spaceToSee">
 
-                    </div>
+                    </div>*/}
                     
                     <div className="cart_info">
                         <div className="container">

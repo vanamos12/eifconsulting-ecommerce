@@ -53,7 +53,7 @@ class ModifyPassword extends Component{
     render(){
         return (
             <div className="modify-password">
-                <div className="spaceToSee"></div>
+                {/* <div className="spaceToSee"></div> */}
                 <div className="container form-container text-center">
                 <h1>Modifier votre mot de passe!</h1>
                 <form onSubmit={this.onSubmit}>

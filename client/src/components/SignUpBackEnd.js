@@ -53,7 +53,7 @@ class SignUpBackEnd extends Component{
     render() {
         return (
             <div className="signup">
-            <div className="spaceToSee"></div>
+            {/* <div className="spaceToSee"></div> */}
             <div className="container text-center">
             <h1>Incrivez-vous au back end ici!</h1>
             <form onSubmit={this.onSubmit}>

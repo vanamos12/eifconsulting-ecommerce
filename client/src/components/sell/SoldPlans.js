@@ -32,13 +32,13 @@ class SoldPlans extends Component{
         }else {
             return (
                 <div className="soldplans">
-                    {
+                    {/*
                         this.props.type === "search"
                         ?
                         null
                         :
                         <div className="spaceToSee">   
-                        </div>
+                        </div>*/
                     }
                     
                     <div className="container text-center informations">

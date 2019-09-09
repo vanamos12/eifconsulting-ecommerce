@@ -79,7 +79,7 @@ export default class LoginFrontEnd extends Component {
   render() {
     return (
       <div className="login">
-        <div className="spaceToSee"></div>
+        {/* <div className="spaceToSee"></div> */}
         <div className="container form-container text-center">
         <h1>Connectez-vous!</h1>
         <small><Link to="/signupfrontend">Inscrivez-vous ici</Link></small>

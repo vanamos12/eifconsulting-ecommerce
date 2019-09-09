@@ -31,4 +31,6 @@ const Role = {
     Utilisateur:'Utilisateur'
 };
 
-export {sliderImages, sliderDefaultImages, Role}
+const numberItemsPerPage = 5;
+
+export {sliderImages, sliderDefaultImages, Role, numberItemsPerPage}

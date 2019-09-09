@@ -14,9 +14,9 @@ class AdministrationFrontEnd extends Component{
                         return (
                             <React.Fragment>
                                 <div id="cart">
-                                    <div className="spaceToSee">
+                                    {/*<div className="spaceToSee">
             
-                                    </div>
+                                    </div>*/}
                                     <EmptyFrontEnd/>
                                 </div>
                             </React.Fragment>
@@ -25,9 +25,9 @@ class AdministrationFrontEnd extends Component{
                         return (
                             <React.Fragment>
                                 <div id="cart">
-                                <div className="spaceToSee">
+                                {/*<div className="spaceToSee">
             
-                                </div>
+                                </div>*/}
                                 
                                 <div className="cart_info">
                                     <div className="container">

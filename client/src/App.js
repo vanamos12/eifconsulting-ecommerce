@@ -5,6 +5,7 @@ import {ApplicationConsumer} from './context'
 import withAuth from './withAuth';
 import HeaderNew from './components/HeaderNew'
 import {Role} from './data'
+import HeaderContent from './components/HeaderContent';
 
 
 const WelcomeValidate  = lazy(()=>import('./components/validate/WelcomeValidate')) ;
@@ -57,8 +58,12 @@ export default class App extends Component {
           {value=>(
             <React.Fragment>
               <HeaderNew value={value}/>
+              <div className="spaceToSee">
+
+              </div>
+              <HeaderContent value={value}/>
               {/*<Header value={value}/>
-            
+              
           <MenuMobile/>*/}
               <Suspense fallback={<div>Loading...</div>}>
               <Switch>

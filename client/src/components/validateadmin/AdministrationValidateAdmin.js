@@ -12,9 +12,9 @@ class AdministrationValidateAdmin extends Component{
             return (
                 <React.Fragment>
                     <div id="cart">
-                        <div className="spaceToSee">
+                        {/*<div className="spaceToSee">
 
-                        </div>
+                        </div>*/}
                         <EmptyValidateAdmin/>
                     </div>
                 </React.Fragment>
@@ -23,9 +23,9 @@ class AdministrationValidateAdmin extends Component{
             return (
                 <React.Fragment>
                     <div id="cart">
-                    <div className="spaceToSee">
+                    {/*<div className="spaceToSee">
 
-                    </div>
+                    </div>*/}
                     
                     <div className="cart_info">
                         <div className="container">

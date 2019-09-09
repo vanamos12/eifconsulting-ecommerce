@@ -8,7 +8,7 @@ class WelcomeSell extends Component{
         const countNbPlansSold = this.props.value.frontEndUser.tabPlansSold.length
         return (
             <div className="container mt-5">
-                <div className="spaceToSee"></div>
+                {/*<div className="spaceToSee"></div>*/}
                 <div className="dashbord-sell">
                     <div className="dashboard-sell-left text-center">
                         <h2>Informations sur plans</h2>
